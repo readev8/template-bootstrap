@@ -1,0 +1,109 @@
+/* Custom CSS for Bootstrap Template */
+
+/* ========================================
+   Theme Variables
+   ======================================== */
+:root {
+  --primary-color: #712cf9;
+  --secondary-color: #6c757d;
+  --success-color: #198754;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #0dcaf0;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+}
+
+/* ========================================
+   Custom Styles
+   ======================================== */
+
+/* Smooth transitions for hover effects */
+.nav-link:hover,
+.btn:hover {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom card hover effect */
+.card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Custom navbar shadow */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom button styles */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: #6528e0;
+  border-color: #6528e0;
+}
+
+/* Custom sidebar styles */
+.sidebar {
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .nav-link {
+  border-radius: 0.25rem;
+  margin: 0 0.5rem;
+}
+
+.sidebar .nav-link:hover {
+  background-color: rgba(113, 44, 249, 0.1);
+}
+
+.sidebar .nav-link.active {
+  background-color: rgba(113, 44, 249, 0.2);
+  color: var(--primary-color);
+}
+
+/* Custom table styles */
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table thead th {
+  background-color: var(--light-color);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+/* Custom footer styles */
+.footer {
+  background-color: var(--light-color);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Loading animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card:hover {
+    transform: none;
+  }
+  
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+}
