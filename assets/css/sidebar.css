@@ -5,10 +5,10 @@
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #0B8F3A, #0F9D58);
-    color: #fff;
+    background: #ffffff;
+    color: #0F9D58;
     border: none;
-    box-shadow: 0 4px 20px rgba(11, 143, 58, 0.4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     z-index: 1060;
     cursor: pointer;
     display: flex;
@@ -20,7 +20,8 @@
 
 .floating-toggle:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 30px rgba(11, 143, 58, 0.5);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+    background: #f8fafc;
 }
 
 .floating-toggle:active {
