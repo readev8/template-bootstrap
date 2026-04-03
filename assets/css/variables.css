@@ -1,0 +1,42 @@
+:root {
+    --sidebar-width: 260px;
+    --sidebar-offset: 15px;
+    --sidebar-radius: 20px;
+
+    --navbar-height: 70px;
+    --toggle-top: 30vh;
+
+    --primary-color: #0F9D58;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --info-color: #06b6d4;
+    --danger-color: #ef4444;
+
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-blur: blur(12px);
+
+    --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+    --card-bg: rgba(255, 255, 255, 0.90);
+    --card-border: rgba(255, 255, 255, 0.25);
+    --card-shadow: 0 4px 6px -1px rgba(0,0,0,0.05),
+                   0 10px 25px -5px rgba(0,0,0,0.08);
+    --card-shadow-hover: 0 8px 14px -3px rgba(0,0,0,0.09),
+                         0 20px 40px -8px rgba(0,0,0,0.12);
+    --card-blur: blur(16px);
+    --card-radius: 20px;
+
+    --header-primary: linear-gradient(135deg, #0F9D58, #818cf8);
+    --header-success: linear-gradient(135deg, #10b981, #34d399);
+    --header-warning: linear-gradient(135deg, #f59e0b, #fbbf24);
+    --header-info: linear-gradient(135deg, #06b6d4, #22d3ee);
+    --header-danger: linear-gradient(135deg, #ef4444, #f87171);
+
+    --dt-toolbar-bg: rgba(255, 255, 255, 0.5);
+    --dt-input-bg: rgba(255, 255, 255, 0.6);
+    --dt-input-border: rgba(255, 255, 255, 0.3);
+    --dt-pagination-active: linear-gradient(135deg, var(--primary-color), #818cf8);
+    --dt-row-hover: rgba(255, 255, 255, 0.3);
+    --dt-row-selected: rgba(15, 157, 88, 0.08);
+}

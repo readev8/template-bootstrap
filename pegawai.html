@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISPEG - Data Pegawai</title>
+
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+
+    <style>
+        :root {
+            --sidebar-width: 260px;
+            --sidebar-offset: 15px;
+            --sidebar-radius: 20px;
+            --navbar-height: 70px;
+            --primary-color: #0F9D58;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --info-color: #06b6d4;
+            --danger-color: #ef4444;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-blur: blur(12px);
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --card-bg: rgba(255, 255, 255, 0.90);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --card-shadow: 0 4px 6px -1px rgba(0,0,0,0.05),
+                           0 10px 25px -5px rgba(0,0,0,0.08);
+            --card-shadow-hover: 0 8px 14px -3px rgba(0,0,0,0.09),
+                                  0 20px 40px -8px rgba(0,0,0,0.12);
+            --card-blur: blur(16px);
+            --card-radius: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F9D58;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.06), transparent 45%),
+                radial-gradient(circle at 80% 0%, rgba(0, 0, 0, 0.08), transparent 50%),
+                repeating-linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.03) 0,
+                    rgba(255, 255, 255, 0.03) 2px,
+                    transparent 2px,
+                    transparent 6px
+                );
+            background-attachment: fixed;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Floating Toggle Button */
+        .floating-toggle {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0B8F3A, #0F9D58);
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 20px rgba(11, 143, 58, 0.4);
+            z-index: 1060;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .floating-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(11, 143, 58, 0.5);
+        }
+
+        .floating-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .floating-toggle i {
+            transition: transform 0.3s ease;
+        }
+
+        .floating-toggle.active i {
+            transform: rotate(90deg);
+        }
+
+        /* Floating Sidebar */
+        .floating-sidebar {
+            position: fixed;
+            top: var(--sidebar-offset);
+            left: -300px;
+            width: var(--sidebar-width);
+            background: #ffffff;
+            border-radius: var(--sidebar-radius);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            z-index: 1050;
+            overflow-y: visible;
+            overflow-x: hidden;
+            height: auto;
+            transition: left 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .floating-sidebar.visible {
+            left: var(--sidebar-offset);
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .sidebar-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .sidebar-logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .sidebar-user {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .user-details h6 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .user-details small {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .role-switcher {
+            margin-top: 12px;
+            padding: 8px;
+            background: #f3f4f6;
+            border-radius: 10px;
+        }
+
+        .role-switcher label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .role-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: transparent;
+            color: #6b7280;
+        }
+
+        .role-btn.active {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .role-btn:hover:not(.active) {
+            background: #e5e7eb;
+        }
+
+        .sidebar-nav {
+            padding: 16px 12px;
+        }
+
+        .menu-section {
+            margin-bottom: 8px;
+        }
+
+        .menu-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 12px 12px 8px;
+            margin: 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: #4b5563;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            margin: 4px 0;
+        }
+
+        .menu-item:hover {
+            background: #f3f4f6;
+            color: var(--primary-color);
+        }
+
+        .menu-item.active {
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+            color: #fff;
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .menu-item-group {
+            position: relative;
+            margin: 4px 0;
+        }
+
+        .submenu {
+            position: absolute;
+            top: 0;
+            left: calc(100% + 8px);
+            min-width: 200px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+            padding: 8px;
+            display: none;
+            z-index: 1060;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .menu-item-group:hover > .submenu {
+                display: block;
+            }
+        }
+
+        .menu-item-group.open > .submenu {
+            display: block;
+        }
+
+        .submenu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            color: #4b5563;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .submenu-item:hover {
+            background: #eef2f7;
+            color: var(--primary-color);
+        }
+
+        .menu-item.admin-only {
+            display: none;
+        }
+
+        body.role-admin .menu-item.admin-only {
+            display: flex;
+        }
+
+        /* Overlay Backdrop */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Glassmorphism Navbar */
+        .glass-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--navbar-height);
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1030;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-right: 16px;
+        }
+
+        .navbar-search {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .navbar-search input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 14px;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
+        }
+
+        .navbar-search input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .navbar-search input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .navbar-search i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-left: auto;
+        }
+
+        .navbar-notification {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .navbar-notification:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: var(--danger-color);
+            border-radius: 50%;
+            font-size: 10px;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(79, 70, 229, 0.8);
+        }
+
+        .navbar-user {
+            position: relative;
+        }
+
+        .user-dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 16px 6px 6px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .user-dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .user-dropdown-toggle .user-avatar {
+            width: 36px;
+            height: 36px;
+            font-size: 14px;
+        }
+
+        .user-dropdown-toggle span {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .user-dropdown-toggle i {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .navbar-user.open .user-dropdown-toggle i {
+            transform: rotate(180deg);
+        }
+
+        .user-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 200px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            display: none;
+            z-index: 1051;
+        }
+
+        .user-dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-header {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .dropdown-header h6 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .dropdown-header small {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #4b5563;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background: #f3f4f6;
+            color: var(--primary-color);
+        }
+
+        .dropdown-item i {
+            width: 18px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .dropdown-item:hover i {
+            color: var(--primary-color);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 4px 0;
+        }
+
+        .dropdown-item.text-danger {
+            color: var(--danger-color);
+        }
+
+        .dropdown-item.text-danger i {
+            color: var(--danger-color);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-top: var(--navbar-height);
+            padding: 30px;
+            min-height: calc(100vh - var(--navbar-height));
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .page-header-left h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .page-header-left p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+        }
+
+        /* Content Card */
+        .content-card {
+            position: relative;
+            background: var(--card-bg);
+            backdrop-filter: var(--card-blur);
+            -webkit-backdrop-filter: var(--card-blur);
+            border-radius: var(--card-radius);
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .content-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .content-card-header h5 {
+            font-size: 16px;
+            font-weight: 650;
+            color: #1f2937;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-card-header h5 i {
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(15, 157, 88, 0.25);
+        }
+
+        .header-primary .content-card-header h5 i {
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+            box-shadow: 0 4px 12px rgba(15, 157, 88, 0.25);
+        }
+
+        /* Custom Button Styles */
+        .btn-add-pegawai {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(15, 157, 88, 0.3);
+        }
+
+        .btn-add-pegawai:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(15, 157, 88, 0.4);
+        }
+
+        .btn-add-pegawai i {
+            font-size: 12px;
+        }
+
+        /* DataTables Custom Styling */
+        .dataTables_wrapper {
+            padding: 0;
+        }
+
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter {
+            margin-bottom: 16px;
+        }
+
+        .dataTables_wrapper .dataTables_length select,
+        .dataTables_wrapper .dataTables_filter input {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 14px;
+            background: #fff;
+            transition: all 0.2s ease;
+        }
+
+        .dataTables_wrapper .dataTables_length select:focus,
+        .dataTables_wrapper .dataTables_filter input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(15, 157, 88, 0.1);
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 250px;
+        }
+
+        .dataTables_wrapper .dataTables_filter input::placeholder {
+            color: #9ca3af;
+        }
+
+        /* DataTable Table Styling */
+        #pegawaiTable {
+            width: 100% !important;
+            border-collapse: collapse;
+        }
+
+        #pegawaiTable thead {
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+        }
+
+        #pegawaiTable thead th {
+            padding: 14px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            white-space: nowrap;
+        }
+
+        #pegawaiTable thead th:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+
+        #pegawaiTable thead th:last-child {
+            border-radius: 0 12px 12px 0;
+            text-align: center;
+        }
+
+        #pegawaiTable tbody td {
+            padding: 16px;
+            font-size: 14px;
+            color: #4b5563;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: middle;
+        }
+
+        #pegawaiTable tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        #pegawaiTable tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Avatar in Table */
+        .table-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .pegawai-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .pegawai-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pegawai-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+
+        .pegawai-email {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.aktif {
+            background: rgba(16, 185, 129, 0.15);
+            color: #059669;
+        }
+
+        .status-badge.cuti {
+            background: rgba(245, 158, 11, 0.15);
+            color: #d97706;
+        }
+
+        .status-badge.remote {
+            background: rgba(6, 182, 212, 0.15);
+            color: #0891b2;
+        }
+
+        .status-badge.nonaktif {
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
+        }
+
+        .status-badge i {
+            font-size: 10px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action.btn-view {
+            background: rgba(6, 182, 212, 0.1);
+            color: #0891b2;
+        }
+
+        .btn-action.btn-view:hover {
+            background: #0891b2;
+            color: #fff;
+        }
+
+        .btn-action.btn-edit {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+        }
+
+        .btn-action.btn-edit:hover {
+            background: #d97706;
+            color: #fff;
+        }
+
+        .btn-action.btn-delete {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        .btn-action.btn-delete:hover {
+            background: #dc2626;
+            color: #fff;
+        }
+
+        /* DataTables Pagination */
+        .dataTables_wrapper .dataTables_paginate {
+            margin-top: 16px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 8px 14px;
+            margin: 0 2px;
+            border-radius: 8px;
+            border: none;
+            background: #f3f4f6;
+            color: #4b5563;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(15, 157, 88, 0.3);
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 16px;
+        }
+
+        /* DataTables Empty */
+        .dataTables_wrapper .dataTables_empty {
+            padding: 40px 20px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+            border-radius: 20px 20px 0 0;
+            padding: 20px 24px;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            color: #fff;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+            opacity: 0.8;
+        }
+
+        .modal-header .btn-close:hover {
+            opacity: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #f3f4f6;
+            background: #f8fafc;
+            border-radius: 0 0 20px 20px;
+        }
+
+        /* Form Styling */
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .form-control, .form-select {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(15, 157, 88, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: #9ca3af;
+        }
+
+        .btn-modal-save {
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+            border: none;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-modal-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 157, 88, 0.3);
+        }
+
+        .btn-modal-cancel {
+            background: #f3f4f6;
+            border: none;
+            color: #4b5563;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-modal-cancel:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-modal-delete {
+            background: var(--danger-color);
+            border: none;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-modal-delete:hover {
+            background: #dc2626;
+        }
+
+        /* Detail View */
+        .detail-row {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #6b7280;
+            width: 140px;
+            flex-shrink: 0;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .detail-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 auto 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .floating-sidebar {
+                --sidebar-offset: 10px;
+            }
+            
+            .navbar-search {
+                display: none;
+            }
+            
+            .glass-navbar {
+                padding-left: 24px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .page-header h1 {
+                font-size: 22px;
+            }
+
+            .dataTables_wrapper .dataTables_filter input {
+                width: 100%;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .user-dropdown-toggle span {
+                display: none;
+            }
+            
+            .glass-navbar {
+                padding: 0 16px;
+            }
+
+            .content-card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay Backdrop -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Floating Sidebar -->
+    <aside class="floating-sidebar" id="floatingSidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="sidebar-logo">
+                <div class="sidebar-logo-icon">
+                    <i class="fas fa-shapes"></i>
+                </div>
+                <span class="sidebar-logo-text">SISPEG</span>
+            </a>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar">AR</div>
+                <div class="user-details">
+                    <h6>Ahmad Rizki</h6>
+                    <small id="roleLabel">Administrator</small>
+                </div>
+            </div>
+            
+            <div class="role-switcher">
+                <label>Switch Role</label>
+                <div class="role-buttons">
+                    <button class="role-btn" data-role="employee">Employee</button>
+                    <button class="role-btn" data-role="manager">Manager</button>
+                    <button class="role-btn active" data-role="admin">Admin</button>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="menu-section">
+                <p class="menu-section-title">Employee</p>
+                <a href="index.html" class="menu-item" data-menu="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="menu-item" data-menu="attendance">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Attendance</span>
+                </a>
+                <a href="#" class="menu-item" data-menu="tasks">
+                    <i class="fas fa-tasks"></i>
+                    <span>Tasks</span>
+                </a>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-section-title">Manager</p>
+                <a href="#" class="menu-item" data-menu="approvals">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>Approvals</span>
+                </a>
+                <div class="menu-item-group">
+                    <a href="#" class="menu-item has-submenu" data-menu="team-reports" aria-expanded="false">
+                        <span class="d-flex align-items-center gap-2">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Team Reports</span>
+                        </span>
+                        <span class="submenu-caret"><i class="fas fa-chevron-right"></i></span>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="#" class="submenu-item">
+                                <i class="fas fa-user-check"></i>
+                                <span>Attendance Summary</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="submenu-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Performance</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="submenu-item">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span>Monthly Recap</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-section-title">Admin</p>
+                <a href="pegawai.html" class="menu-item admin-only active" data-menu="pegawai">
+                    <i class="fas fa-users"></i>
+                    <span>Data Pegawai</span>
+                </a>
+                <a href="#" class="menu-item admin-only" data-menu="user-management">
+                    <i class="fas fa-users-cog"></i>
+                    <span>User Management</span>
+                </a>
+                <div class="menu-item-group">
+                    <a href="#" class="menu-item admin-only has-submenu" data-menu="settings" aria-expanded="false">
+                        <span class="d-flex align-items-center gap-2">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </span>
+                        <span class="submenu-caret"><i class="fas fa-chevron-right"></i></span>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="#" class="submenu-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Security</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="submenu-item">
+                                <i class="fas fa-sliders-h"></i>
+                                <span>Preferences</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="submenu-item">
+                                <i class="fas fa-plug"></i>
+                                <span>Integrations</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Glassmorphism Navbar -->
+    <nav class="glass-navbar">
+        <div class="navbar-left">
+            <button class="floating-toggle" id="floatingToggle" aria-label="Toggle Sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="navbar-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search pegawai..." id="searchInput">
+        </div>
+
+        <div class="navbar-actions">
+            <button class="navbar-notification" id="notificationBtn" aria-label="Notifications">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+
+            <div class="navbar-user" id="userDropdownWrapper">
+                <button class="user-dropdown-toggle" id="userDropdownToggle">
+                    <div class="user-avatar">AR</div>
+                    <span id="userName">Ahmad Rizki</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                
+                <div class="user-dropdown-menu" id="userDropdownMenu">
+                    <div class="dropdown-header">
+                        <h6>Ahmad Rizki</h6>
+                        <small>ahmad.rizki@company.com</small>
+                    </div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Account Settings</span>
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Help &amp; Support</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item text-danger">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="page-header">
+            <div class="page-header-left">
+                <h1>Data Pegawai</h1>
+                <p>Kelola data pegawai perusahaan</p>
+            </div>
+            <div class="page-header-right">
+                <button class="btn-add-pegawai" id="btnTambahPegawai">
+                    <i class="fas fa-plus"></i>
+                    <span>Tambah Pegawai</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="content-card header-primary">
+            <div class="content-card-header">
+                <h5><i class="fas fa-users"></i> Daftar Pegawai</h5>
+            </div>
+            <div class="table-responsive">
+                <table id="pegawaiTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Pegawai</th>
+                            <th>NIP</th>
+                            <th>Jabatan</th>
+                            <th>Departemen</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pegawaiTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Tambah/Edit Pegawai -->
+    <div class="modal fade" id="pegawaiModal" tabindex="-1" aria-labelledby="pegawaiModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pegawaiModalLabel">Tambah Pegawai</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="pegawaiForm">
+                        <input type="hidden" id="pegawaiId">
+                        <div class="mb-3">
+                            <label for="pegawaiNama" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="pegawaiNama" placeholder="Masukkan nama lengkap" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pegawaiNIP" class="form-label">NIP</label>
+                            <input type="text" class="form-control" id="pegawaiNIP" placeholder="Masukkan NIP" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pegawaiEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="pegawaiEmail" placeholder="Masukkan email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pegawaiJabatan" class="form-label">Jabatan</label>
+                            <select class="form-select" id="pegawaiJabatan" required>
+                                <option value="">Pilih Jabatan</option>
+                                <option value="Staff">Staff</option>
+                                <option value="Senior Staff">Senior Staff</option>
+                                <option value="Supervisor">Supervisor</option>
+                                <option value="Manager">Manager</option>
+                                <option value="Senior Manager">Senior Manager</option>
+                                <option value="Director">Director</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pegawaiDepartemen" class="form-label">Departemen</label>
+                            <select class="form-select" id="pegawaiDepartemen" required>
+                                <option value="">Pilih Departemen</option>
+                                <option value="IT">IT</option>
+                                <option value="HR">HR</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Operations">Operations</option>
+                                <option value="Sales">Sales</option>
+                                <option value="Legal">Legal</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pegawaiStatus" class="form-label">Status</label>
+                            <select class="form-select" id="pegawaiStatus" required>
+                                <option value="">Pilih Status</option>
+                                <option value="aktif">Aktif</option>
+                                <option value="cuti">Cuti</option>
+                                <option value="remote">Remote</option>
+                                <option value="nonaktif">Nonaktif</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn-modal-save" id="btnSavePegawai">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detail Pegawai -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailModalLabel">Detail Pegawai</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div class="detail-avatar" id="detailAvatar">AR</div>
+                        <h4 id="detailNama" class="mb-1">Nama Pegawai</h4>
+                        <p id="detailJabatan" class="text-muted mb-0">Jabatan</p>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">NIP</span>
+                        <span class="detail-value" id="detailNIP">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Email</span>
+                        <span class="detail-value" id="detailEmail">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Departemen</span>
+                        <span class="detail-value" id="detailDepartemen">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Status</span>
+                        <span class="detail-value" id="detailStatus">-</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Delete Konfirmasi -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <i class="fas fa-exclamation-triangle text-warning mb-3" style="font-size: 48px;"></i>
+                    <p class="mb-0">Apakah Anda yakin ingin menghapus data pegawai ini?</p>
+                    <input type="hidden" id="deletePegawaiId">
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn-modal-delete" id="btnConfirmDelete">Hapus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery 3.x -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    
+    <!-- Bootstrap 5.3 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+
+    <script>
+        // =====================================================
+        // GLOBAL STATE
+        // =====================================================
+        let currentRole = localStorage.getItem('userRole') || 'admin';
+        let sidebarState = 'closed';
+        let previewTimeout = null;
+        let dataTable = null;
+        let editingId = null;
+
+        // Dummy Data Pegawai
+        let pegawaiData = [
+            { id: 1, nama: 'Ahmad Rizki', nip: 'NIP001', email: 'ahmad.rizki@company.com', jabatan: 'Manager', departemen: 'IT', status: 'aktif' },
+            { id: 2, nama: 'Siti Nurhaliza', nip: 'NIP002', email: 'siti.nur@company.com', jabatan: 'Senior Staff', departemen: 'HR', status: 'aktif' },
+            { id: 3, nama: 'Budi Santoso', nip: 'NIP003', email: 'budi.santoso@company.com', jabatan: 'Supervisor', departemen: 'Finance', status: 'cuti' },
+            { id: 4, nama: 'Dewi Anggraini', nip: 'NIP004', email: 'dewi.anggraini@company.com', jabatan: 'Staff', departemen: 'Marketing', status: 'aktif' },
+            { id: 5, nama: 'Eko Prasetyo', nip: 'NIP005', email: 'eko.prasetyo@company.com', jabatan: 'Senior Manager', departemen: 'Operations', status: 'remote' },
+            { id: 6, nama: 'Fitri Wulandari', nip: 'NIP006', email: 'fitri.wulan@company.com', jabatan: 'Staff', departemen: 'IT', status: 'aktif' },
+            { id: 7, nama: 'Gunawan Setiawan', nip: 'NIP007', email: 'gunawan.setia@company.com', jabatan: 'Director', departemen: 'Sales', status: 'aktif' },
+            { id: 8, nama: 'Hendra Wijaya', nip: 'NIP008', email: 'hendra.wijaya@company.com', jabatan: 'Supervisor', departemen: 'Legal', status: 'nonaktif' },
+            { id: 9, nama: 'Indah Permata', nip: 'NIP009', email: 'indah.permata@company.com', jabatan: 'Manager', departemen: 'HR', status: 'aktif' },
+            { id: 10, nama: 'Joko Widodo', nip: 'NIP010', email: 'joko.widodo@company.com', jabatan: 'Senior Staff', departemen: 'Finance', status: 'cuti' },
+            { id: 11, nama: 'Kartika Sari', nip: 'NIP011', email: 'kartika.sari@company.com', jabatan: 'Staff', departemen: 'Marketing', status: 'aktif' },
+            { id: 12, nama: 'Lukman Hakim', nip: 'NIP012', email: 'lukman.hakim@company.com', jabatan: 'Manager', departemen: 'Operations', status: 'remote' },
+            { id: 13, nama: 'Maya Putri', nip: 'NIP013', email: 'maya.putri@company.com', jabatan: 'Senior Staff', departemen: 'IT', status: 'aktif' },
+            { id: 14, nama: 'Nugroho Adi', nip: 'NIP014', email: 'nugroho.adi@company.com', jabatan: 'Supervisor', departemen: 'Sales', status: 'aktif' },
+            { id: 15, nama: 'Oktaviani Rina', nip: 'NIP015', email: 'oktaviani.rina@company.com', jabatan: 'Staff', departemen: 'Legal', status: 'cuti' }
+        ];
+
+        let nextId = 16;
+
+        // =====================================================
+        // SIDEBAR FUNCTIONALITY
+        // =====================================================
+        function openSidebar(locked = false) {
+            const $sidebar = $('#floatingSidebar');
+            const $toggle = $('#floatingToggle');
+            const $overlay = $('#sidebarOverlay');
+            
+            if (previewTimeout) {
+                clearTimeout(previewTimeout);
+                previewTimeout = null;
+            }
+            
+            sidebarState = locked ? 'locked' : 'preview';
+            $sidebar.addClass('visible');
+            
+            if (locked) {
+                $overlay.addClass('active');
+                $toggle.addClass('active');
+            }
+        }
+
+        function closeSidebar(force = false) {
+            const $sidebar = $('#floatingSidebar');
+            const $toggle = $('#floatingToggle');
+            const $overlay = $('#sidebarOverlay');
+            
+            if (previewTimeout) {
+                clearTimeout(previewTimeout);
+                previewTimeout = null;
+            }
+            
+            if (sidebarState === 'locked' && !force) {
+                return;
+            }
+            
+            sidebarState = 'closed';
+            $sidebar.removeClass('visible');
+            $overlay.removeClass('active');
+            $toggle.removeClass('active');
+        }
+
+        function toggleSidebarLock() {
+            if (sidebarState === 'locked') {
+                closeSidebar(true);
+            } else {
+                openSidebar(true);
+            }
+        }
+
+        let toggleHoverTimeout = null;
+        const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+        
+        if (!isTouchDevice) {
+            $('#floatingToggle').on('mouseenter', function() {
+                if (toggleHoverTimeout) {
+                    clearTimeout(toggleHoverTimeout);
+                    toggleHoverTimeout = null;
+                }
+                if (sidebarState === 'closed') {
+                    openSidebar(false);
+                }
+            });
+
+            $('#floatingToggle').on('mouseleave', function() {
+                if (sidebarState === 'preview') {
+                    toggleHoverTimeout = setTimeout(function() {
+                        closeSidebar();
+                    }, 300);
+                }
+            });
+        }
+
+        if (!isTouchDevice) {
+            $('#floatingSidebar').on('mouseenter', function() {
+                if (previewTimeout) {
+                    clearTimeout(previewTimeout);
+                    previewTimeout = null;
+                }
+            });
+
+            $('#floatingSidebar').on('mouseleave', function() {
+                if (sidebarState === 'preview') {
+                    previewTimeout = setTimeout(function() {
+                        closeSidebar();
+                    }, 300);
+                }
+            });
+        }
+
+        $('#floatingToggle').on('click', function(e) {
+            e.stopPropagation();
+            toggleSidebarLock();
+        });
+
+        $('#sidebarOverlay').on('click', function() {
+            closeSidebar(true);
+        });
+
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape' && sidebarState !== 'closed') {
+                closeSidebar(true);
+            }
+        });
+
+        // =====================================================
+        // ROLE SWITCHING
+        // =====================================================
+        function switchRole(role) {
+            currentRole = role;
+            localStorage.setItem('userRole', role);
+            
+            const roleLabels = {
+                'employee': 'Employee',
+                'manager': 'Manager',
+                'admin': 'Administrator'
+            };
+            $('#roleLabel').text(roleLabels[role]);
+            
+            $('.role-btn').removeClass('active');
+            $(`.role-btn[data-role="${role}"]`).addClass('active');
+            
+            $('body')
+                .removeClass('role-employee role-manager role-admin')
+                .addClass(`role-${role}`);
+        }
+
+        $('.role-btn').on('click', function() {
+            const role = $(this).data('role');
+            switchRole(role);
+        });
+
+        // =====================================================
+        // USER DROPDOWN
+        // =====================================================
+        $('#userDropdownToggle').on('click', function(e) {
+            e.stopPropagation();
+            const $dropdown = $('#userDropdownMenu');
+            
+            if ($dropdown.hasClass('show')) {
+                $dropdown.stop(true, true).slideUp(300, function() {
+                    $(this).removeClass('show');
+                    $('#userDropdownWrapper').removeClass('open');
+                });
+            } else {
+                $dropdown.stop(true, true).hide().removeClass('show')
+                    .slideDown(300, function() {
+                        $(this).addClass('show');
+                        $('#userDropdownWrapper').addClass('open');
+                    });
+            }
+        });
+
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('#userDropdownWrapper').length) {
+                $('#userDropdownMenu').stop(true, true).slideUp(300, function() {
+                    $(this).removeClass('show');
+                    $('#userDropdownWrapper').removeClass('open');
+                });
+            }
+        });
+
+        // =====================================================
+        // MENU ITEM ACTIVE STATE
+        // =====================================================
+        $('.menu-item').on('click', function(e) {
+            if ($(this).hasClass('has-submenu')) {
+                e.preventDefault();
+                const $group = $(this).closest('.menu-item-group');
+                const isOpen = $group.hasClass('open');
+                $('.menu-item-group').removeClass('open').find('.menu-item.has-submenu').attr('aria-expanded', 'false');
+                if (!isOpen) {
+                    $group.addClass('open');
+                    $(this).attr('aria-expanded', 'true');
+                }
+                return;
+            }
+            
+            if (!$(this).attr('href') || $(this).attr('href') === '#') {
+                e.preventDefault();
+            }
+            
+            $('.menu-item').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        // =====================================================
+        // DATATABLE FUNCTIONS
+        // =====================================================
+        function getStatusBadge(status) {
+            const statusConfig = {
+                'aktif': { class: 'aktif', icon: 'fa-check-circle', label: 'Aktif' },
+                'cuti': { class: 'cuti', icon: 'fa-calendar-alt', label: 'Cuti' },
+                'remote': { class: 'remote', icon: 'fa-home', label: 'Remote' },
+                'nonaktif': { class: 'nonaktif', icon: 'fa-times-circle', label: 'Nonaktif' }
+            };
+            const config = statusConfig[status] || statusConfig['aktif'];
+            return `<span class="status-badge ${config.class}"><i class="fas ${config.icon}"></i> ${config.label}</span>`;
+        }
+
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        }
+
+        function renderActionButton(id) {
+            return `
+                <div class="action-buttons">
+                    <button class="btn-action btn-view" onclick="viewPegawai(${id})" title="Detail">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn-action btn-edit" onclick="editPegawai(${id})" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-action btn-delete" onclick="deletePegawai(${id})" title="Hapus">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function initDataTable() {
+            if (dataTable) {
+                dataTable.destroy();
+            }
+
+            const tableData = pegawaiData.map((p, index) => [
+                index + 1,
+                `<div class="pegawai-info">
+                    <div class="table-avatar">${getInitials(p.nama)}</div>
+                    <div class="pegawai-details">
+                        <span class="pegawai-name">${p.nama}</span>
+                        <span class="pegawai-email">${p.email}</span>
+                    </div>
+                </div>`,
+                p.nip,
+                p.jabatan,
+                p.departemen,
+                getStatusBadge(p.status),
+                renderActionButton(p.id)
+            ]);
+
+            dataTable = $('#pegawaiTable').DataTable({
+                data: tableData,
+                columns: [
+                    { title: 'No', className: 'text-center' },
+                    { title: 'Pegawai' },
+                    { title: 'NIP' },
+                    { title: 'Jabatan' },
+                    { title: 'Departemen' },
+                    { title: 'Status', className: 'text-center' },
+                    { title: 'Aksi', className: 'text-center', orderable: false, searchable: false }
+                ],
+                responsive: true,
+                language: {
+                    search: '<i class="fas fa-search"></i>',
+                    searchPlaceholder: 'Cari pegawai...',
+                    lengthMenu: 'Tampilkan _MENU_ data',
+                    info: 'Menampilkan _START_ - _END_ dari _TOTAL_ pegawai',
+                    infoEmpty: 'Tidak ada data pegawai',
+                    infoFiltered: '(difilter dari _MAX_ total data)',
+                    paginate: {
+                        first: '<i class="fas fa-angle-double-left"></i>',
+                        previous: '<i class="fas fa-angle-left"></i>',
+                        next: '<i class="fas fa-angle-right"></i>',
+                        last: '<i class="fas fa-angle-double-right"></i>'
+                    },
+                    zeroRecords: 'Tidak ada data yang cocok'
+                },
+                order: [[0, 'asc']],
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'Semua']]
+            });
+        }
+
+        function refreshDataTable() {
+            initDataTable();
+        }
+
+        // =====================================================
+        // CRUD FUNCTIONS
+        // =====================================================
+        $('#btnTambahPegawai').on('click', function() {
+            editingId = null;
+            $('#pegawaiModalLabel').text('Tambah Pegawai');
+            $('#pegawaiForm')[0].reset();
+            $('#pegawaiId').val('');
+            new bootstrap.Modal(document.getElementById('pegawaiModal')).show();
+        });
+
+        function viewPegawai(id) {
+            const pegawai = pegawaiData.find(p => p.id === id);
+            if (!pegawai) return;
+
+            $('#detailAvatar').text(getInitials(pegawai.nama));
+            $('#detailNama').text(pegawai.nama);
+            $('#detailJabatan').text(pegawai.jabatan + ' - ' + pegawai.departemen);
+            $('#detailNIP').text(pegawai.nip);
+            $('#detailEmail').text(pegawai.email);
+            $('#detailDepartemen').text(pegawai.departemen);
+            
+            const statusLabels = {
+                'aktif': 'Aktif',
+                'cuti': 'Cuti',
+                'remote': 'Remote',
+                'nonaktif': 'Nonaktif'
+            };
+            $('#detailStatus').html(getStatusBadge(pegawai.status));
+
+            new bootstrap.Modal(document.getElementById('detailModal')).show();
+        }
+
+        function editPegawai(id) {
+            const pegawai = pegawaiData.find(p => p.id === id);
+            if (!pegawai) return;
+
+            editingId = id;
+            $('#pegawaiModalLabel').text('Edit Pegawai');
+            $('#pegawaiId').val(id);
+            $('#pegawaiNama').val(pegawai.nama);
+            $('#pegawaiNIP').val(pegawai.nip);
+            $('#pegawaiEmail').val(pegawai.email);
+            $('#pegawaiJabatan').val(pegawai.jabatan);
+            $('#pegawaiDepartemen').val(pegawai.departemen);
+            $('#pegawaiStatus').val(pegawai.status);
+
+            new bootstrap.Modal(document.getElementById('pegawaiModal')).show();
+        }
+
+        function deletePegawai(id) {
+            const pegawai = pegawaiData.find(p => p.id === id);
+            if (!pegawai) return;
+
+            $('#deletePegawaiId').val(id);
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
+
+        $('#btnSavePegawai').on('click', function() {
+            const nama = $('#pegawaiNama').val().trim();
+            const nip = $('#pegawaiNIP').val().trim();
+            const email = $('#pegawaiEmail').val().trim();
+            const jabatan = $('#pegawaiJabatan').val();
+            const departemen = $('#pegawaiDepartemen').val();
+            const status = $('#pegawaiStatus').val();
+
+            if (!nama || !nip || !email || !jabatan || !departemen || !status) {
+                alert('Mohon lengkapi semua field!');
+                return;
+            }
+
+            if (editingId) {
+                const index = pegawaiData.findIndex(p => p.id === editingId);
+                if (index !== -1) {
+                    pegawaiData[index] = {
+                        id: editingId,
+                        nama: nama,
+                        nip: nip,
+                        email: email,
+                        jabatan: jabatan,
+                        departemen: departemen,
+                        status: status
+                    };
+                }
+            } else {
+                pegawaiData.push({
+                    id: nextId,
+                    nama: nama,
+                    nip: nip,
+                    email: email,
+                    jabatan: jabatan,
+                    departemen: departemen,
+                    status: status
+                });
+                nextId++;
+            }
+
+            bootstrap.Modal.getInstance(document.getElementById('pegawaiModal')).hide();
+            refreshDataTable();
+        });
+
+        $('#btnConfirmDelete').on('click', function() {
+            const id = parseInt($('#deletePegawaiId').val());
+            pegawaiData = pegawaiData.filter(p => p.id !== id);
+            bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
+            refreshDataTable();
+        });
+
+        // =====================================================
+        // INITIALIZATION
+        // =====================================================
+        $(document).ready(function() {
+            switchRole(currentRole);
+            initDataTable();
+        });
+    </script>
+</body>
+</html>
