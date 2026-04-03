@@ -12,7 +12,7 @@
   - jQuery 3.x (CDN)
   
   FEATURES:
-  - Floating Sidebar (hidden by default)
+  - Floating Sidebar (hidden by default, hover to preview, click to lock)
   - Glassmorphism Navbar
   - Staggered Entry Animation
   - Role Switching (Employee/Manager/Admin)
@@ -114,7 +114,55 @@
         /*
 
 
+            FLOATING TOGGLE BUTTON
+            A floating circular button that triggers sidebar preview on hover
+            and locks sidebar on click
+
+
+        */
+        .floating-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #818cf8);
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.4);
+            z-index: 1060;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .floating-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(79, 70, 229, 0.5);
+        }
+
+        .floating-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .floating-toggle i {
+            transition: transform 0.3s ease;
+        }
+
+        .floating-toggle.active i {
+            transform: rotate(90deg);
+        }
+
+        /*
+
+
             FLOATING SIDEBAR
+            Hidden by default (off-screen left)
+            Slides in on hover (preview) or click (locked)
 
 
         */
@@ -132,13 +180,13 @@
             overflow-y: auto;
             overflow-x: hidden;
             /* Hidden off-screen by default */
-            transform: translateX(calc(-100% - var(--sidebar-offset)));
-            transition: transform 0.4s var(--transition-smooth);
+            left: -300px;
+            transition: left 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Sidebar visible state */
-        .floating-sidebar.active {
-            transform: translateX(0);
+        /* Sidebar visible state (locked/pinned) */
+        .floating-sidebar.visible {
+            left: var(--sidebar-offset);
         }
 
         /* Sidebar header with logo */
@@ -321,6 +369,7 @@
 
 
             OVERLAY BACKDROP
+            Dark semi-transparent overlay for locked sidebar
 
 
         */
@@ -334,7 +383,7 @@
             z-index: 1040;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
         }
 
         .sidebar-overlay.active {
@@ -346,6 +395,8 @@
 
 
             GLASSMORPHISM NAVBAR
+            Fixed at top, semi-transparent with blur effect
+            No toggle button (handled by floating toggle)
 
 
         */
@@ -363,34 +414,13 @@
             display: flex;
             align-items: center;
             padding: 0 24px;
-        }
-
-        /* Navbar left side - Toggle button */
-        .navbar-toggle {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            border: none;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            font-size: 18px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-
-        .navbar-toggle:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
+            padding-left: 80px; /* Space for floating toggle */
         }
 
         /* Navbar center - Search bar */
         .navbar-search {
             flex: 1;
             max-width: 400px;
-            margin: 0 24px;
             position: relative;
         }
 
@@ -947,6 +977,10 @@
                 display: none;
             }
             
+            .glass-navbar {
+                padding-left: 24px;
+            }
+            
             .stat-cards-container {
                 grid-template-columns: 1fr;
             }
@@ -975,8 +1009,20 @@
     <!--
 
 
+        FLOATING TOGGLE BUTTON
+        Triggers sidebar preview on hover and lock on click
+
+
+    -->
+    <button class="floating-toggle" id="floatingToggle" aria-label="Toggle Sidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!--
+
+
         OVERLAY BACKDROP
-        Dark semi-transparent overlay that appears when sidebar is open
+        Dark semi-transparent overlay that appears when sidebar is locked
         Clicking on this will close the sidebar
 
 
@@ -987,8 +1033,8 @@
 
 
         FLOATING SIDEBAR
-        Hidden by default, slides in from the left when toggled
-        Contains navigation grouped by roles
+        Hidden by default, slides in from the left on hover (preview)
+        or click (locked). Contains navigation grouped by roles.
 
 
     -->
@@ -1078,16 +1124,11 @@
 
         GLASSMORPHISM NAVBAR
         Fixed at top, semi-transparent with blur effect
-        Contains toggle button, search, notifications, and user dropdown
+        No toggle button (handled by floating toggle outside)
 
 
     -->
     <nav class="glass-navbar">
-        <!-- Left: Sidebar Toggle Button -->
-        <button class="navbar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
-            <i class="fas fa-bars"></i>
-        </button>
-
         <!-- Center: Search Bar -->
         <div class="navbar-search">
             <i class="fas fa-search"></i>
@@ -1319,102 +1360,160 @@
          * =====================================================
          * DASHBOARD APPLICATION
          * =====================================================
-         * Handles sidebar toggle, role switching, dropdowns,
-         * and data loading with jQuery animations
+         * Handles sidebar toggle (hover to preview, click to lock),
+         * role switching, dropdowns, and data loading with jQuery animations
          */
 
         // =====================================================
         // GLOBAL STATE
         // =====================================================
         let currentRole = localStorage.getItem('userRole') || 'employee';
-        let sidebarOpen = false;
+        
+        /**
+         * Sidebar states:
+         * - 'closed': Sidebar is hidden off-screen
+         * - 'preview': Sidebar is showing on hover (will close on mouseleave)
+         * - 'locked': Sidebar is pinned open (closed via overlay click or toggle click)
+         */
+        let sidebarState = 'closed';
+        let previewTimeout = null;
 
         // =====================================================
-        // SIDEBAR FUNCTIONALITY
+        // SIDEBAR FUNCTIONALITY - HYBRID (HOVER + CLICK)
         // =====================================================
         
         /**
          * Opens the floating sidebar with smooth animation
-         * Also shows the overlay backdrop
+         * @param {boolean} locked - If true, sidebar is locked (persistent)
          */
-        function openSidebar() {
+        function openSidebar(locked = false) {
+            const $sidebar = $('#floatingSidebar');
+            const $toggle = $('#floatingToggle');
+            const $overlay = $('#sidebarOverlay');
+            
             // Animate sidebar sliding in from left
-            $('#floatingSidebar')
-                .removeClass('active')
-                .css({
-                    left: '-300px',
-                    transform: 'translateX(0)'
-                })
-                .stop(true, true)
-                .animate({
-                    left: '15px'
-                }, 400, 'easeOutCubic', function() {
-                    $(this).addClass('active');
-                });
+            $sidebar.stop(true, true).animate({
+                left: '15px'
+            }, 300, 'easeOutCubic', function() {
+                $(this).addClass('visible');
+            });
 
-            // Show overlay backdrop with fade in
-            $('#sidebarOverlay')
-                .addClass('active')
-                .stop(true, true)
-                .fadeIn(300);
-
-            sidebarOpen = true;
+            // If locked, show overlay and update toggle state
+            if (locked) {
+                $overlay.stop(true, true).fadeIn(200);
+                $toggle.addClass('active');
+                sidebarState = 'locked';
+            } else {
+                // Preview mode - just show briefly
+                sidebarState = 'preview';
+            }
         }
 
         /**
          * Closes the floating sidebar with smooth animation
-         * Also hides the overlay backdrop
+         * @param {boolean} force - If true, closes regardless of state
          */
-        function closeSidebar() {
+        function closeSidebar(force = false) {
+            const $sidebar = $('#floatingSidebar');
+            const $toggle = $('#floatingToggle');
+            const $overlay = $('#sidebarOverlay');
+            
+            // Clear any pending preview timeout
+            if (previewTimeout) {
+                clearTimeout(previewTimeout);
+                previewTimeout = null;
+            }
+
+            // Don't close if locked (unless force is true)
+            if (sidebarState === 'locked' && !force) {
+                return;
+            }
+
             // Animate sidebar sliding out to left
-            $('#floatingSidebar')
-                .stop(true, true)
-                .animate({
-                    left: '-300px'
-                }, 400, 'easeOutCubic', function() {
-                    $(this).removeClass('active');
-                });
+            $sidebar.stop(true, true).animate({
+                left: '-300px'
+            }, 300, 'easeOutCubic', function() {
+                $(this).removeClass('visible');
+            });
 
-            // Hide overlay backdrop with fade out
-            $('#sidebarOverlay')
-                .stop(true, true)
-                .fadeOut(300, function() {
-                    $(this).removeClass('active');
-                });
-
-            sidebarOpen = false;
+            // Hide overlay
+            $overlay.stop(true, true).fadeOut(200);
+            
+            // Remove active state from toggle
+            $toggle.removeClass('active');
+            
+            sidebarState = 'closed';
         }
 
         /**
-         * Toggles the sidebar open/close state
+         * Toggles sidebar locked state
          */
-        function toggleSidebar() {
-            if (sidebarOpen) {
-                closeSidebar();
+        function toggleSidebarLock() {
+            if (sidebarState === 'locked') {
+                closeSidebar(true);
             } else {
-                openSidebar();
+                openSidebar(true);
             }
         }
 
         // =====================================================
-        // EVENT HANDLERS
+        // EVENT HANDLERS - SIDEBAR
         // =====================================================
 
-        // Sidebar toggle button click
-        $('#sidebarToggle').on('click', function(e) {
-            e.stopPropagation();
-            toggleSidebar();
+        /**
+         * Floating toggle button:
+         * - mouseenter: Show sidebar preview (closes on mouseleave)
+         * - click: Toggle locked state (sidebar stays open)
+         */
+        $('#floatingToggle').on('mouseenter', function() {
+            // Only show preview if currently closed
+            if (sidebarState === 'closed') {
+                openSidebar(false);
+            }
         });
 
-        // Overlay backdrop click - closes sidebar
+        $('#floatingToggle').on('mouseleave', function() {
+            // If in preview mode, close after a brief delay
+            if (sidebarState === 'preview') {
+                previewTimeout = setTimeout(function() {
+                    closeSidebar();
+                }, 300);
+            }
+        });
+
+        // Keep sidebar open when mouse enters sidebar (during preview)
+        $('#floatingSidebar').on('mouseenter', function() {
+            // Clear any pending close timeout
+            if (previewTimeout) {
+                clearTimeout(previewTimeout);
+                previewTimeout = null;
+            }
+        });
+
+        // Close preview when mouse leaves sidebar
+        $('#floatingSidebar').on('mouseleave', function() {
+            if (sidebarState === 'preview') {
+                previewTimeout = setTimeout(function() {
+                    closeSidebar();
+                }, 300);
+            }
+        });
+
+        // Click on toggle button locks/unlocks sidebar
+        $('#floatingToggle').on('click', function(e) {
+            e.stopPropagation();
+            toggleSidebarLock();
+        });
+
+        // Overlay backdrop click - closes locked sidebar
         $('#sidebarOverlay').on('click', function() {
-            closeSidebar();
+            closeSidebar(true);
         });
 
         // Escape key press - closes sidebar
         $(document).on('keydown', function(e) {
-            if (e.key === 'Escape' && sidebarOpen) {
-                closeSidebar();
+            if (e.key === 'Escape' && sidebarState !== 'closed') {
+                closeSidebar(true);
             }
         });
 
@@ -1612,11 +1711,6 @@
             
             // Add active to clicked item
             $(this).addClass('active');
-            
-            // Close sidebar on mobile
-            if (window.innerWidth <= 768) {
-                closeSidebar();
-            }
         });
 
         // =====================================================
