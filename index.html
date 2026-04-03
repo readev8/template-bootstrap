@@ -1391,21 +1391,27 @@
             const $toggle = $('#floatingToggle');
             const $overlay = $('#sidebarOverlay');
             
+            // Clear any pending preview timeout
+            if (previewTimeout) {
+                clearTimeout(previewTimeout);
+                previewTimeout = null;
+            }
+            
+            // Set state BEFORE animation to prevent race conditions
+            sidebarState = locked ? 'locked' : 'preview';
+            
             // Animate sidebar sliding in from left
             $sidebar.stop(true, true).animate({
                 left: '15px'
-            }, 300, 'easeOutCubic', function() {
-                $(this).addClass('visible');
-            });
+            }, 300, 'easeOutCubic');
+            
+            // Add visible class immediately for CSS transitions
+            $sidebar.addClass('visible');
 
             // If locked, show overlay and update toggle state
             if (locked) {
                 $overlay.stop(true, true).fadeIn(200);
                 $toggle.addClass('active');
-                sidebarState = 'locked';
-            } else {
-                // Preview mode - just show briefly
-                sidebarState = 'preview';
             }
         }
 
@@ -1428,21 +1434,23 @@
             if (sidebarState === 'locked' && !force) {
                 return;
             }
+            
+            // Set state to closed BEFORE animation
+            sidebarState = 'closed';
 
             // Animate sidebar sliding out to left
             $sidebar.stop(true, true).animate({
                 left: '-300px'
-            }, 300, 'easeOutCubic', function() {
-                $(this).removeClass('visible');
-            });
+            }, 300, 'easeOutCubic');
+            
+            // Remove visible class immediately
+            $sidebar.removeClass('visible');
 
             // Hide overlay
             $overlay.stop(true, true).fadeOut(200);
             
             // Remove active state from toggle
             $toggle.removeClass('active');
-            
-            sidebarState = 'closed';
         }
 
         /**
@@ -1465,7 +1473,15 @@
          * - mouseenter: Show sidebar preview (closes on mouseleave)
          * - click: Toggle locked state (sidebar stays open)
          */
+        let toggleHoverTimeout = null;
+        
         $('#floatingToggle').on('mouseenter', function() {
+            // Clear any pending close from previous hover
+            if (toggleHoverTimeout) {
+                clearTimeout(toggleHoverTimeout);
+                toggleHoverTimeout = null;
+            }
+            
             // Only show preview if currently closed
             if (sidebarState === 'closed') {
                 openSidebar(false);
@@ -1475,7 +1491,7 @@
         $('#floatingToggle').on('mouseleave', function() {
             // If in preview mode, close after a brief delay
             if (sidebarState === 'preview') {
-                previewTimeout = setTimeout(function() {
+                toggleHoverTimeout = setTimeout(function() {
                     closeSidebar();
                 }, 300);
             }
