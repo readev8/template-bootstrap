@@ -74,6 +74,7 @@
             
             /* Navbar dimensions */
             --navbar-height: 70px;
+            --toggle-top: 30vh;
             
             /* Colors */
             --primary-color: #4f46e5;
@@ -121,12 +122,12 @@
 
         */
         .floating-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             background: linear-gradient(135deg, var(--primary-color), #818cf8);
             color: #fff;
             border: none;
@@ -414,7 +415,12 @@
             display: flex;
             align-items: center;
             padding: 0 24px;
-            padding-left: 80px; /* Space for floating toggle */
+        }
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-right: 16px;
         }
 
         /* Navbar center - Search bar */
@@ -676,6 +682,9 @@
             gap: 20px;
             opacity: 0;
             transform: translateY(30px);
+        }
+        .stat-card.animate-in {
+            animation: statFadeUp 500ms var(--transition-smooth) forwards;
         }
 
         /* Stat card icon container */
@@ -1003,21 +1012,20 @@
                 padding: 0 16px;
             }
         }
+
+        @keyframes statFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
-    <!--
-
-
-        FLOATING TOGGLE BUTTON
-        Triggers sidebar preview on hover and lock on click
-
-
-    -->
-    <button class="floating-toggle" id="floatingToggle" aria-label="Toggle Sidebar">
-        <i class="fas fa-bars"></i>
-    </button>
-
     <!--
 
 
@@ -1129,6 +1137,12 @@
 
     -->
     <nav class="glass-navbar">
+        <!-- Left: Sidebar Toggle -->
+        <div class="navbar-left">
+            <button class="floating-toggle" id="floatingToggle" aria-label="Toggle Sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
         <!-- Center: Search Bar -->
         <div class="navbar-search">
             <i class="fas fa-search"></i>
@@ -1399,18 +1413,13 @@
             
             // Set state BEFORE animation to prevent race conditions
             sidebarState = locked ? 'locked' : 'preview';
-            
-            // Animate sidebar sliding in from left
-            $sidebar.stop(true, true).animate({
-                left: '15px'
-            }, 300, 'easeOutCubic');
-            
-            // Add visible class immediately for CSS transitions
+
+            // Use CSS class for transition (no jQuery easing dependency)
             $sidebar.addClass('visible');
 
             // If locked, show overlay and update toggle state
             if (locked) {
-                $overlay.stop(true, true).fadeIn(200);
+                $overlay.addClass('active');
                 $toggle.addClass('active');
             }
         }
@@ -1438,16 +1447,11 @@
             // Set state to closed BEFORE animation
             sidebarState = 'closed';
 
-            // Animate sidebar sliding out to left
-            $sidebar.stop(true, true).animate({
-                left: '-300px'
-            }, 300, 'easeOutCubic');
-            
-            // Remove visible class immediately
+            // Remove visible class to trigger CSS transition
             $sidebar.removeClass('visible');
 
             // Hide overlay
-            $overlay.stop(true, true).fadeOut(200);
+            $overlay.removeClass('active');
             
             // Remove active state from toggle
             $toggle.removeClass('active');
@@ -1474,46 +1478,51 @@
          * - click: Toggle locked state (sidebar stays open)
          */
         let toggleHoverTimeout = null;
+        const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
         
-        $('#floatingToggle').on('mouseenter', function() {
-            // Clear any pending close from previous hover
-            if (toggleHoverTimeout) {
-                clearTimeout(toggleHoverTimeout);
-                toggleHoverTimeout = null;
-            }
-            
-            // Only show preview if currently closed
-            if (sidebarState === 'closed') {
-                openSidebar(false);
-            }
-        });
+        if (!isTouchDevice) {
+            $('#floatingToggle').on('mouseenter', function() {
+                // Clear any pending close from previous hover
+                if (toggleHoverTimeout) {
+                    clearTimeout(toggleHoverTimeout);
+                    toggleHoverTimeout = null;
+                }
+                
+                // Only show preview if currently closed
+                if (sidebarState === 'closed') {
+                    openSidebar(false);
+                }
+            });
 
-        $('#floatingToggle').on('mouseleave', function() {
-            // If in preview mode, close after a brief delay
-            if (sidebarState === 'preview') {
-                toggleHoverTimeout = setTimeout(function() {
-                    closeSidebar();
-                }, 300);
-            }
-        });
+            $('#floatingToggle').on('mouseleave', function() {
+                // If in preview mode, close after a brief delay
+                if (sidebarState === 'preview') {
+                    toggleHoverTimeout = setTimeout(function() {
+                        closeSidebar();
+                    }, 300);
+                }
+            });
+        }
 
-        // Keep sidebar open when mouse enters sidebar (during preview)
-        $('#floatingSidebar').on('mouseenter', function() {
-            // Clear any pending close timeout
-            if (previewTimeout) {
-                clearTimeout(previewTimeout);
-                previewTimeout = null;
-            }
-        });
+        if (!isTouchDevice) {
+            // Keep sidebar open when mouse enters sidebar (during preview)
+            $('#floatingSidebar').on('mouseenter', function() {
+                // Clear any pending close timeout
+                if (previewTimeout) {
+                    clearTimeout(previewTimeout);
+                    previewTimeout = null;
+                }
+            });
 
-        // Close preview when mouse leaves sidebar
-        $('#floatingSidebar').on('mouseleave', function() {
-            if (sidebarState === 'preview') {
-                previewTimeout = setTimeout(function() {
-                    closeSidebar();
-                }, 300);
-            }
-        });
+            // Close preview when mouse leaves sidebar
+            $('#floatingSidebar').on('mouseleave', function() {
+                if (sidebarState === 'preview') {
+                    previewTimeout = setTimeout(function() {
+                        closeSidebar();
+                    }, 300);
+                }
+            });
+        }
 
         // Click on toggle button locks/unlocks sidebar
         $('#floatingToggle').on('click', function(e) {
@@ -1887,25 +1896,12 @@
             
             $cards.each(function(index) {
                 const $card = $(this);
-                
-                // Reset initial state
-                $card.css({
-                    opacity: 0,
-                    transform: 'translateY(30px)'
-                });
-                
+
                 // Staggered animation delay
                 const delay = index * 150;
                 
-                // Animate with easing
                 setTimeout(function() {
-                    $card.stop(true, true).animate({
-                        opacity: 1,
-                        translateY: 0
-                    }, 500, 'easeOutBack', function() {
-                        // Ensure final state is correct
-                        $card.css('transform', 'translateY(0)');
-                    });
+                    $card.addClass('animate-in');
                 }, delay);
             });
         }
