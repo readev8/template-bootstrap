@@ -92,7 +92,7 @@
             --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 
             /* Card system */
-            --card-bg: rgba(255, 255, 255, 0.65);
+            --card-bg: rgba(255, 255, 255, 0.90);
             --card-border: rgba(255, 255, 255, 0.25);
             --card-shadow: 0 4px 6px -1px rgba(0,0,0,0.05),
                            0 10px 25px -5px rgba(0,0,0,0.08);
@@ -100,6 +100,13 @@
                                  0 20px 40px -8px rgba(0,0,0,0.12);
             --card-blur: blur(16px);
             --card-radius: 20px;
+
+            /* Header gradient variants */
+            --header-primary: linear-gradient(135deg, #0F9D58, #818cf8);
+            --header-success: linear-gradient(135deg, #10b981, #34d399);
+            --header-warning: linear-gradient(135deg, #f59e0b, #fbbf24);
+            --header-info: linear-gradient(135deg, #06b6d4, #22d3ee);
+            --header-danger: linear-gradient(135deg, #ef4444, #f87171);
         }
 
         /*
@@ -896,6 +903,31 @@
             box-shadow: 0 4px 12px rgba(15, 157, 88, 0.25);
         }
 
+        .header-primary .content-card-header h5 i {
+            background: var(--header-primary);
+            box-shadow: 0 4px 12px rgba(15, 157, 88, 0.25);
+        }
+
+        .header-success .content-card-header h5 i {
+            background: var(--header-success);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+        }
+
+        .header-warning .content-card-header h5 i {
+            background: var(--header-warning);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+        }
+
+        .header-info .content-card-header h5 i {
+            background: var(--header-info);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
+        }
+
+        .header-danger .content-card-header h5 i {
+            background: var(--header-danger);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+        }
+
         /* Table styling */
         .table-custom {
             width: 100%;
@@ -1469,7 +1501,7 @@
         -->
         <div class="content-grid">
             <!-- Left Column: Recent Employees Table -->
-            <div class="content-card">
+            <div class="content-card header-primary">
                 <div class="content-card-header">
                     <h5><i class="fas fa-users"></i> Recent Employees</h5>
                     <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
@@ -1492,7 +1524,7 @@
             <!-- Right Column: Tasks & Quick Actions -->
             <div>
                 <!-- Tasks Card -->
-                <div class="content-card mb-4">
+                <div class="content-card mb-4 header-warning">
                     <div class="content-card-header">
                         <h5><i class="fas fa-tasks"></i> My Tasks</h5>
                         <a href="#" class="btn btn-sm btn-link text-primary">Add Task</a>
@@ -1503,7 +1535,7 @@
                 </div>
 
                 <!-- Quick Actions Card -->
-                <div class="content-card">
+                <div class="content-card header-info">
                     <div class="content-card-header">
                         <h5><i class="fas fa-bolt"></i> Quick Actions</h5>
                     </div>
