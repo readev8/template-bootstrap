@@ -590,15 +590,15 @@ body .glass-navbar.scrolled {
   color: var(--color-gray-400);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: 12px 12px var(--space-2);
+  /* padding: 12px 12px var(--space-2); */
   margin: 0;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px var(--space-4);
+  /* gap: 12px; */
+  padding: 8px var(--space-4);
   border-radius: var(--radius-md);
   color: var(--color-gray-600);
   text-decoration: none;
