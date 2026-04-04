@@ -124,57 +124,63 @@
   transition: background var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
 }
 
-.glass-navbar.scrolled {
-  background: var(--color-white);
-  border-bottom-color: var(--color-gray-200);
-  box-shadow: var(--shadow-sm);
+/* SCROLLED STATE - 30% TRANSPARENT */
+.glass-navbar.scrolled,
+nav.glass-navbar.scrolled,
+body .glass-navbar.scrolled {
+  background: rgba(255, 255, 255, 0.3) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
 }
 
+/* Child elements juga perlu !important */
 .glass-navbar.scrolled .navbar-search input {
-  background: var(--color-gray-100);
-  color: var(--color-gray-800);
+  background: rgba(255, 255, 255, 0.5) !important;
+  color: var(--color-gray-800) !important;
 }
 
 .glass-navbar.scrolled .navbar-search input::placeholder {
-  color: var(--color-gray-400);
+  color: var(--color-gray-500) !important;
 }
 
 .glass-navbar.scrolled .navbar-search input:focus {
-  background: var(--color-gray-50);
-  box-shadow: 0 0 0 2px var(--color-primary-100);
+  background: rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5) !important;
 }
 
 .glass-navbar.scrolled .navbar-search i {
-  color: var(--color-gray-400);
+  color: var(--color-gray-500) !important;
 }
 
 .glass-navbar.scrolled .navbar-notification {
-  background: var(--color-gray-100);
-  color: var(--color-gray-600);
+  background: rgba(255, 255, 255, 0.4) !important;
+  color: var(--color-gray-700) !important;
 }
 
 .glass-navbar.scrolled .navbar-notification:hover {
-  background: var(--color-gray-200);
+  background: rgba(255, 255, 255, 0.6) !important;
 }
 
 .glass-navbar.scrolled .notification-badge {
-  border-color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .glass-navbar.scrolled .user-dropdown-toggle {
-  background: var(--color-gray-100);
+  background: rgba(255, 255, 255, 0.4) !important;
 }
 
 .glass-navbar.scrolled .user-dropdown-toggle:hover {
-  background: var(--color-gray-200);
+  background: rgba(255, 255, 255, 0.6) !important;
 }
 
 .glass-navbar.scrolled .user-dropdown-toggle span {
-  color: var(--color-gray-800);
+  color: var(--color-gray-800) !important;
 }
 
 .glass-navbar.scrolled .user-dropdown-toggle i {
-  color: var(--color-gray-500);
+  color: var(--color-gray-600) !important;
 }
 
 .navbar-left {
@@ -764,4 +770,23 @@ body.role-admin .menu-item.admin-only {
 .sidebar-overlay.active {
   opacity: 1;
   visibility: visible;
+}
+
+/* ============================================
+   OVERRIDE BOOTSTRAP & CONFLICT FIXES
+   ============================================ */
+
+/* Override Bootstrap navbar styles */
+.navbar,
+.navbar.fixed-top,
+.navbar-expand-lg,
+.bg-white,
+.bg-light {
+  background: transparent !important;
+}
+
+/* Force scrolled state untuk testing */
+.glass-navbar.scrolled {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  background: rgba(255, 255, 255, 0.3) !important;
 }
