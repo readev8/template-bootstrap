@@ -79,6 +79,7 @@
 
 /* Base header with colored background */
 .content-card.header-bg-primary .content-card-header,
+.content-card.header-primary .content-card-header,
 .content-card.header-bg-success .content-card-header,
 .content-card.header-bg-warning .content-card-header,
 .content-card.header-bg-info .content-card-header,
@@ -101,6 +102,7 @@
 
 /* Header icon styling untuk header dengan background */
 .content-card.header-bg-primary .content-card-header h5 i,
+.content-card.header-primary .content-card-header h5 i,
 .content-card.header-bg-success .content-card-header h5 i,
 .content-card.header-bg-warning .content-card-header h5 i,
 .content-card.header-bg-info .content-card-header h5 i,
@@ -128,11 +130,13 @@
 }
 
 /* Primary - Green */
-.content-card.header-bg-primary .content-card-header {
+.content-card.header-bg-primary .content-card-header,
+.content-card.header-primary .content-card-header {
   background: var(--color-primary-500);
 }
 
-.content-card.header-bg-primary .content-card-header h5 {
+.content-card.header-bg-primary .content-card-header h5,
+.content-card.header-primary .content-card-header h5 {
   color: var(--color-white);
 }
 
@@ -264,6 +268,7 @@
 
 /* Button styling untuk header dengan background */
 .content-card.header-bg-primary .content-card-header .btn-outline-light,
+.content-card.header-primary .content-card-header .btn-outline-light,
 .content-card.header-bg-success .content-card-header .btn-outline-light,
 .content-card.header-bg-warning .content-card-header .btn-outline-light,
 .content-card.header-bg-info .content-card-header .btn-outline-light,
@@ -280,6 +285,7 @@
 }
 
 .content-card.header-bg-primary .content-card-header .btn-outline-light:hover,
+.content-card.header-primary .content-card-header .btn-outline-light:hover,
 .content-card.header-bg-success .content-card-header .btn-outline-light:hover,
 .content-card.header-bg-warning .content-card-header .btn-outline-light:hover,
 .content-card.header-bg-info .content-card-header .btn-outline-light:hover,
@@ -296,6 +302,7 @@
 
 /* Link text white untuk header dengan background gelap */
 .content-card.header-bg-primary .content-card-header .btn-link,
+.content-card.header-primary .content-card-header .btn-link,
 .content-card.header-bg-success .content-card-header .btn-link,
 .content-card.header-bg-warning .content-card-header .btn-link,
 .content-card.header-bg-info .content-card-header .btn-link,
@@ -310,6 +317,7 @@
 }
 
 .content-card.header-bg-primary .content-card-header .btn-link:hover,
+.content-card.header-primary .content-card-header .btn-link:hover,
 .content-card.header-bg-success .content-card-header .btn-link:hover,
 .content-card.header-bg-warning .content-card-header .btn-link:hover,
 .content-card.header-bg-info .content-card-header .btn-link:hover,
@@ -389,32 +397,6 @@
 
 .stat-icon.info {
   background: var(--color-info);
-}
-
-.stat-content h3 {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-gray-800);
-  margin: 0 0 2px;
-  line-height: 1;
-}
-
-.stat-content p {
-  font-size: var(--font-size-sm);
-  color: var(--color-gray-500);
-  margin: 0;
-  font-weight: var(--font-weight-medium);
-}
-
-.stat-trend {
-  font-size: var(--font-size-xs);
-  margin-top: 4px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border-radius: var(--radius-md);
-  font-weight: var(--font-weight-medium);
 }
 
 .stat-content h3 {
@@ -612,7 +594,17 @@
   color: var(--color-info);
 }
 
+.btn-action.btn-view {
+  background: var(--color-info-light);
+  color: var(--color-info);
+}
+
 .btn-action.view:hover {
+  background: var(--color-info);
+  color: var(--color-white);
+}
+
+.btn-action.btn-view:hover {
   background: var(--color-info);
   color: var(--color-white);
 }
@@ -622,7 +614,17 @@
   color: var(--color-warning);
 }
 
+.btn-action.btn-edit {
+  background: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
 .btn-action.edit:hover {
+  background: var(--color-warning);
+  color: var(--color-white);
+}
+
+.btn-action.btn-edit:hover {
   background: var(--color-warning);
   color: var(--color-white);
 }
@@ -632,7 +634,17 @@
   color: var(--color-danger);
 }
 
+.btn-action.btn-delete {
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+}
+
 .btn-action.delete:hover {
+  background: var(--color-danger);
+  color: var(--color-white);
+}
+
+.btn-action.btn-delete:hover {
   background: var(--color-danger);
   color: var(--color-white);
 }

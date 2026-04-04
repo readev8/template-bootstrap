@@ -1,17 +1,21 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const navbar = document.querySelector('.glass-navbar');
-  if (!navbar) return;
+(function ($) {
+  'use strict';
 
-  const scrollThreshold = 10;
-
-  function handleScroll() {
-    if (window.scrollY > scrollThreshold) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
+  $(document).ready(function () {
+    var $navbar = $('.glass-navbar');
+    if ($navbar.length === 0) {
+      return;
     }
-  }
 
-  window.addEventListener('scroll', handleScroll, { passive: true });
-  handleScroll();
-});
+    function updateNavbarScroll() {
+      if ($(window).scrollTop() > 20) {
+        $navbar.addClass('scrolled');
+      } else {
+        $navbar.removeClass('scrolled');
+      }
+    }
+
+    $(window).on('scroll', updateNavbarScroll);
+    updateNavbarScroll();
+  });
+})(jQuery);

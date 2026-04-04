@@ -457,28 +457,7 @@ if (!isset($pageJs)) {
             switchRole(savedRole);
         }
 
-        // Initialize navbar scroll state
-        updateNavbarScroll();
     });
-
-    // =====================================================
-    // NAVBAR SCROLL BEHAVIOR
-    // =====================================================
-
-    /**
-     * Toggles navbar scrolled state based on scroll position
-     */
-    function updateNavbarScroll() {
-        var $navbar = $('.glass-navbar');
-        if ($(window).scrollTop() > 20) {
-            $navbar.addClass('scrolled');
-        } else {
-            $navbar.removeClass('scrolled');
-        }
-    }
-
-    // Listen to scroll event
-    $(window).on('scroll', updateNavbarScroll);
 
     // Expose functions globally for page-specific JS
     window.SISPEG = {
