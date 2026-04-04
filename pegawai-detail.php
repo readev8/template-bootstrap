@@ -136,6 +136,8 @@ include 'includes/navbar.php';
     </div>
 </main>
 
+<?php include 'includes/footer-content.php'; ?>
+
 <?php
 // Page-specific JavaScript (Detail Pegawai)
 $pageJs = <<<'JS'

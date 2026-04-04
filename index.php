@@ -268,6 +268,8 @@ include 'includes/navbar.php';
     </div>
 </main>
 
+<?php include 'includes/footer-content.php'; ?>
+
 <?php
 // Page-specific JavaScript (Dashboard)
 $pageJs = <<<'JS'

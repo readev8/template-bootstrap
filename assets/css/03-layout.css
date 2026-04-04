@@ -439,7 +439,8 @@ body .glass-navbar.scrolled {
   z-index: 1040;
   overflow-y: auto;
   overflow-x: visible;
-  height: calc(100vh - 2 * var(--sidebar-offset));
+  height: auto;
+  max-height: calc(100vh - 2 * var(--sidebar-offset));
   left: -300px;
   transition: left var(--transition-base), box-shadow var(--transition-base);
   scrollbar-width: thin;
@@ -770,6 +771,50 @@ body.role-admin .menu-item.admin-only {
 .sidebar-overlay.active {
   opacity: 1;
   visibility: visible;
+}
+
+/* ============================================
+   PAGE FOOTER - FIXED BOTTOM
+   ============================================ */
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--color-gray-100);
+  z-index: 1020;
+  display: flex;
+  align-items: center;
+}
+
+.footer-content {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-copyright {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+}
+
+.footer-version {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-400);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Adjust main-content untuk footer fixed */
+.main-content {
+  padding-bottom: 48px;
 }
 
 /* ============================================

@@ -184,6 +184,8 @@ include 'includes/navbar.php';
     </div>
 </div>
 
+<?php include 'includes/footer-content.php'; ?>
+
 <?php
 // Page-specific JavaScript (Pegawai)
 $pageJs = <<<'JS'

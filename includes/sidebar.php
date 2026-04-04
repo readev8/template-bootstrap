@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Sidebar Partial
  * Contains overlay backdrop and floating sidebar
@@ -33,35 +34,35 @@ $initials = strlen($userInitials) > 0 ? $userInitials : strtoupper(substr($userN
 <!-- Floating Sidebar -->
 <aside class="floating-sidebar" id="floatingSidebar">
     <!-- Sidebar Header with Logo -->
-    <div class="sidebar-header">
+    <!-- <div class="sidebar-header">
         <a href="index.php" class="sidebar-logo">
             <div class="sidebar-logo-icon">
                 <i class="fas fa-shapes"></i>
             </div>
             <span class="sidebar-logo-text">SISPEG</span>
         </a>
-    </div>
+    </div> -->
 
     <!-- User Info Section -->
-    <div class="sidebar-user">
-        <div class="user-info">
+    <!-- <div class="sidebar-user"> -->
+    <!-- <div class="user-info">
             <div class="user-avatar"><?php echo htmlspecialchars($initials); ?></div>
             <div class="user-details">
                 <h6><?php echo htmlspecialchars($userName); ?></h6>
                 <small id="roleLabel"><?php echo htmlspecialchars($userRole); ?></small>
             </div>
-        </div>
-        
-        <!-- Role Switcher -->
-        <div class="role-switcher">
+        </div> -->
+
+    <!-- Role Switcher -->
+    <!-- <div class="role-switcher">
             <label>Switch Role</label>
             <div class="role-buttons">
                 <button class="role-btn<?php echo $userRole === 'Employee' ? ' active' : ''; ?>" data-role="employee">Employee</button>
                 <button class="role-btn<?php echo $userRole === 'Manager' ? ' active' : ''; ?>" data-role="manager">Manager</button>
                 <button class="role-btn<?php echo $userRole === 'Administrator' ? ' active' : ''; ?>" data-role="admin">Admin</button>
             </div>
-        </div>
-    </div>
+        </div> -->
+    <!-- </div> -->
 
     <!-- Sidebar Navigation -->
     <nav class="sidebar-nav">
