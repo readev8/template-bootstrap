@@ -13,7 +13,7 @@ $searchPlaceholder = 'Cari pegawai...';
 $pageCss = 'pegawai-detail';  // Load pegawai-detail-specific CSS
 $additionalCss = [];          // No additional external CSS
 $additionalJs = [];
-$bodyClass = 'detail-page';
+$bodyClass = 'page-pegawai';
 
 // User Configuration
 $userName = 'Ahmad Rizki';
@@ -32,32 +32,109 @@ include 'includes/navbar.php';
 
 <!-- Main Content -->
 <main class="main-content" id="mainContent">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-left">
+            <h1>Detail Pegawai</h1>
+            <p>Lihat informasi lengkap pegawai</p>
+        </div>
+        <div class="page-header-right">
+            <a class="btn btn-outline-secondary" href="pegawai.php">
+                <i class="fas fa-arrow-left me-2"></i>Kembali
+            </a>
+            <button class="btn btn-primary" type="button">
+                <i class="fas fa-edit me-2"></i>Edit
+            </button>
+        </div>
+    </div>
+
     <div id="detailContent">
         <div class="content-card detail-card">
-            <div class="detail-card-header">
-                <div class="detail-identity">
-                    <div class="detail-avatar" id="detailAvatar">AR</div>
-                    <div>
-                        <h1 id="detailName">Nama Pegawai</h1>
-                        <p id="detailRole">Jabatan - Departemen</p>
-                        <div class="detail-meta">
-                            <span class="meta-item" id="detailStatus">-</span>
-                            <span class="meta-item">
-                                <i class="fas fa-id-badge"></i>
-                                <span id="detailNipMeta">-</span>
-                            </span>
+            <div class="detail-card-body">
+                <div class="detail-section">
+                    <h6>Profil</h6>
+                    <div class="detail-list">
+                        <div class="detail-item" data-field="nama">
+                            <span class="detail-item-label">Nama Lengkap</span>
+                            <span class="detail-item-value" id="detailNama">-</span>
+                        </div>
+                        <div class="detail-item" data-field="nip">
+                            <span class="detail-item-label">NIP</span>
+                            <span class="detail-item-value" id="detailNip">-</span>
+                        </div>
+                        <div class="detail-item" data-field="birthDate">
+                            <span class="detail-item-label">Tanggal Lahir</span>
+                            <span class="detail-item-value" id="detailBirthDate">-</span>
+                        </div>
+                        <div class="detail-item" data-field="gender">
+                            <span class="detail-item-label">Jenis Kelamin</span>
+                            <span class="detail-item-value" id="detailGender">-</span>
                         </div>
                     </div>
                 </div>
-                <div class="detail-actions">
-                    <a class="btn btn-outline-secondary" href="pegawai.php">
-                        <i class="fas fa-arrow-left me-2"></i>Kembali
-                    </a>
-                    <button class="btn btn-primary" type="button">
-                        <i class="fas fa-edit me-2"></i>Edit
-                    </button>
+
+                <div class="detail-section">
+                    <h6>Kontak</h6>
+                    <div class="detail-list">
+                        <div class="detail-item" data-field="email">
+                            <span class="detail-item-label">Email</span>
+                            <span class="detail-item-value" id="detailEmail">-</span>
+                        </div>
+                        <div class="detail-item" data-field="phone">
+                            <span class="detail-item-label">Telepon</span>
+                            <span class="detail-item-value" id="detailPhone">-</span>
+                        </div>
+                        <div class="detail-item" data-field="address">
+                            <span class="detail-item-label">Alamat</span>
+                            <span class="detail-item-value" id="detailAddress">-</span>
+                        </div>
+                        <div class="detail-item" data-field="emergencyContact">
+                            <span class="detail-item-label">Kontak Darurat</span>
+                            <span class="detail-item-value" id="detailEmergency">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h6>Kepegawaian</h6>
+                    <div class="detail-list">
+                        <div class="detail-item" data-field="jabatan">
+                            <span class="detail-item-label">Jabatan</span>
+                            <span class="detail-item-value" id="detailJabatan">-</span>
+                        </div>
+                        <div class="detail-item" data-field="departemen">
+                            <span class="detail-item-label">Departemen</span>
+                            <span class="detail-item-value" id="detailDepartemen">-</span>
+                        </div>
+                        <div class="detail-item" data-field="hireDate">
+                            <span class="detail-item-label">Tanggal Masuk</span>
+                            <span class="detail-item-value" id="detailHireDate">-</span>
+                        </div>
+                        <div class="detail-item" data-field="location">
+                            <span class="detail-item-label">Lokasi Kerja</span>
+                            <span class="detail-item-value" id="detailLocation">-</span>
+                        </div>
+                        <div class="detail-item" data-field="manager">
+                            <span class="detail-item-label">Manager</span>
+                            <span class="detail-item-value" id="detailManager">-</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="emptyState" class="content-card" style="display: none;">
+        <div class="empty-state">
+            <i class="fas fa-exclamation-circle"></i>
+            <h3>Data pegawai tidak ditemukan</h3>
+            <p>Periksa kembali ID pegawai atau kembali ke daftar.</p>
+            <a class="btn btn-outline-primary mt-3" href="pegawai.php">
+                <i class="fas fa-arrow-left me-2"></i>Kembali ke daftar
+            </a>
+        </div>
+    </div>
+</main>
 
             <div class="detail-card-body">
                 <div class="detail-section">
@@ -199,12 +276,6 @@ $pageJs = <<<'JS'
     }
 
     function renderDetail(pegawai) {
-        $('#detailAvatar').text(getInitials(pegawai.nama));
-        $('#detailName').text(pegawai.nama);
-        $('#detailRole').text(pegawai.jabatan + ' - ' + pegawai.departemen);
-        $('#detailStatus').html(getStatusBadge(pegawai.status));
-        setValue('#detailNipMeta', pegawai.nip);
-
         setValue('#detailNama', pegawai.nama);
         setValue('#detailNip', pegawai.nip);
         setValue('#detailBirthDate', pegawai.birthDate);

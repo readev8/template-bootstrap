@@ -4,7 +4,89 @@
 
 /* ============================================
    BACKWARD-COMPATIBLE ALIASES
-   Will be removed after HTML migration is complete
+   Maps page-specific classes to global standards
+   These will be removed after HTML migration is complete
+   ============================================ */
+
+/* Toolbar alias - delegates to global .toolbar */
+.page-pegawai .pegawai-toolbar {
+  /* Inherits from .toolbar global (04-components.css) */
+}
+
+/* Toggle button aliases - delegate to global styles */
+.page-pegawai .toggle-group {
+  /* Inherits from .toggle-group global (04-components.css) */
+}
+
+.page-pegawai .toggle-btn {
+  /* Inherits from .toggle-btn global (04-components.css) */
+}
+
+.page-pegawai .toggle-btn:hover {
+  /* Inherits from .toggle-btn:hover global (04-components.css) */
+}
+
+.page-pegawai .toggle-btn:focus-visible {
+  /* Inherits from .toggle-btn:focus-visible global (04-components.css) */
+}
+
+.page-pegawai .toggle-btn.active {
+  /* Inherits from .toggle-btn.active global (04-components.css) */
+}
+
+.page-pegawai .toggle-btn.active:hover {
+  /* Inherits from .toggle-btn.active:hover global (04-components.css) */
+}
+
+/* Export button alias - delegates to global .btn-action-primary */
+.page-pegawai .btn-export {
+  /* Inherits from .btn-action-primary global (04-components.css) */
+}
+
+.page-pegawai .btn-export:hover {
+  /* Inherits from .btn-action-primary:hover global (04-components.css) */
+}
+
+.page-pegawai .btn-export:focus-visible {
+  /* Inherits from .btn-action-primary:focus-visible global (04-components.css) */
+}
+
+.page-pegawai .btn-export:active {
+  /* Inherits from .btn-action-primary:active global (04-components.css) */
+}
+
+.page-pegawai .btn-export i {
+  /* Inherits from .btn-action-primary i global (04-components.css) */
+}
+
+/* Column filter aliases - delegate to global .table-filter-row */
+.page-pegawai #pegawaiTable thead tr.filter-row th {
+  /* Inherits from .table-filter-row th global (05-tables.css) */
+}
+
+.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter {
+  /* Inherits from .table-filter-row select.column-filter global (05-tables.css) */
+}
+
+.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter:hover {
+  /* Inherits from .table-filter-row select.column-filter:hover global (05-tables.css) */
+}
+
+.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter:focus {
+  /* Inherits from .table-filter-row select.column-filter:focus global (05-tables.css) */
+}
+
+.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter:disabled {
+  /* Inherits from .table-filter-row select.column-filter:disabled global (05-tables.css) */
+}
+
+.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter option {
+  /* Inherits from .table-filter-row select.column-filter option global (05-tables.css) */
+}
+
+/* ============================================
+   PEGAWAI-SPECIFIC OVERRIDES ONLY
+   Styles that are unique to this page
    ============================================ */
 .pegawai-table-container {
   background: var(--color-white);
@@ -87,188 +169,4 @@
 
 .page-pegawai .dt-buttons {
   display: none;
-}
-
-/* ============================================
-   TOOLBAR
-   ============================================ */
-.page-pegawai .pegawai-toolbar {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-}
-
-/* ============================================
-   TOGGLE BUTTONS - FIXED STYLING
-   ============================================ */
-.page-pegawai .toggle-group {
-  display: inline-flex;
-  align-items: center;
-  background: var(--color-gray-100);
-  border-radius: var(--radius-md);
-  padding: 4px;
-  gap: 4px;
-}
-
-.page-pegawai .toggle-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  color: var(--color-gray-600);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  padding: 6px 16px;
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
-  cursor: pointer;
-  white-space: nowrap;
-  line-height: 1.4;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-.page-pegawai .toggle-btn:hover {
-  color: var(--color-primary-500);
-  background: rgba(255, 255, 255, 0.6);
-}
-
-.page-pegawai .toggle-btn:focus-visible {
-  outline: 2px solid var(--color-primary-500);
-  outline-offset: 2px;
-}
-
-.page-pegawai .toggle-btn.active {
-  background: var(--color-white);
-  color: var(--color-primary-500);
-  font-weight: var(--font-weight-semibold);
-  box-shadow: var(--shadow-sm);
-}
-
-.page-pegawai .toggle-btn.active:hover {
-  background: var(--color-white);
-  color: var(--color-primary-600);
-}
-
-/* ============================================
-   EXPORT BUTTON - FIXED STYLING
-   ============================================ */
-.page-pegawai .btn-export {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border: none;
-  border-radius: var(--radius-md);
-  padding: 8px 16px;
-  background: var(--color-primary-500);
-  color: var(--color-white);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-fast);
-  cursor: pointer;
-  white-space: nowrap;
-  line-height: 1.4;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  text-decoration: none;
-}
-
-.page-pegawai .btn-export:hover {
-  background: var(--color-primary-600);
-  color: var(--color-white);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-  text-decoration: none;
-}
-
-.page-pegawai .btn-export:focus-visible {
-  outline: 2px solid var(--color-primary-500);
-  outline-offset: 2px;
-}
-
-.page-pegawai .btn-export:active {
-  transform: translateY(0);
-  background: var(--color-primary-600);
-  box-shadow: var(--shadow-sm);
-}
-
-.page-pegawai .btn-export i {
-  font-size: var(--font-size-xs);
-}
-
-/* ============================================
-   COLUMN FILTER DROPDOWNS - FIXED STYLING
-   ============================================ */
-.page-pegawai #pegawaiTable thead tr.filter-row th {
-  background: var(--color-white);
-  color: var(--color-gray-600);
-  padding: var(--space-2) var(--space-3);
-  border-top: 1px solid var(--color-gray-100);
-}
-
-.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter {
-  width: 100%;
-  border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-md);
-  padding: 6px 28px 6px 8px;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-gray-700);
-  background-color: var(--color-white);
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%234b5563' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 6px center;
-  background-size: 14px 14px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  transition: all var(--transition-fast);
-  cursor: pointer;
-  line-height: 1.4;
-}
-
-.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter:hover {
-  border-color: var(--color-gray-300);
-  background-color: var(--color-gray-50);
-}
-
-.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter:focus {
-  outline: none;
-  border-color: var(--color-primary-500);
-  box-shadow: 0 0 0 3px rgba(15, 157, 88, 0.1);
-}
-
-.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter:disabled {
-  background-color: var(--color-gray-50);
-  background-image: none;
-  color: var(--color-gray-400);
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter option {
-  padding: 4px 8px;
-  font-size: var(--font-size-xs);
-  color: var(--color-gray-700);
-}
-
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-@media (max-width: 768px) {
-  .page-pegawai .pegawai-toolbar {
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .page-pegawai .btn-export {
-    width: 100%;
-    justify-content: center;
-  }
 }

@@ -50,7 +50,7 @@ include 'includes/navbar.php';
     <div class="content-card header-primary">
         <div class="content-card-header">
             <h5><i class="fas fa-users"></i> Daftar Pegawai</h5>
-            <div class="pegawai-toolbar">
+            <div class="toolbar">
                 <div class="toggle-group" role="group" aria-label="Filter status">
                     <button type="button" class="toggle-btn active" data-status-filter="all">
                         Semua (Aktif + Resign)
@@ -59,7 +59,7 @@ include 'includes/navbar.php';
                         Hanya Aktif
                     </button>
                 </div>
-                <button class="btn-export" id="btnExportPegawai" type="button">
+                <button class="btn-action-primary" id="btnExportPegawai" type="button">
                     <i class="fas fa-file-export"></i>
                     Export Excel
                 </button>
