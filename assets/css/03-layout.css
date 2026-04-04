@@ -173,6 +173,60 @@
   display: flex;
   align-items: center;
   padding: 0 24px;
+  transition: background var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.glass-navbar.scrolled {
+  background: var(--color-white);
+  border-bottom-color: var(--color-gray-200);
+  box-shadow: var(--shadow-sm);
+}
+
+.glass-navbar.scrolled .navbar-search input {
+  background: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.glass-navbar.scrolled .navbar-search input::placeholder {
+  color: var(--color-gray-400);
+}
+
+.glass-navbar.scrolled .navbar-search input:focus {
+  background: var(--color-gray-50);
+  box-shadow: 0 0 0 2px var(--color-primary-100);
+}
+
+.glass-navbar.scrolled .navbar-search i {
+  color: var(--color-gray-400);
+}
+
+.glass-navbar.scrolled .navbar-notification {
+  background: var(--color-gray-100);
+  color: var(--color-gray-600);
+}
+
+.glass-navbar.scrolled .navbar-notification:hover {
+  background: var(--color-gray-200);
+}
+
+.glass-navbar.scrolled .notification-badge {
+  border-color: var(--color-white);
+}
+
+.glass-navbar.scrolled .user-dropdown-toggle {
+  background: var(--color-gray-100);
+}
+
+.glass-navbar.scrolled .user-dropdown-toggle:hover {
+  background: var(--color-gray-200);
+}
+
+.glass-navbar.scrolled .user-dropdown-toggle span {
+  color: var(--color-gray-800);
+}
+
+.glass-navbar.scrolled .user-dropdown-toggle i {
+  color: var(--color-gray-500);
 }
 
 .navbar-left {

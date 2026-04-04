@@ -52,7 +52,18 @@ $pageCssMap = [
 <!-- FontAwesome 6 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<!-- Custom CSS - Ordered by dependency -->
+<!-- Additional CSS (External Libraries) - Loaded BEFORE custom CSS to allow overrides -->
+<?php if (!empty($additionalCss) && is_array($additionalCss)): ?>
+<?php foreach ($additionalCss as $cssKey): ?>
+<?php if (isset($cssConfigs[$cssKey])): ?>
+<?php foreach ($cssConfigs[$cssKey] as $cssUrl): ?>
+<link rel="stylesheet" href="<?php echo htmlspecialchars($cssUrl); ?>">
+<?php endforeach; ?>
+<?php endif; ?>
+<?php endforeach; ?>
+<?php endif; ?>
+
+<!-- Custom CSS - Ordered by dependency (loaded AFTER CDN libraries to ensure proper cascade) -->
 <link rel="stylesheet" href="assets/css/01-variables.css">
 <link rel="stylesheet" href="assets/css/02-reset.css">
 <link rel="stylesheet" href="assets/css/03-layout.css">
@@ -64,15 +75,4 @@ $pageCssMap = [
 <!-- Page-specific CSS -->
 <?php if (!empty($pageCss) && isset($pageCssMap[$pageCss])): ?>
 <link rel="stylesheet" href="assets/css/<?php echo htmlspecialchars($pageCssMap[$pageCss]); ?>">
-<?php endif; ?>
-
-<!-- Additional CSS (External Libraries) -->
-<?php if (!empty($additionalCss) && is_array($additionalCss)): ?>
-<?php foreach ($additionalCss as $cssKey): ?>
-<?php if (isset($cssConfigs[$cssKey])): ?>
-<?php foreach ($cssConfigs[$cssKey] as $cssUrl): ?>
-<link rel="stylesheet" href="<?php echo htmlspecialchars($cssUrl); ?>">
-<?php endforeach; ?>
-<?php endif; ?>
-<?php endforeach; ?>
 <?php endif; ?>
