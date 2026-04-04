@@ -369,16 +369,32 @@
   background: var(--color-white);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-xl);
-  z-index: 1050;
-  overflow-y: visible;
-  overflow-x: hidden;
-  height: auto;
+  z-index: 1040;
+  overflow-y: auto;
+  overflow-x: visible;
+  height: calc(100vh - 2 * var(--sidebar-offset));
   left: -300px;
   transition: left var(--transition-base), box-shadow var(--transition-base);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gray-300) transparent;
 }
 
 .floating-sidebar.visible {
   left: var(--sidebar-offset);
+}
+
+/* Custom scrollbar untuk Webkit */
+.floating-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.floating-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.floating-sidebar::-webkit-scrollbar-thumb {
+  background: var(--color-gray-300);
+  border-radius: var(--radius-full);
 }
 
 .sidebar-header {
@@ -551,35 +567,67 @@
   font-size: 16px;
 }
 
+/* ============================================
+   SUBMENU - FLYOUT FIXED POSITION
+   ============================================ */
+
 .menu-item-group {
   position: relative;
   margin: 4px 0;
 }
 
 .submenu {
-  position: absolute;
-  top: 0;
-  left: calc(100% + 8px);
+  position: fixed;
   min-width: 200px;
-  background: var(--color-gray-50);
+  max-width: 280px;
+  background: var(--color-white);
   border: 1px solid var(--color-gray-200);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-xl);
   padding: var(--space-2);
   display: none;
-  z-index: 1060;
+  z-index: 1050;
+  margin: 0;
+  list-style: none;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 200ms ease, transform 200ms ease;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .menu-item-group:hover > .submenu {
-    display: block;
-  }
+/* Arrow pointer ke parent menu */
+.submenu::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 16px;
+  width: 12px;
+  height: 12px;
+  background: var(--color-white);
+  border-left: 1px solid var(--color-gray-200);
+  border-bottom: 1px solid var(--color-gray-200);
+  transform: rotate(45deg);
+  z-index: 1;
 }
 
-.menu-item-group.open > .submenu {
+/* Arrow direction untuk submenu di sisi kiri */
+.submenu.submenu-left::before {
+  left: auto;
+  right: -6px;
+  border-left: none;
+  border-bottom: none;
+  border-right: 1px solid var(--color-gray-200);
+  border-top: 1px solid var(--color-gray-200);
+  transform: rotate(45deg);
+}
+
+/* Submenu visible state */
+.submenu.show {
   display: block;
+  opacity: 1;
+  transform: translateX(0);
 }
 
+/* Submenu item styling */
 .submenu-item {
   display: flex;
   align-items: center;
@@ -592,11 +640,43 @@
   font-weight: var(--font-weight-medium);
   transition: all var(--transition-fast);
   white-space: nowrap;
+  position: relative;
+  z-index: 2;
 }
 
 .submenu-item:hover {
-  background: var(--color-gray-100);
+  background: var(--color-gray-50);
   color: var(--color-primary-500);
+}
+
+.submenu-item.active {
+  background: var(--color-primary-50);
+  color: var(--color-primary-600);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Caret rotation saat open */
+.menu-item.has-submenu .submenu-caret {
+  transition: transform 200ms ease;
+}
+
+.menu-item-group.open > .menu-item.has-submenu .submenu-caret {
+  transform: rotate(90deg);
+}
+
+/* Submenu locked state - visual indicator untuk menu item yang submenu-nya terkunci */
+.submenu.locked {
+  /* Flag untuk JavaScript, tidak ada perubahan visual spesifik */
+}
+
+/* Visual indicator untuk menu item yang submenu-nya terkunci */
+.menu-item-group:has(.submenu.locked) > .menu-item.has-submenu {
+  background: var(--color-primary-50);
+  color: var(--color-primary-600);
+}
+
+.menu-item-group:has(.submenu.locked) > .menu-item.has-submenu .submenu-caret {
+  transform: rotate(90deg);
 }
 
 .menu-item.admin-only {
@@ -614,7 +694,7 @@ body.role-admin .menu-item.admin-only {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1040;
+  z-index: 1030;
   opacity: 0;
   visibility: hidden;
   transition: opacity var(--transition-fast), visibility var(--transition-fast);

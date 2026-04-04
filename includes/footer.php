@@ -82,6 +82,10 @@ if (!isset($pageJs)) {
             return;
         }
         
+        // Tutup semua submenu dan hapus locked state saat sidebar ditutup
+        $('.submenu.locked').removeClass('locked');
+        hideAllSubmenus();
+        
         sidebarState = 'closed';
         $sidebar.removeClass('visible');
         $overlay.removeClass('active');
@@ -151,8 +155,13 @@ if (!isset($pageJs)) {
     });
 
     $(document).on('keydown', function(e) {
-        if (e.key === 'Escape' && sidebarState !== 'closed') {
-            closeSidebar(true);
+        if (e.key === 'Escape') {
+            // Tutup submenu terlebih dahulu jika ada yang terbuka
+            if ($('.submenu.show').length > 0) {
+                hideAllSubmenus();
+            } else if (sidebarState !== 'closed') {
+                closeSidebar(true);
+            }
         }
     });
 
@@ -220,23 +229,213 @@ if (!isset($pageJs)) {
     });
 
     // =====================================================
-    // MENU ITEM CLICK HANDLER
+    // SUBMENU FUNCTIONALITY - FIXED POSITION FLYOUT
     // =====================================================
     
-    $('.menu-item').on('click', function(e) {
-        var $this = $(this);
+    let activeSubmenu = null;
+    let submenuTimeout = null;
+    
+    /**
+     * Menghitung dan mengatur posisi submenu
+     * @param {jQuery} $menuItem - Menu item yang memiliki submenu
+     * @param {jQuery} $submenu - Element submenu
+     */
+    function positionSubmenu($menuItem, $submenu) {
+        var offset = $menuItem.offset();
+        var menuHeight = $menuItem.outerHeight();
+        var sidebarWidth = $('#floatingSidebar').outerWidth();
+        var windowWidth = $(window).width();
+        var windowHeight = $(window).height();
+        var submenuHeight = $submenu.outerHeight();
         
-        if ($this.hasClass('has-submenu')) {
-            e.preventDefault();
-            var $group = $this.closest('.menu-item-group');
-            var isOpen = $group.hasClass('open');
-            $('.menu-item-group').removeClass('open').find('.menu-item.has-submenu').attr('aria-expanded', 'false');
-            if (!isOpen) {
-                $group.addClass('open');
-                $this.attr('aria-expanded', 'true');
-            }
-            return;
+        // Posisi default: di samping kanan sidebar
+        var top = offset.top;
+        var left = offset.left + sidebarWidth + 8; // 8px gap
+        
+        // Cek jika submenu keluar dari viewport kanan
+        var submenuWidth = $submenu.outerWidth();
+        if (left + submenuWidth > windowWidth) {
+            // Tampilkan di sisi kiri sidebar
+            left = offset.left - submenuWidth - 8;
+            $submenu.addClass('submenu-left');
+        } else {
+            $submenu.removeClass('submenu-left');
         }
+        
+        // Cek jika submenu keluar dari viewport bawah
+        if (top + submenuHeight > windowHeight) {
+            top = windowHeight - submenuHeight - 16;
+        }
+        
+        // Cek jika submenu keluar dari viewport atas
+        if (top < 0) {
+            top = 8;
+        }
+        
+        $submenu.css({
+            top: top,
+            left: left
+        });
+    }
+    
+    /**
+     * Menampilkan submenu
+     * @param {jQuery} $menuItem - Menu item yang diklik/dihover
+     */
+    function showSubmenu($menuItem) {
+        // Tutup submenu aktif sebelumnya
+        hideAllSubmenus();
+        
+        var $group = $menuItem.closest('.menu-item-group');
+        var $submenu = $group.find('.submenu');
+        
+        if ($submenu.length === 0) return;
+        
+        // Tandai group sebagai open
+        $group.addClass('open');
+        $menuItem.attr('aria-expanded', 'true');
+        
+        // Hitung dan set posisi
+        positionSubmenu($menuItem, $submenu);
+        
+        // Tampilkan dengan animasi
+        $submenu.addClass('show');
+        activeSubmenu = $submenu;
+        
+        // Clear timeout jika ada
+        if (submenuTimeout) {
+            clearTimeout(submenuTimeout);
+            submenuTimeout = null;
+        }
+    }
+    
+    /**
+     * Menyembunyikan submenu tertentu
+     * @param {jQuery} $submenu - Submenu yang akan disembunyikan
+     */
+    function hideSubmenu($submenu) {
+        if (!$submenu || $submenu.length === 0) return;
+        
+        var $group = $submenu.closest('.menu-item-group');
+        var $menuItem = $group.find('.menu-item.has-submenu');
+        
+        $submenu.removeClass('show');
+        $group.removeClass('open');
+        $menuItem.attr('aria-expanded', 'false');
+        
+        if (activeSubmenu && activeSubmenu.is($submenu)) {
+            activeSubmenu = null;
+        }
+    }
+    
+    /**
+     * Menyembunyikan semua submenu
+     */
+    function hideAllSubmenus() {
+        // Hapus locked state dari semua submenu
+        $('.submenu.locked').removeClass('locked');
+        $('.submenu.show').each(function() {
+            hideSubmenu($(this));
+        });
+    }
+    
+    // Desktop: Hover behavior
+    if (!isTouchDevice) {
+        $('.menu-item-group').on('mouseenter', function(e) {
+            var $group = $(this);
+            var $menuItem = $group.find('.menu-item.has-submenu');
+            
+            if ($menuItem.length > 0) {
+                // Delay sedikit untuk UX yang lebih baik
+                submenuTimeout = setTimeout(function() {
+                    showSubmenu($menuItem);
+                }, 100);
+            }
+        });
+        
+        $('.menu-item-group').on('mouseleave', function(e) {
+            var $group = $(this);
+            var $submenu = $group.find('.submenu');
+            
+            // Clear timeout hover
+            if (submenuTimeout) {
+                clearTimeout(submenuTimeout);
+                submenuTimeout = null;
+            }
+            
+            // Delay sebelum hide untuk memberi waktu user pindah ke submenu
+            submenuTimeout = setTimeout(function() {
+                if (!$submenu.is(':hover') && !$submenu.hasClass('locked')) {
+                    hideSubmenu($submenu);
+                }
+            }, 200);
+        });
+        
+        // Handle mouse enter/leave pada submenu itu sendiri (hanya untuk yang tidak locked)
+        $(document).on('mouseenter', '.submenu:not(.locked)', function() {
+            if (submenuTimeout) {
+                clearTimeout(submenuTimeout);
+                submenuTimeout = null;
+            }
+        });
+        
+        $(document).on('mouseleave', '.submenu:not(.locked)', function() {
+            var $submenu = $(this);
+            submenuTimeout = setTimeout(function() {
+                hideSubmenu($submenu);
+            }, 200);
+        });
+    }
+    
+    // Click handler untuk SEMUA device (desktop + mobile)
+    $('.menu-item.has-submenu').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        var $menuItem = $(this);
+        var $group = $menuItem.closest('.menu-item-group');
+        var $submenu = $group.find('.submenu');
+        
+        // Toggle locked state
+        if ($submenu.hasClass('locked')) {
+            // Unlock dan tutup
+            $submenu.removeClass('locked');
+            hideSubmenu($submenu);
+        } else {
+            // Unlock semua submenu lain
+            $('.submenu.locked').removeClass('locked');
+            
+            // Lock dan buka submenu ini
+            $submenu.addClass('locked');
+            showSubmenu($menuItem);
+        }
+    });
+    
+    // Tutup submenu saat klik di luar
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('.menu-item-group').length && 
+            !$(e.target).closest('.submenu').length) {
+            // Hapus locked state dan tutup semua
+            $('.submenu.locked').removeClass('locked');
+            hideAllSubmenus();
+        }
+    });
+    
+    // Update posisi submenu saat scroll/resize
+    $(window).on('scroll resize', function() {
+        if (activeSubmenu && activeSubmenu.hasClass('show')) {
+            var $group = activeSubmenu.closest('.menu-item-group');
+            var $menuItem = $group.find('.menu-item.has-submenu');
+            positionSubmenu($menuItem, activeSubmenu);
+        }
+    });
+
+    // =====================================================
+    // MENU ITEM CLICK HANDLER (NON-SUBMENU)
+    // =====================================================
+    
+    $('.menu-item:not(.has-submenu)').on('click', function(e) {
+        var $this = $(this);
         
         var href = $this.attr('href');
         if (!href || href === '#') {
@@ -264,7 +463,11 @@ if (!isset($pageJs)) {
         openSidebar: openSidebar,
         closeSidebar: closeSidebar,
         toggleSidebarLock: toggleSidebarLock,
-        switchRole: switchRole
+        switchRole: switchRole,
+        showSubmenu: showSubmenu,
+        hideSubmenu: hideSubmenu,
+        hideAllSubmenus: hideAllSubmenus,
+        positionSubmenu: positionSubmenu
     };
 
 })(jQuery);
