@@ -15,6 +15,12 @@ $jsConfigs = [
         'https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js',
         'https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js'
     ],
+    'datatables-buttons' => [
+        'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+        'https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js',
+        'https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js',
+        'https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'
+    ],
     'datepicker' => [
         'https://cdn.jsdelivr.net/npm/flatpickr'
     ],

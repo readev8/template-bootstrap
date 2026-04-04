@@ -11,8 +11,9 @@ $pageTitle = 'SISPEG - Data Pegawai';
 $activeMenu = 'pegawai';
 $searchPlaceholder = 'Cari pegawai...';
 $pageCss = 'pegawai';              // Load pegawai-specific CSS
-$additionalCss = ['datatables'];   // Load DataTables CSS
-$additionalJs = ['datatables'];    // Load DataTables JS
+$additionalCss = ['datatables', 'datatables-buttons'];   // Load DataTables CSS
+$additionalJs = ['datatables', 'datatables-buttons'];    // Load DataTables JS
+$bodyClass = 'page-pegawai';
 
 // User Configuration
 $userName = 'Ahmad Rizki';
@@ -49,6 +50,20 @@ include 'includes/navbar.php';
     <div class="content-card header-primary">
         <div class="content-card-header">
             <h5><i class="fas fa-users"></i> Daftar Pegawai</h5>
+            <div class="pegawai-toolbar">
+                <div class="toggle-group" role="group" aria-label="Filter status">
+                    <button type="button" class="toggle-btn active" data-status-filter="all">
+                        Semua (Aktif + Resign)
+                    </button>
+                    <button type="button" class="toggle-btn" data-status-filter="active">
+                        Hanya Aktif
+                    </button>
+                </div>
+                <button class="btn-export" id="btnExportPegawai" type="button">
+                    <i class="fas fa-file-export"></i>
+                    Export Excel
+                </button>
+            </div>
         </div>
         <div class="table-responsive">
             <table id="pegawaiTable" class="table table-hover">
@@ -61,6 +76,15 @@ include 'includes/navbar.php';
                         <th>Departemen</th>
                         <th>Status</th>
                         <th>Aksi</th>
+                    </tr>
+                    <tr class="filter-row">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="pegawaiTableBody">
@@ -179,6 +203,7 @@ $pageJs = <<<'JS'
     // =====================================================
     
     var dataTable = null;
+    var showOnlyActive = false;
     var editingId = null;
 
     // Dummy Data Pegawai
@@ -223,6 +248,21 @@ $pageJs = <<<'JS'
     }
 
     /**
+     * Gets status label for filtering/sorting
+     * @param {string} status - Status identifier
+     * @returns {string} Status label
+     */
+    function getStatusLabel(status) {
+        var statusLabels = {
+            'aktif': 'Aktif',
+            'cuti': 'Cuti',
+            'remote': 'Remote',
+            'nonaktif': 'Nonaktif'
+        };
+        return statusLabels[status] || 'Aktif';
+    }
+
+    /**
      * Gets initials from name
      * @param {string} name - Full name
      * @returns {string} Initials (max 2 characters)
@@ -251,6 +291,35 @@ $pageJs = <<<'JS'
     }
 
     /**
+     * Escapes regex special characters for column filter
+     * @param {string} value
+     * @returns {string}
+     */
+    function escapeRegex(value) {
+        return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    /**
+     * Custom filter for active-only toggle
+     */
+    $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+        if (settings.nTable.id !== 'pegawaiTable') {
+            return true;
+        }
+        if (!showOnlyActive) {
+            return true;
+        }
+        if (!dataTable) {
+            return true;
+        }
+        var row = dataTable.row(dataIndex).data();
+        if (!row) {
+            return true;
+        }
+        return ['aktif', 'cuti', 'remote'].indexOf(row.status) !== -1;
+    });
+
+    /**
      * Initializes DataTable
      */
     function initDataTable() {
@@ -258,36 +327,67 @@ $pageJs = <<<'JS'
             dataTable.destroy();
         }
 
-        var tableData = pegawaiData.map(function(p, index) {
-            return [
-                index + 1,
-                '<div class="pegawai-info">' +
-                    '<div class="table-avatar">' + getInitials(p.nama) + '</div>' +
-                    '<div class="pegawai-details">' +
-                        '<span class="pegawai-name">' + p.nama + '</span>' +
-                        '<span class="pegawai-email">' + p.email + '</span>' +
-                    '</div>' +
-                '</div>',
-                p.nip,
-                p.jabatan,
-                p.departemen,
-                getStatusBadge(p.status),
-                renderActionButton(p.id)
-            ];
-        });
-
         dataTable = $('#pegawaiTable').DataTable({
-            data: tableData,
+            data: pegawaiData,
             columns: [
-                { title: 'No', className: 'text-center' },
-                { title: 'Pegawai' },
-                { title: 'NIP' },
-                { title: 'Jabatan' },
-                { title: 'Departemen' },
-                { title: 'Status', className: 'text-center' },
-                { title: 'Aksi', className: 'text-center', orderable: false, searchable: false }
+                {
+                    title: 'No',
+                    className: 'text-center',
+                    data: null,
+                    render: function(data, type, row, meta) {
+                        if (type === 'display') {
+                            return meta.row + 1;
+                        }
+                        return row.id;
+                    }
+                },
+                {
+                    title: 'Pegawai',
+                    data: null,
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return '<div class="pegawai-info">' +
+                                '<div class="table-avatar">' + getInitials(row.nama) + '</div>' +
+                                '<div class="pegawai-details">' +
+                                    '<span class="pegawai-name">' + row.nama + '</span>' +
+                                    '<span class="pegawai-email">' + row.email + '</span>' +
+                                '</div>' +
+                            '</div>';
+                        }
+                        return row.nama;
+                    }
+                },
+                { title: 'NIP', data: 'nip' },
+                { title: 'Jabatan', data: 'jabatan' },
+                { title: 'Departemen', data: 'departemen' },
+                {
+                    title: 'Status',
+                    className: 'text-center',
+                    data: 'status',
+                    render: function(data, type) {
+                        if (type === 'display') {
+                            return getStatusBadge(data);
+                        }
+                        return getStatusLabel(data);
+                    }
+                },
+                {
+                    title: 'Aksi',
+                    className: 'text-center',
+                    orderable: false,
+                    searchable: false,
+                    data: 'id',
+                    render: function(data, type) {
+                        if (type === 'display') {
+                            return renderActionButton(data);
+                        }
+                        return '';
+                    }
+                }
             ],
             responsive: true,
+            orderCellsTop: true,
+            dom: 'Bfrtip',
             language: {
                 search: '<i class="fas fa-search"></i>',
                 searchPlaceholder: 'Cari pegawai...',
@@ -305,7 +405,50 @@ $pageJs = <<<'JS'
             },
             order: [[0, 'asc']],
             pageLength: 10,
-            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'Semua']]
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'Semua']],
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Data Pegawai',
+                    filename: 'data-pegawai',
+                    exportOptions: {
+                        columns: [1, 2, 3, 4, 5],
+                        format: {
+                            body: function(data) {
+                                return $('<div>').html(data).text().trim();
+                            }
+                        }
+                    }
+                }
+            ],
+            initComplete: function() {
+                var api = this.api();
+                api.columns().every(function(index) {
+                    var column = this;
+                    var $cell = $('#pegawaiTable thead tr.filter-row th').eq(index);
+                    var $select = $('<select class="column-filter"><option value="">Semua</option></select>');
+
+                    if (index === 0 || index === 6) {
+                        $select.prop('disabled', true);
+                        $cell.empty().append($select);
+                        return;
+                    }
+
+                    column.data().unique().sort().each(function(d) {
+                        var text = $('<div>').html(d).text().trim();
+                        if (text) {
+                            $select.append('<option value="' + text + '">' + text + '</option>');
+                        }
+                    });
+
+                    $select.on('change', function() {
+                        var val = escapeRegex($(this).val());
+                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                    });
+
+                    $cell.empty().append($select);
+                });
+            }
         });
     }
 
@@ -427,6 +570,21 @@ $pageJs = <<<'JS'
     $(document).ready(function() {
         // Initialize DataTable
         initDataTable();
+
+        // Toggle status filter
+        $('.toggle-btn').on('click', function() {
+            $('.toggle-btn').removeClass('active');
+            $(this).addClass('active');
+            showOnlyActive = $(this).data('status-filter') === 'active';
+            dataTable.draw();
+        });
+
+        // Export action
+        $('#btnExportPegawai').on('click', function() {
+            if (dataTable) {
+                dataTable.button(0).trigger();
+            }
+        });
     });
 
 })(jQuery);
