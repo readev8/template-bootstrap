@@ -160,26 +160,26 @@ include 'includes/navbar.php';
             <div class="content-card-header">
                 <h5><i class="fas fa-chart-pie"></i> Department Overview</h5>
             </div>
-            <div class="dept-stats">
-                <div class="dept-item">
-                    <span class="dept-name">IT Department</span>
-                    <span class="dept-count">48</span>
+            <div class="stats-list">
+                <div class="stats-item">
+                    <span class="stats-label">IT Department</span>
+                    <span class="stats-value">48</span>
                 </div>
-                <div class="dept-item">
-                    <span class="dept-name">HR Department</span>
-                    <span class="dept-count">32</span>
+                <div class="stats-item">
+                    <span class="stats-label">HR Department</span>
+                    <span class="stats-value">32</span>
                 </div>
-                <div class="dept-item">
-                    <span class="dept-name">Finance</span>
-                    <span class="dept-count">28</span>
+                <div class="stats-item">
+                    <span class="stats-label">Finance</span>
+                    <span class="stats-value">28</span>
                 </div>
-                <div class="dept-item">
-                    <span class="dept-name">Marketing</span>
-                    <span class="dept-count">42</span>
+                <div class="stats-item">
+                    <span class="stats-label">Marketing</span>
+                    <span class="stats-value">42</span>
                 </div>
-                <div class="dept-item">
-                    <span class="dept-name">Operations</span>
-                    <span class="dept-count">98</span>
+                <div class="stats-item">
+                    <span class="stats-label">Operations</span>
+                    <span class="stats-value">98</span>
                 </div>
             </div>
         </div>
@@ -191,7 +191,7 @@ include 'includes/navbar.php';
             </div>
             <div class="activity-list">
                 <div class="activity-item">
-                    <i class="fas fa-user-plus text-success"></i>
+                    <i class="fas fa-user-plus activity-icon success"></i>
                     <div class="activity-content">
                         <p>New employee joined</p>
                         <small>2 hours ago</small>
