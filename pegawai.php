@@ -10,8 +10,9 @@
 $pageTitle = 'SISPEG - Data Pegawai';
 $activeMenu = 'pegawai';
 $searchPlaceholder = 'Cari pegawai...';
-$additionalCss = ['datatables'];  // Load DataTables CSS
-$additionalJs = ['datatables'];   // Load DataTables JS
+$pageCss = 'pegawai';              // Load pegawai-specific CSS
+$additionalCss = ['datatables'];   // Load DataTables CSS
+$additionalJs = ['datatables'];    // Load DataTables JS
 
 // User Configuration
 $userName = 'Ahmad Rizki';

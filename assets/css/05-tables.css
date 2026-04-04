@@ -1,0 +1,243 @@
+/* ============================================
+   TABLES
+   ============================================ */
+
+/* Custom Table */
+.table-custom {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-custom thead th {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border-bottom: 2px solid var(--color-gray-100);
+}
+
+.table-custom tbody td {
+  padding: var(--space-4);
+  font-size: var(--font-size-base);
+  color: var(--color-gray-600);
+  border-bottom: 1px solid var(--color-gray-100);
+  vertical-align: middle;
+}
+
+.table-custom tbody tr:hover {
+  background: var(--color-gray-50);
+}
+
+.table-custom tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Table Avatar */
+.table-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary-500);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  margin-right: var(--space-2);
+}
+
+/* ============================================
+   DATATABLES OVERRIDES
+   ============================================ */
+.dataTables_wrapper {
+  padding: 0;
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+  margin-bottom: var(--space-4);
+}
+
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-base);
+  background: var(--color-white);
+  transition: all var(--transition-fast);
+}
+
+.dataTables_wrapper .dataTables_length select:focus,
+.dataTables_wrapper .dataTables_filter input:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px rgba(15, 157, 88, 0.1);
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  width: 250px;
+}
+
+.dataTables_wrapper .dataTables_filter input::placeholder {
+  color: var(--color-gray-400);
+}
+
+/* DataTable Table Styling */
+#pegawaiTable {
+  width: 100% !important;
+  border-collapse: collapse;
+}
+
+#pegawaiTable thead {
+  background: var(--color-primary-500);
+}
+
+#pegawaiTable thead th {
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+  white-space: nowrap;
+}
+
+#pegawaiTable thead th:first-child {
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+#pegawaiTable thead th:last-child {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  text-align: center;
+}
+
+#pegawaiTable tbody td {
+  padding: var(--space-4);
+  font-size: var(--font-size-base);
+  color: var(--color-gray-600);
+  border-bottom: 1px solid var(--color-gray-100);
+  vertical-align: middle;
+}
+
+#pegawaiTable tbody tr:hover {
+  background: var(--color-gray-50);
+}
+
+#pegawaiTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+#pegawaiTable .table-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-primary-500);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  margin-right: var(--space-3);
+  flex-shrink: 0;
+}
+
+/* DataTables Pagination */
+.dataTables_wrapper .dataTables_paginate {
+  margin-top: var(--space-4);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  padding: var(--space-2) var(--space-3);
+  margin: 0 2px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--color-gray-100);
+  color: var(--color-gray-600);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: var(--color-primary-500);
+  color: var(--color-white);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background: var(--color-primary-500);
+  color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dataTables_wrapper .dataTables_info {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+  margin-top: var(--space-4);
+}
+
+.dataTables_wrapper .dataTables_empty {
+  padding: var(--space-10) var(--space-5);
+  color: var(--color-gray-500);
+  font-size: var(--font-size-base);
+}
+
+.dataTables_wrapper .dataTables_filter {
+  text-align: right;
+}
+
+.dataTables_wrapper .dataTables_length {
+  text-align: left;
+}
+
+/* ============================================
+   TABLE RESPONSIVE
+   ============================================ */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ============================================
+   ACTION BUTTONS CONTAINER
+   ============================================ */
+.action-buttons {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+}
+
+/* ============================================
+   RESPONSIVE TABLES
+   ============================================ */
+@media (max-width: 768px) {
+  .dataTables_wrapper .dataTables_filter input {
+    width: 100%;
+  }
+  
+  .dataTables_wrapper .dataTables_length,
+  .dataTables_wrapper .dataTables_filter {
+    text-align: left;
+  }
+  
+  .dataTables_wrapper .dataTables_filter {
+    margin-top: var(--space-2);
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+}

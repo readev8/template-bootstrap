@@ -1,0 +1,50 @@
+/* ============================================
+   PEGAWAI LIST PAGE SPECIFIC
+   ============================================ */
+
+/* Pegawai Table specific styling */
+.pegawai-table-container {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6);
+}
+
+.pegawai-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.pegawai-table-header h5 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-800);
+  margin: 0;
+}
+
+/* Pegawai Info Cell */
+.pegawai-info {
+  display: flex;
+  align-items: center;
+}
+
+.pegawai-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.pegawai-name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-800);
+  margin-bottom: 2px;
+}
+
+.pegawai-email {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+}

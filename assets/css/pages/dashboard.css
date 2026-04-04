@@ -1,0 +1,16 @@
+/* ============================================
+   DASHBOARD PAGE SPECIFIC
+   ============================================ */
+
+/* Dashboard grid adjustments */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}

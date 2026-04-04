@@ -10,8 +10,9 @@
 $pageTitle = 'SISPEG - Modern Dashboard';
 $activeMenu = 'dashboard';
 $searchPlaceholder = 'Search anything...';
-$additionalCss = [];  // No additional CSS needed for dashboard
-$additionalJs = [];   // No additional JS needed for dashboard
+$pageCss = 'dashboard';  // Load dashboard-specific CSS
+$additionalCss = [];     // No additional external CSS needed
+$additionalJs = [];      // No additional JS needed for dashboard
 
 // User Configuration
 $userName = 'Ahmad Rizki';
