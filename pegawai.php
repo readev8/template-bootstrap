@@ -11,8 +11,8 @@ $pageTitle = 'SISPEG - Data Pegawai';
 $activeMenu = 'pegawai';
 $searchPlaceholder = 'Cari pegawai...';
 $pageCss = 'pegawai';              // Load pegawai-specific CSS
-$additionalCss = ['datatables', 'datatables-buttons'];   // Load DataTables CSS
-$additionalJs = ['datatables', 'datatables-buttons'];    // Load DataTables JS
+$additionalCss = ['datatables', 'datatables-buttons', 'slimselect'];   // Load DataTables CSS
+$additionalJs = ['datatables', 'datatables-buttons', 'slimselect'];    // Load DataTables JS
 $bodyClass = 'page-pegawai';
 
 // User Configuration
@@ -79,11 +79,11 @@ include 'includes/navbar.php';
                     </tr>
                     <tr class="filter-row">
                         <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th><select class="column-multiselect" data-column="1" multiple><option></option></select></th>
+                        <th><select class="column-multiselect" data-column="2" multiple><option></option></select></th>
+                        <th><select class="column-multiselect" data-column="3" multiple><option></option></select></th>
+                        <th><select class="column-multiselect" data-column="4" multiple><option></option></select></th>
+                        <th><select class="column-multiselect" data-column="5" multiple><option></option></select></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -290,33 +290,33 @@ $pageJs = <<<'JS'
         '</div>';
     }
 
-    /**
-     * Escapes regex special characters for column filter
-     * @param {string} value
-     * @returns {string}
-     */
-    function escapeRegex(value) {
-        return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    }
+    // =====================================================
+    // FILTER STATE
+    // =====================================================
+    
+    var activeFilters = {};
 
     /**
-     * Custom filter for active-only toggle
+     * Custom filter for active-only toggle + multi-select column filters
      */
     $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
         if (settings.nTable.id !== 'pegawaiTable') {
             return true;
         }
-        if (!showOnlyActive) {
-            return true;
+        if (showOnlyActive) {
+            var row = dataTable.row(dataIndex).data();
+            if (row && ['aktif', 'cuti', 'remote'].indexOf(row.status) === -1) {
+                return false;
+            }
         }
-        if (!dataTable) {
-            return true;
+        for (var col in activeFilters) {
+            if (activeFilters[col].length === 0) continue;
+            var cellText = $('<div>').html(data[col]).text().trim();
+            if (activeFilters[col].indexOf(cellText) === -1) {
+                return false;
+            }
         }
-        var row = dataTable.row(dataIndex).data();
-        if (!row) {
-            return true;
-        }
-        return ['aktif', 'cuti', 'remote'].indexOf(row.status) !== -1;
+        return true;
     });
 
     /**
@@ -423,16 +423,18 @@ $pageJs = <<<'JS'
             ],
             initComplete: function() {
                 var api = this.api();
+
                 api.columns().every(function(index) {
                     var column = this;
                     var $cell = $('#pegawaiTable thead tr.filter-row th').eq(index);
-                    var $select = $('<select class="column-filter"><option value="">Semua</option></select>');
 
                     if (index === 0 || index === 6) {
-                        $select.prop('disabled', true);
-                        $cell.empty().append($select);
+                        $cell.empty();
                         return;
                     }
+
+                    var $select = $cell.find('select.column-multiselect');
+                    if (!$select.length) return;
 
                     column.data().unique().sort().each(function(d) {
                         var text = $('<div>').html(d).text().trim();
@@ -441,12 +443,25 @@ $pageJs = <<<'JS'
                         }
                     });
 
-                    $select.on('change', function() {
-                        var val = escapeRegex($(this).val());
-                        column.search(val ? '^' + val + '$' : '', true, false).draw();
-                    });
+                    activeFilters[index] = [];
 
-                    $cell.empty().append($select);
+                    var colIndex = index;
+
+                    new SlimSelect({
+                        select: $select[0],
+                        settings: {
+                            showSearch: true,
+                            searchPlaceholder: 'Cari...',
+                            allowDeselect: true,
+                            closeOnSelect: false
+                        },
+                        events: {
+                            afterChange: function(newVal) {
+                                activeFilters[colIndex] = newVal.map(function(v) { return v.value; });
+                                dataTable.draw();
+                            }
+                        }
+                    });
                 });
             }
         });
