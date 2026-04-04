@@ -23,15 +23,6 @@
   border-bottom: 1px solid var(--color-gray-100);
 }
 
-.pegawai-table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-3);
-  padding-bottom: var(--space-2);
-  border-bottom: 1px solid var(--color-gray-100);
-}
-
 .pegawai-table-header h5 {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
@@ -98,6 +89,9 @@
   display: none;
 }
 
+/* ============================================
+   TOOLBAR
+   ============================================ */
 .page-pegawai .pegawai-toolbar {
   display: flex;
   align-items: center;
@@ -105,8 +99,12 @@
   flex-wrap: wrap;
 }
 
+/* ============================================
+   TOGGLE BUTTONS - FIXED STYLING
+   ============================================ */
 .page-pegawai .toggle-group {
   display: inline-flex;
+  align-items: center;
   background: var(--color-gray-100);
   border-radius: var(--radius-md);
   padding: 4px;
@@ -114,42 +112,99 @@
 }
 
 .page-pegawai .toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   background: transparent;
   color: var(--color-gray-600);
   font-size: var(--font-size-sm);
-  padding: 6px 12px;
+  font-weight: var(--font-weight-medium);
+  padding: 6px 16px;
   border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
   cursor: pointer;
+  white-space: nowrap;
+  line-height: 1.4;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.page-pegawai .toggle-btn:hover {
+  color: var(--color-primary-500);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.page-pegawai .toggle-btn:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
 }
 
 .page-pegawai .toggle-btn.active {
   background: var(--color-white);
   color: var(--color-primary-500);
+  font-weight: var(--font-weight-semibold);
   box-shadow: var(--shadow-sm);
 }
 
+.page-pegawai .toggle-btn.active:hover {
+  background: var(--color-white);
+  color: var(--color-primary-600);
+}
+
+/* ============================================
+   EXPORT BUTTON - FIXED STYLING
+   ============================================ */
 .page-pegawai .btn-export {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   border: none;
   border-radius: var(--radius-md);
-  padding: 8px 12px;
+  padding: 8px 16px;
   background: var(--color-primary-500);
   color: var(--color-white);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   box-shadow: var(--shadow-sm);
   transition: all var(--transition-fast);
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 1.4;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-decoration: none;
 }
 
 .page-pegawai .btn-export:hover {
   background: var(--color-primary-600);
+  color: var(--color-white);
   transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
 }
 
+.page-pegawai .btn-export:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.page-pegawai .btn-export:active {
+  transform: translateY(0);
+  background: var(--color-primary-600);
+  box-shadow: var(--shadow-sm);
+}
+
+.page-pegawai .btn-export i {
+  font-size: var(--font-size-xs);
+}
+
+/* ============================================
+   COLUMN FILTER DROPDOWNS - FIXED STYLING
+   ============================================ */
 .page-pegawai #pegawaiTable thead tr.filter-row th {
   background: var(--color-white);
   color: var(--color-gray-600);
@@ -161,17 +216,51 @@
   width: 100%;
   border: 1px solid var(--color-gray-200);
   border-radius: var(--radius-md);
-  padding: 6px 8px;
+  padding: 6px 28px 6px 8px;
   font-size: var(--font-size-xs);
-  color: var(--color-gray-600);
-  background: var(--color-white);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+  background-color: var(--color-white);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%234b5563' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  background-size: 14px 14px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter:hover {
+  border-color: var(--color-gray-300);
+  background-color: var(--color-gray-50);
+}
+
+.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px rgba(15, 157, 88, 0.1);
 }
 
 .page-pegawai #pegawaiTable thead tr.filter-row select.column-filter:disabled {
-  background: var(--color-gray-50);
+  background-color: var(--color-gray-50);
+  background-image: none;
   color: var(--color-gray-400);
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
+.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter option {
+  padding: 4px 8px;
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-700);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
 @media (max-width: 768px) {
   .page-pegawai .pegawai-toolbar {
     width: 100%;
