@@ -111,6 +111,28 @@ if (!isset($pageJs)) {
     var isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
     
     if (!isTouchDevice) {
+        function isPointerInsideSidebarOrSubmenu() {
+            return $('#floatingSidebar').is(':hover') || $('.submenu.show:hover').length > 0;
+        }
+
+        function isFocusInsideSidebarOrSubmenu() {
+            var active = document.activeElement;
+            if (!active) return false;
+            return $(active).closest('#floatingSidebar, .submenu.show').length > 0;
+        }
+
+        function schedulePreviewClose(delayMs) {
+            if (previewTimeout) {
+                clearTimeout(previewTimeout);
+                previewTimeout = null;
+            }
+            previewTimeout = setTimeout(function() {
+                if (!isPointerInsideSidebarOrSubmenu() && !isFocusInsideSidebarOrSubmenu()) {
+                    closeSidebar();
+                }
+            }, delayMs);
+        }
+
         $('#floatingToggle').on('mouseenter', function() {
             if (toggleHoverTimeout) {
                 clearTimeout(toggleHoverTimeout);
@@ -124,12 +146,16 @@ if (!isset($pageJs)) {
         $('#floatingToggle').on('mouseleave', function() {
             if (sidebarState === 'preview') {
                 toggleHoverTimeout = setTimeout(function() {
-                    closeSidebar();
-                }, 300);
+                    schedulePreviewClose(200);
+                }, 200);
             }
         });
 
         $('#floatingSidebar').on('mouseenter', function() {
+            if (toggleHoverTimeout) {
+                clearTimeout(toggleHoverTimeout);
+                toggleHoverTimeout = null;
+            }
             if (previewTimeout) {
                 clearTimeout(previewTimeout);
                 previewTimeout = null;
@@ -138,9 +164,22 @@ if (!isset($pageJs)) {
 
         $('#floatingSidebar').on('mouseleave', function() {
             if (sidebarState === 'preview') {
-                previewTimeout = setTimeout(function() {
-                    closeSidebar();
-                }, 300);
+                schedulePreviewClose(200);
+            }
+        });
+
+        $(document).on('focusin', '#floatingSidebar, .submenu', function() {
+            if (previewTimeout) {
+                clearTimeout(previewTimeout);
+                previewTimeout = null;
+            }
+        });
+
+        $(document).on('focusout', '#floatingSidebar, .submenu', function() {
+            if (sidebarState === 'preview') {
+                setTimeout(function() {
+                    schedulePreviewClose(200);
+                }, 0);
             }
         });
     }
@@ -377,6 +416,14 @@ if (!isset($pageJs)) {
                 clearTimeout(submenuTimeout);
                 submenuTimeout = null;
             }
+            if (toggleHoverTimeout) {
+                clearTimeout(toggleHoverTimeout);
+                toggleHoverTimeout = null;
+            }
+            if (previewTimeout) {
+                clearTimeout(previewTimeout);
+                previewTimeout = null;
+            }
         });
         
         $(document).on('mouseleave', '.submenu:not(.locked)', function() {
@@ -384,6 +431,10 @@ if (!isset($pageJs)) {
             submenuTimeout = setTimeout(function() {
                 hideSubmenu($submenu);
             }, 200);
+
+            if (sidebarState === 'preview') {
+                schedulePreviewClose(200);
+            }
         });
     }
     
