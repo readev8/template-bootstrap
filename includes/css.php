@@ -40,8 +40,8 @@ $cssConfigs = [
 // Page-specific CSS mapping
 $pageCssMap = [
     'dashboard' => 'pages/dashboard.css',
-    'pegawai' => 'pages/pegawai-list.css',
-    'pegawai-detail' => 'pages/pegawai-detail.css',
+    'list' => 'pages/list.css',
+    'detail' => 'pages/detail.css',
 ];
 ?>
 <!-- Google Fonts -->

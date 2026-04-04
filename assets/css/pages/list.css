@@ -1,5 +1,5 @@
 /* ============================================
-   PEGAWAI LIST PAGE SPECIFIC
+   LIST PAGE SPECIFIC
    ============================================ */
 
 /* ============================================
@@ -9,86 +9,86 @@
    ============================================ */
 
 /* Toolbar alias - delegates to global .toolbar */
-.page-pegawai .pegawai-toolbar {
+.page-list .list-toolbar {
   /* Inherits from .toolbar global (04-components.css) */
 }
 
 /* Toggle button aliases - delegate to global styles */
-.page-pegawai .toggle-group {
+.page-list .toggle-group {
   /* Inherits from .toggle-group global (04-components.css) */
 }
 
-.page-pegawai .toggle-btn {
+.page-list .toggle-btn {
   /* Inherits from .toggle-btn global (04-components.css) */
 }
 
-.page-pegawai .toggle-btn:hover {
+.page-list .toggle-btn:hover {
   /* Inherits from .toggle-btn:hover global (04-components.css) */
 }
 
-.page-pegawai .toggle-btn:focus-visible {
+.page-list .toggle-btn:focus-visible {
   /* Inherits from .toggle-btn:focus-visible global (04-components.css) */
 }
 
-.page-pegawai .toggle-btn.active {
+.page-list .toggle-btn.active {
   /* Inherits from .toggle-btn.active global (04-components.css) */
 }
 
-.page-pegawai .toggle-btn.active:hover {
+.page-list .toggle-btn.active:hover {
   /* Inherits from .toggle-btn.active:hover global (04-components.css) */
 }
 
 /* Export button alias - delegates to global .btn-action-primary */
-.page-pegawai .btn-export {
+.page-list .btn-export {
   /* Inherits from .btn-action-primary global (04-components.css) */
 }
 
-.page-pegawai .btn-export:hover {
+.page-list .btn-export:hover {
   /* Inherits from .btn-action-primary:hover global (04-components.css) */
 }
 
-.page-pegawai .btn-export:focus-visible {
+.page-list .btn-export:focus-visible {
   /* Inherits from .btn-action-primary:focus-visible global (04-components.css) */
 }
 
-.page-pegawai .btn-export:active {
+.page-list .btn-export:active {
   /* Inherits from .btn-action-primary:active global (04-components.css) */
 }
 
-.page-pegawai .btn-export i {
+.page-list .btn-export i {
   /* Inherits from .btn-action-primary i global (04-components.css) */
 }
 
-/* Column filter aliases - delegate to global .table-filter-row */
-.page-pegawai #pegawaiTable thead tr.filter-row th {
-  /* Inherits from .table-filter-row th global (05-tables.css) */
+/* Column filter aliases - delegate to global .filter-row */
+.page-list .data-table thead tr.filter-row th {
+  /* Inherits from .filter-row th global (05-tables.css) */
 }
 
-.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter {
-  /* Inherits from .table-filter-row select.column-filter global (05-tables.css) */
+.page-list .data-table thead tr.filter-row select.column-multiselect {
+  /* Inherits from .filter-row .column-multiselect global (05-tables.css) */
 }
 
-.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter:hover {
-  /* Inherits from .table-filter-row select.column-filter:hover global (05-tables.css) */
+.page-list .data-table thead tr.filter-row select.column-multiselect:hover {
+  /* Inherits from .filter-row .column-multiselect:hover global (05-tables.css) */
 }
 
-.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter:focus {
-  /* Inherits from .table-filter-row select.column-filter:focus global (05-tables.css) */
+.page-list .data-table thead tr.filter-row select.column-multiselect:focus {
+  /* Inherits from .filter-row .column-multiselect:focus global (05-tables.css) */
 }
 
-.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter:disabled {
-  /* Inherits from .table-filter-row select.column-filter:disabled global (05-tables.css) */
+.page-list .data-table thead tr.filter-row select.column-multiselect:disabled {
+  /* Inherits from .filter-row .column-multiselect:disabled global (05-tables.css) */
 }
 
-.page-pegawai #pegawaiTable thead tr.filter-row select.column-filter option {
-  /* Inherits from .table-filter-row select.column-filter option global (05-tables.css) */
+.page-list .data-table thead tr.filter-row select.column-multiselect option {
+  /* Inherits from .filter-row .column-multiselect option global (05-tables.css) */
 }
 
 /* ============================================
-   PEGAWAI-SPECIFIC OVERRIDES ONLY
+   LIST-SPECIFIC OVERRIDES ONLY
    Styles that are unique to this page
    ============================================ */
-.pegawai-table-container {
+.list-table-container {
   background: var(--color-white);
   border: 1px solid var(--color-gray-200);
   border-radius: var(--radius-md);
@@ -96,7 +96,7 @@
   padding: var(--space-4);
 }
 
-.pegawai-table-header {
+.list-table-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -105,68 +105,68 @@
   border-bottom: 1px solid var(--color-gray-100);
 }
 
-.pegawai-table-header h5 {
+.list-table-header h5 {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
   color: var(--color-gray-800);
   margin: 0;
 }
 
-.pegawai-info {
+.record-info {
   display: flex;
   align-items: center;
 }
 
-.pegawai-details {
+.record-details {
   display: flex;
   flex-direction: column;
 }
 
-.pegawai-name {
+.record-name {
   font-weight: var(--font-weight-semibold);
   color: var(--color-gray-800);
   margin-bottom: 2px;
 }
 
-.pegawai-email {
+.record-email {
   font-size: var(--font-size-xs);
   color: var(--color-gray-500);
 }
 
 /* ============================================
-   PEGawai LIST UX IMPROVEMENTS
+   LIST UX IMPROVEMENTS
    ============================================ */
-.page-pegawai .content-card {
-  padding: var(--space-3);
+.page-list .content-card {
+  padding: var(--space-4);
 }
 
-.page-pegawai .content-card-header {
+.page-list .content-card-header {
   margin-bottom: var(--space-2);
   padding-bottom: var(--space-2);
 }
 
-.page-pegawai #pegawaiTable thead th {
+.page-list .data-table thead th {
   padding: var(--space-2) var(--space-3);
 }
 
-.page-pegawai #pegawaiTable tbody td {
+.page-list .data-table tbody td {
   padding: var(--space-2) var(--space-3);
 }
 
-.page-pegawai .dataTables_wrapper .dataTables_length,
-.page-pegawai .dataTables_wrapper .dataTables_filter {
+.page-list .dataTables_wrapper .dataTables_length,
+.page-list .dataTables_wrapper .dataTables_filter {
   margin-bottom: var(--space-2);
 }
 
-.page-pegawai .dataTables_wrapper .dataTables_paginate,
-.page-pegawai .dataTables_wrapper .dataTables_info {
+.page-list .dataTables_wrapper .dataTables_paginate,
+.page-list .dataTables_wrapper .dataTables_info {
   margin-top: var(--space-2);
 }
 
-.page-pegawai .dataTables_wrapper .dataTables_filter input {
+.page-list .dataTables_wrapper .dataTables_filter input {
   width: 200px;
 }
 
-.page-pegawai .dt-buttons {
+.page-list .dt-buttons {
   display: none;
 }

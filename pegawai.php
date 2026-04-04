@@ -10,10 +10,10 @@
 $pageTitle = 'SISPEG - Data Pegawai';
 $activeMenu = 'pegawai';
 $searchPlaceholder = 'Cari pegawai...';
-$pageCss = 'pegawai';              // Load pegawai-specific CSS
+$pageCss = 'list';              // Load list-specific CSS
 $additionalCss = ['datatables', 'datatables-buttons', 'slimselect'];   // Load DataTables CSS
 $additionalJs = ['datatables', 'datatables-buttons', 'slimselect'];    // Load DataTables JS
-$bodyClass = 'page-pegawai';
+$bodyClass = 'page-list';
 
 // User Configuration
 $userName = 'Ahmad Rizki';
@@ -39,7 +39,7 @@ include 'includes/navbar.php';
             <p>Kelola data pegawai perusahaan</p>
         </div>
         <div class="page-header-right">
-            <button class="btn-add-pegawai" id="btnTambahPegawai">
+            <button class="btn-add-record" id="btnAddRecord">
                 <i class="fas fa-plus"></i>
                 <span>Tambah Pegawai</span>
             </button>
@@ -47,7 +47,7 @@ include 'includes/navbar.php';
     </div>
 
     <!-- Data Pegawai Card -->
-    <div class="content-card header-primary">
+    <div class="content-card header-bg-amber">
         <div class="content-card-header">
             <h5><i class="fas fa-users"></i> Daftar Pegawai</h5>
             <div class="toolbar">
@@ -59,14 +59,14 @@ include 'includes/navbar.php';
                         Hanya Aktif
                     </button>
                 </div>
-                <button class="btn-action-primary" id="btnExportPegawai" type="button">
+                <button class="btn-action-primary" id="btnExport" type="button">
                     <i class="fas fa-file-export"></i>
                     Export Excel
                 </button>
             </div>
         </div>
         <div class="table-responsive">
-            <table id="pegawaiTable" class="table table-hover">
+            <table id="dataTable" class="data-table table table-hover">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -87,7 +87,7 @@ include 'includes/navbar.php';
                         <th></th>
                     </tr>
                 </thead>
-                <tbody id="pegawaiTableBody">
+                <tbody id="dataTableBody">
                     <!-- Data will be loaded via JavaScript -->
                 </tbody>
             </table>
@@ -95,32 +95,32 @@ include 'includes/navbar.php';
     </div>
 </main>
 
-<!-- Modal Tambah/Edit Pegawai -->
-<div class="modal fade" id="pegawaiModal" tabindex="-1" aria-labelledby="pegawaiModalLabel" aria-hidden="true">
+<!-- Modal Tambah/Edit Record -->
+<div class="modal fade" id="recordModal" tabindex="-1" aria-labelledby="recordModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="pegawaiModalLabel">Tambah Pegawai</h5>
+                <h5 class="modal-title" id="recordModalLabel">Tambah Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="pegawaiForm">
-                    <input type="hidden" id="pegawaiId">
+                <form id="recordForm">
+                    <input type="hidden" id="recordId">
                     <div class="mb-3">
-                        <label for="pegawaiNama" class="form-label">Nama Lengkap</label>
-                        <input type="text" class="form-control" id="pegawaiNama" placeholder="Masukkan nama lengkap" required>
+                        <label for="recordNama" class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-control" id="recordNama" placeholder="Masukkan nama lengkap" required>
                     </div>
                     <div class="mb-3">
-                        <label for="pegawaiNIP" class="form-label">NIP</label>
-                        <input type="text" class="form-control" id="pegawaiNIP" placeholder="Masukkan NIP" required>
+                        <label for="recordNIP" class="form-label">NIP</label>
+                        <input type="text" class="form-control" id="recordNIP" placeholder="Masukkan NIP" required>
                     </div>
                     <div class="mb-3">
-                        <label for="pegawaiEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="pegawaiEmail" placeholder="Masukkan email" required>
+                        <label for="recordEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="recordEmail" placeholder="Masukkan email" required>
                     </div>
                     <div class="mb-3">
-                        <label for="pegawaiJabatan" class="form-label">Jabatan</label>
-                        <select class="form-select" id="pegawaiJabatan" required>
+                        <label for="recordJabatan" class="form-label">Jabatan</label>
+                        <select class="form-select" id="recordJabatan" required>
                             <option value="">Pilih Jabatan</option>
                             <option value="Staff">Staff</option>
                             <option value="Senior Staff">Senior Staff</option>
@@ -131,8 +131,8 @@ include 'includes/navbar.php';
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="pegawaiDepartemen" class="form-label">Departemen</label>
-                        <select class="form-select" id="pegawaiDepartemen" required>
+                        <label for="recordDepartemen" class="form-label">Departemen</label>
+                        <select class="form-select" id="recordDepartemen" required>
                             <option value="">Pilih Departemen</option>
                             <option value="IT">IT</option>
                             <option value="HR">HR</option>
@@ -144,8 +144,8 @@ include 'includes/navbar.php';
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="pegawaiStatus" class="form-label">Status</label>
-                        <select class="form-select" id="pegawaiStatus" required>
+                        <label for="recordStatus" class="form-label">Status</label>
+                        <select class="form-select" id="recordStatus" required>
                             <option value="">Pilih Status</option>
                             <option value="aktif">Aktif</option>
                             <option value="cuti">Cuti</option>
@@ -157,7 +157,7 @@ include 'includes/navbar.php';
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Batal</button>
-                <button type="button" class="btn-modal-save" id="btnSavePegawai">Simpan</button>
+                <button type="button" class="btn-modal-save" id="btnSaveRecord">Simpan</button>
             </div>
         </div>
     </div>
@@ -173,8 +173,8 @@ include 'includes/navbar.php';
             </div>
             <div class="modal-body text-center">
                 <i class="fas fa-exclamation-triangle text-warning mb-3" style="font-size: 48px;"></i>
-                <p class="mb-0">Apakah Anda yakin ingin menghapus data pegawai ini?</p>
-                <input type="hidden" id="deletePegawaiId">
+                <p class="mb-0">Apakah Anda yakin ingin menghapus data ini?</p>
+                <input type="hidden" id="deleteRecordId">
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Batal</button>
@@ -207,7 +207,7 @@ $pageJs = <<<'JS'
     var editingId = null;
 
     // Dummy Data Pegawai
-    var pegawaiData = [
+    var recordData = [
         { id: 1, nama: 'Ahmad Rizki', nip: 'NIP001', email: 'ahmad.rizki@company.com', jabatan: 'Manager', departemen: 'IT', status: 'aktif' },
         { id: 2, nama: 'Siti Nurhaliza', nip: 'NIP002', email: 'siti.nur@company.com', jabatan: 'Senior Staff', departemen: 'HR', status: 'aktif' },
         { id: 3, nama: 'Budi Santoso', nip: 'NIP003', email: 'budi.santoso@company.com', jabatan: 'Supervisor', departemen: 'Finance', status: 'cuti' },
@@ -238,10 +238,10 @@ $pageJs = <<<'JS'
      */
     function getStatusBadge(status) {
         var statusConfig = {
-            'aktif': { class: 'aktif', icon: 'fa-check-circle', label: 'Aktif' },
-            'cuti': { class: 'cuti', icon: 'fa-calendar-alt', label: 'Cuti' },
+            'aktif': { class: 'active', icon: 'fa-check-circle', label: 'Aktif' },
+            'cuti': { class: 'on-leave', icon: 'fa-calendar-alt', label: 'Cuti' },
             'remote': { class: 'remote', icon: 'fa-home', label: 'Remote' },
-            'nonaktif': { class: 'nonaktif', icon: 'fa-times-circle', label: 'Nonaktif' }
+            'nonaktif': { class: 'inactive', icon: 'fa-times-circle', label: 'Nonaktif' }
         };
         var config = statusConfig[status] || statusConfig['aktif'];
         return '<span class="status-badge ' + config.class + '"><i class="fas ' + config.icon + '"></i> ' + config.label + '</span>';
@@ -281,10 +281,10 @@ $pageJs = <<<'JS'
             '<a class="btn-action btn-view" href="pegawai-detail.php?id=' + id + '" title="Detail">' +
                 '<i class="fas fa-eye"></i>' +
             '</a>' +
-            '<button class="btn-action btn-edit" onclick="editPegawai(' + id + ')" title="Edit">' +
+            '<button class="btn-action btn-edit" onclick="editRecord(' + id + ')" title="Edit">' +
                 '<i class="fas fa-edit"></i>' +
             '</button>' +
-            '<button class="btn-action btn-delete" onclick="deletePegawai(' + id + ')" title="Hapus">' +
+            '<button class="btn-action btn-delete" onclick="deleteRecord(' + id + ')" title="Hapus">' +
                 '<i class="fas fa-trash"></i>' +
             '</button>' +
         '</div>';
@@ -300,7 +300,7 @@ $pageJs = <<<'JS'
      * Custom filter for active-only toggle + multi-select column filters
      */
     $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-        if (settings.nTable.id !== 'pegawaiTable') {
+        if (!$(settings.nTable).hasClass('data-table')) {
             return true;
         }
         if (showOnlyActive) {
@@ -327,8 +327,8 @@ $pageJs = <<<'JS'
             dataTable.destroy();
         }
 
-        dataTable = $('#pegawaiTable').DataTable({
-            data: pegawaiData,
+        dataTable = $('#dataTable').DataTable({
+            data: recordData,
             columns: [
                 {
                     title: 'No',
@@ -346,11 +346,11 @@ $pageJs = <<<'JS'
                     data: null,
                     render: function(data, type, row) {
                         if (type === 'display') {
-                            return '<div class="pegawai-info">' +
+                            return '<div class="record-info">' +
                                 '<div class="table-avatar">' + getInitials(row.nama) + '</div>' +
-                                '<div class="pegawai-details">' +
-                                    '<span class="pegawai-name">' + row.nama + '</span>' +
-                                    '<span class="pegawai-email">' + row.email + '</span>' +
+                                '<div class="record-details">' +
+                                    '<span class="record-name">' + row.nama + '</span>' +
+                                    '<span class="record-email">' + row.email + '</span>' +
                                 '</div>' +
                             '</div>';
                         }
@@ -426,7 +426,7 @@ $pageJs = <<<'JS'
 
                 api.columns().every(function(index) {
                     var column = this;
-                    var $cell = $('#pegawaiTable thead tr.filter-row th').eq(index);
+                    var $cell = $('#dataTable thead tr.filter-row th').eq(index);
 
                     if (index === 0 || index === 6) {
                         $cell.empty();
@@ -481,57 +481,57 @@ $pageJs = <<<'JS'
     /**
      * Opens add employee modal
      */
-    $('#btnTambahPegawai').on('click', function() {
+    $('#btnAddRecord').on('click', function() {
         editingId = null;
-        $('#pegawaiModalLabel').text('Tambah Pegawai');
-        $('#pegawaiForm')[0].reset();
-        $('#pegawaiId').val('');
-        new bootstrap.Modal(document.getElementById('pegawaiModal')).show();
+        $('#recordModalLabel').text('Tambah Data');
+        $('#recordForm')[0].reset();
+        $('#recordId').val('');
+        new bootstrap.Modal(document.getElementById('recordModal')).show();
     });
 
     /**
      * Opens edit employee modal
      * @param {number} id - Employee ID
      */
-    window.editPegawai = function(id) {
-        var pegawai = pegawaiData.find(function(p) { return p.id === id; });
-        if (!pegawai) return;
+    window.editRecord = function(id) {
+        var record = recordData.find(function(p) { return p.id === id; });
+        if (!record) return;
 
         editingId = id;
-        $('#pegawaiModalLabel').text('Edit Pegawai');
-        $('#pegawaiId').val(id);
-        $('#pegawaiNama').val(pegawai.nama);
-        $('#pegawaiNIP').val(pegawai.nip);
-        $('#pegawaiEmail').val(pegawai.email);
-        $('#pegawaiJabatan').val(pegawai.jabatan);
-        $('#pegawaiDepartemen').val(pegawai.departemen);
-        $('#pegawaiStatus').val(pegawai.status);
+        $('#recordModalLabel').text('Edit Data');
+        $('#recordId').val(id);
+        $('#recordNama').val(record.nama);
+        $('#recordNIP').val(record.nip);
+        $('#recordEmail').val(record.email);
+        $('#recordJabatan').val(record.jabatan);
+        $('#recordDepartemen').val(record.departemen);
+        $('#recordStatus').val(record.status);
 
-        new bootstrap.Modal(document.getElementById('pegawaiModal')).show();
+        new bootstrap.Modal(document.getElementById('recordModal')).show();
     };
 
     /**
      * Opens delete confirmation modal
      * @param {number} id - Employee ID
      */
-    window.deletePegawai = function(id) {
-        var pegawai = pegawaiData.find(function(p) { return p.id === id; });
-        if (!pegawai) return;
+    window.deleteRecord = function(id) {
+        var record = recordData.find(function(p) { return p.id === id; });
+        if (!record) return;
 
-        $('#deletePegawaiId').val(id);
+        $('#deleteRecordId').val(id);
         new bootstrap.Modal(document.getElementById('deleteModal')).show();
     };
 
     /**
      * Saves employee data (add or update)
      */
-    $('#btnSavePegawai').on('click', function() {
-        var nama = $('#pegawaiNama').val().trim();
-        var nip = $('#pegawaiNIP').val().trim();
-        var email = $('#pegawaiEmail').val().trim();
-        var jabatan = $('#pegawaiJabatan').val();
-        var departemen = $('#pegawaiDepartemen').val();
-        var status = $('#pegawaiStatus').val();
+    $('#btnSaveRecord').on('click', function() {
+        var nama = $('#recordNama').val().trim();
+        var nip = $('#recordNIP').val().trim();
+        var email = $('#recordEmail').val().trim();
+        var jabatan = $('#recordJabatan').val();
+        var departemen = $('#recordDepartemen').val();
+        var status = $('#recordStatus').val();
 
         if (!nama || !nip || !email || !jabatan || !departemen || !status) {
             alert('Mohon lengkapi semua field!');
@@ -539,9 +539,9 @@ $pageJs = <<<'JS'
         }
 
         if (editingId) {
-            var index = pegawaiData.findIndex(function(p) { return p.id === editingId; });
+            var index = recordData.findIndex(function(p) { return p.id === editingId; });
             if (index !== -1) {
-                pegawaiData[index] = {
+                recordData[index] = {
                     id: editingId,
                     nama: nama,
                     nip: nip,
@@ -552,7 +552,7 @@ $pageJs = <<<'JS'
                 };
             }
         } else {
-            pegawaiData.push({
+            recordData.push({
                 id: nextId,
                 nama: nama,
                 nip: nip,
@@ -564,7 +564,7 @@ $pageJs = <<<'JS'
             nextId++;
         }
 
-        bootstrap.Modal.getInstance(document.getElementById('pegawaiModal')).hide();
+        bootstrap.Modal.getInstance(document.getElementById('recordModal')).hide();
         refreshDataTable();
     });
 
@@ -572,8 +572,8 @@ $pageJs = <<<'JS'
      * Confirms employee deletion
      */
     $('#btnConfirmDelete').on('click', function() {
-        var id = parseInt($('#deletePegawaiId').val());
-        pegawaiData = pegawaiData.filter(function(p) { return p.id !== id; });
+        var id = parseInt($('#deleteRecordId').val());
+        recordData = recordData.filter(function(p) { return p.id !== id; });
         bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
         refreshDataTable();
     });
@@ -595,7 +595,7 @@ $pageJs = <<<'JS'
         });
 
         // Export action
-        $('#btnExportPegawai').on('click', function() {
+        $('#btnExport').on('click', function() {
             if (dataTable) {
                 dataTable.button(0).trigger();
             }

@@ -1,5 +1,5 @@
 /* ============================================
-   PEGAWAI DETAIL PAGE SPECIFIC
+   DETAIL PAGE SPECIFIC
    ============================================ */
 
 body.detail-page {
@@ -31,17 +31,6 @@ body.detail-page {
 .detail-card:hover {
   transform: none;
   box-shadow: var(--shadow-sm);
-}
-
-/* Detail Card Header */
-.detail-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  padding-bottom: var(--space-3);
-  border-bottom: 1px solid var(--color-gray-100);
-  margin-bottom: var(--space-3);
 }
 
 /* Detail Card Header */

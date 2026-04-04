@@ -10,7 +10,7 @@
 $pageTitle = 'SISPEG - Detail Pegawai';
 $activeMenu = 'pegawai';
 $searchPlaceholder = 'Cari pegawai...';
-$pageCss = 'pegawai-detail';  // Load pegawai-detail-specific CSS
+$pageCss = 'detail';  // Load detail-specific CSS
 $additionalCss = [];          // No additional external CSS
 $additionalJs = [];
 $bodyClass = 'page-pegawai';

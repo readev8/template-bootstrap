@@ -259,7 +259,7 @@
 
 /* Amber */
 .content-card.header-bg-amber .content-card-header {
-  background: var(--color-amber);
+  background: #dcab1c;
 }
 
 .content-card.header-bg-amber .content-card-header h5 {
@@ -469,13 +469,13 @@
   color: #991b1b;
 }
 
-/* Pegawai-specific badges */
-.status-badge.aktif {
+/* Status badges */
+.status-badge.active {
   background: var(--color-success-light);
   color: #065f46;
 }
 
-.status-badge.cuti {
+.status-badge.on-leave {
   background: var(--color-warning-light);
   color: #92400e;
 }
@@ -485,7 +485,7 @@
   color: #155e75;
 }
 
-.status-badge.nonaktif {
+.status-badge.inactive {
   background: var(--color-danger-light);
   color: #991b1b;
 }
@@ -649,8 +649,8 @@
   color: var(--color-white);
 }
 
-/* Add Pegawai Button */
-.btn-add-pegawai {
+/* Add Record Button */
+.btn-add-record {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -666,7 +666,7 @@
   box-shadow: var(--shadow-md);
 }
 
-.btn-add-pegawai:hover {
+.btn-add-record:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
   background: var(--color-gray-50);
@@ -935,9 +935,11 @@
 }
 
 @media (max-width: 768px) {
-  .stat-cards-container {
-    grid-template-columns: 1fr;
+  .btn-add-record {
+    padding: 8px 16px;
+    font-size: var(--font-size-sm);
   }
+}
   
   .content-card {
     padding: var(--space-4);
