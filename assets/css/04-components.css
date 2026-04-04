@@ -3,12 +3,12 @@
    ============================================ */
 
 /* ============================================
-   CONTENT CARD
+   CONTENT CARD - SQUARE DESIGN
    ============================================ */
 .content-card {
   background: var(--color-white);
   border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   padding: var(--space-6);
   box-shadow: var(--shadow-md);
   transition: transform var(--transition-base), 
@@ -75,6 +75,195 @@
 }
 
 /* ============================================
+   CARD HEADER COLOR VARIANTS - SOLID BACKGROUND
+   ============================================ */
+
+/* Base header with colored background */
+.content-card.header-bg-primary .content-card-header,
+.content-card.header-bg-success .content-card-header,
+.content-card.header-bg-warning .content-card-header,
+.content-card.header-bg-info .content-card-header,
+.content-card.header-bg-danger .content-card-header,
+.content-card.header-bg-neutral .content-card-header,
+.content-card.header-bg-dark .content-card-header,
+.content-card.header-bg-purple .content-card-header,
+.content-card.header-bg-indigo .content-card-header,
+.content-card.header-bg-teal .content-card-header,
+.content-card.header-bg-orange .content-card-header,
+.content-card.header-bg-pink .content-card-header,
+.content-card.header-bg-cyan .content-card-header,
+.content-card.header-bg-lime .content-card-header,
+.content-card.header-bg-amber .content-card-header {
+  margin: calc(-1 * var(--space-6)) calc(-1 * var(--space-6)) var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  border-bottom: none;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+/* Header icon styling untuk header dengan background */
+.content-card.header-bg-primary .content-card-header h5 i,
+.content-card.header-bg-success .content-card-header h5 i,
+.content-card.header-bg-warning .content-card-header h5 i,
+.content-card.header-bg-info .content-card-header h5 i,
+.content-card.header-bg-danger .content-card-header h5 i,
+.content-card.header-bg-purple .content-card-header h5 i,
+.content-card.header-bg-indigo .content-card-header h5 i,
+.content-card.header-bg-teal .content-card-header h5 i,
+.content-card.header-bg-orange .content-card-header h5 i,
+.content-card.header-bg-pink .content-card-header h5 i,
+.content-card.header-bg-amber .content-card-header h5 i {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: none;
+}
+
+.content-card.header-bg-neutral .content-card-header h5 i,
+.content-card.header-bg-lime .content-card-header h5 i,
+.content-card.header-bg-cyan .content-card-header h5 i {
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+}
+
+.content-card.header-bg-dark .content-card-header h5 i {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: none;
+}
+
+/* Primary - Green */
+.content-card.header-bg-primary .content-card-header {
+  background: var(--color-primary-500);
+}
+
+.content-card.header-bg-primary .content-card-header h5 {
+  color: var(--color-white);
+}
+
+/* Success - Light Green */
+.content-card.header-bg-success .content-card-header {
+  background: var(--color-success);
+}
+
+.content-card.header-bg-success .content-card-header h5 {
+  color: var(--color-white);
+}
+
+/* Warning - Orange */
+.content-card.header-bg-warning .content-card-header {
+  background: var(--color-warning);
+}
+
+.content-card.header-bg-warning .content-card-header h5 {
+  color: var(--color-white);
+}
+
+/* Info - Cyan */
+.content-card.header-bg-info .content-card-header {
+  background: var(--color-info);
+}
+
+.content-card.header-bg-info .content-card-header h5 {
+  color: var(--color-white);
+}
+
+/* Danger - Red */
+.content-card.header-bg-danger .content-card-header {
+  background: var(--color-danger);
+}
+
+.content-card.header-bg-danger .content-card-header h5 {
+  color: var(--color-white);
+}
+
+/* Neutral - Gray */
+.content-card.header-bg-neutral .content-card-header {
+  background: var(--color-gray-100);
+}
+
+.content-card.header-bg-neutral .content-card-header h5 {
+  color: var(--color-gray-800);
+}
+
+/* Dark - Dark Gray */
+.content-card.header-bg-dark .content-card-header {
+  background: var(--color-gray-800);
+}
+
+.content-card.header-bg-dark .content-card-header h5 {
+  color: var(--color-white);
+}
+
+/* Purple */
+.content-card.header-bg-purple .content-card-header {
+  background: var(--color-purple);
+}
+
+.content-card.header-bg-purple .content-card-header h5 {
+  color: var(--color-white);
+}
+
+/* Indigo */
+.content-card.header-bg-indigo .content-card-header {
+  background: var(--color-indigo);
+}
+
+.content-card.header-bg-indigo .content-card-header h5 {
+  color: var(--color-white);
+}
+
+/* Teal */
+.content-card.header-bg-teal .content-card-header {
+  background: var(--color-teal);
+}
+
+.content-card.header-bg-teal .content-card-header h5 {
+  color: var(--color-white);
+}
+
+/* Orange */
+.content-card.header-bg-orange .content-card-header {
+  background: var(--color-orange);
+}
+
+.content-card.header-bg-orange .content-card-header h5 {
+  color: var(--color-white);
+}
+
+/* Pink */
+.content-card.header-bg-pink .content-card-header {
+  background: var(--color-pink);
+}
+
+.content-card.header-bg-pink .content-card-header h5 {
+  color: var(--color-white);
+}
+
+/* Cyan */
+.content-card.header-bg-cyan .content-card-header {
+  background: var(--color-cyan);
+}
+
+.content-card.header-bg-cyan .content-card-header h5 {
+  color: var(--color-gray-900);
+}
+
+/* Lime */
+.content-card.header-bg-lime .content-card-header {
+  background: var(--color-lime);
+}
+
+.content-card.header-bg-lime .content-card-header h5 {
+  color: var(--color-gray-900);
+}
+
+/* Amber */
+.content-card.header-bg-amber .content-card-header {
+  background: var(--color-amber);
+}
+
+.content-card.header-bg-amber .content-card-header h5 {
+  color: var(--color-white);
+}
+
+/* ============================================
    STAT CARDS
    ============================================ */
 .stat-cards-container {
@@ -87,7 +276,7 @@
 .stat-card {
   background: var(--color-white);
   border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   padding: var(--space-6);
   box-shadow: var(--shadow-md);
   display: flex;
@@ -97,7 +286,7 @@
   position: relative;
   opacity: 0;
   transform: translateY(30px);
-  transition: transform var(--transition-base), 
+  transition: transform var(--transition-base),
               box-shadow var(--transition-base);
 }
 

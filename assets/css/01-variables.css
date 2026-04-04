@@ -34,6 +34,42 @@
   --color-danger-light: #fee2e2;
   
   /* ============================================
+     EXTENDED COLORS - ADDITIONAL PALETTE
+     ============================================ */
+  
+  /* Purple */
+  --color-purple: #8b5cf6;
+  --color-purple-light: #ede9fe;
+  
+  /* Indigo */
+  --color-indigo: #6366f1;
+  --color-indigo-light: #e0e7ff;
+  
+  /* Teal */
+  --color-teal: #14b8a6;
+  --color-teal-light: #ccfbf1;
+  
+  /* Orange (Deep) */
+  --color-orange: #f97316;
+  --color-orange-light: #ffedd5;
+  
+  /* Pink */
+  --color-pink: #ec4899;
+  --color-pink-light: #fce7f3;
+  
+  /* Cyan */
+  --color-cyan: #22d3ee;
+  --color-cyan-light: #cffafe;
+  
+  /* Lime */
+  --color-lime: #84cc16;
+  --color-lime-light: #ecfccb;
+  
+  /* Amber */
+  --color-amber: #d97706;
+  --color-amber-light: #fef3c7;
+  
+  /* ============================================
      SPACING SCALE
      ============================================ */
   --space-1: 4px;
