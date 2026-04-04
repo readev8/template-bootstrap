@@ -13,6 +13,9 @@ $cssConfigs = [
         'https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css',
         'https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css'
     ],
+    'pegawai-detail' => [
+        'assets/css/pegawai-detail.css'
+    ],
     'datepicker' => [
         'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'
     ],

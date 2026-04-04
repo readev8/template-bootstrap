@@ -138,44 +138,6 @@ include 'includes/navbar.php';
     </div>
 </div>
 
-<!-- Modal Detail Pegawai -->
-<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="detailModalLabel">Detail Pegawai</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="text-center mb-4">
-                    <div class="detail-avatar" id="detailAvatar">AR</div>
-                    <h4 id="detailNama" class="mb-1">Nama Pegawai</h4>
-                    <p id="detailJabatan" class="text-muted mb-0">Jabatan</p>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">NIP</span>
-                    <span class="detail-value" id="detailNIP">-</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Email</span>
-                    <span class="detail-value" id="detailEmail">-</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Departemen</span>
-                    <span class="detail-value" id="detailDepartemen">-</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Status</span>
-                    <span class="detail-value" id="detailStatus">-</span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Tutup</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Modal Delete Konfirmasi -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
@@ -275,9 +237,9 @@ $pageJs = <<<'JS'
      */
     function renderActionButton(id) {
         return '<div class="action-buttons">' +
-            '<button class="btn-action btn-view" onclick="viewPegawai(' + id + ')" title="Detail">' +
+            '<a class="btn-action btn-view" href="pegawai-detail.php?id=' + id + '" title="Detail">' +
                 '<i class="fas fa-eye"></i>' +
-            '</button>' +
+            '</a>' +
             '<button class="btn-action btn-edit" onclick="editPegawai(' + id + ')" title="Edit">' +
                 '<i class="fas fa-edit"></i>' +
             '</button>' +
@@ -367,25 +329,6 @@ $pageJs = <<<'JS'
         $('#pegawaiId').val('');
         new bootstrap.Modal(document.getElementById('pegawaiModal')).show();
     });
-
-    /**
-     * Views employee details
-     * @param {number} id - Employee ID
-     */
-    window.viewPegawai = function(id) {
-        var pegawai = pegawaiData.find(function(p) { return p.id === id; });
-        if (!pegawai) return;
-
-        $('#detailAvatar').text(getInitials(pegawai.nama));
-        $('#detailNama').text(pegawai.nama);
-        $('#detailJabatan').text(pegawai.jabatan + ' - ' + pegawai.departemen);
-        $('#detailNIP').text(pegawai.nip);
-        $('#detailEmail').text(pegawai.email);
-        $('#detailDepartemen').text(pegawai.departemen);
-        $('#detailStatus').html(getStatusBadge(pegawai.status));
-
-        new bootstrap.Modal(document.getElementById('detailModal')).show();
-    };
 
     /**
      * Opens edit employee modal

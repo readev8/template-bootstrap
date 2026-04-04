@@ -1,0 +1,198 @@
+/*
+ * =====================================================
+ * PEGAWAI DETAIL PAGE
+ * =====================================================
+ * Simple, elegant layout with solid colors only
+ */
+
+body.detail-page {
+    background-color: #0F9D58;
+    background-image:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.06), transparent 45%),
+        radial-gradient(circle at 80% 0%, rgba(0, 0, 0, 0.08), transparent 50%),
+        repeating-linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.03) 0,
+            rgba(255, 255, 255, 0.03) 2px,
+            transparent 2px,
+            transparent 6px
+        );
+    background-attachment: fixed;
+}
+
+.detail-card {
+    background: #ffffff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 24px;
+}
+
+.detail-card:hover {
+    transform: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.detail-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    margin-bottom: 18px;
+}
+
+.detail-identity {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.detail-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    background: #0f9d58;
+    color: #fff;
+    font-weight: 700;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-card-header h1 {
+    margin: 0 0 4px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.detail-card-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.detail-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.detail-meta .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #eef2f6;
+    color: #374151;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.detail-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.detail-actions .btn {
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 8px 14px;
+}
+
+.detail-card-body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 24px;
+}
+
+.detail-section h6 {
+    margin-bottom: 10px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.detail-list {
+    display: grid;
+    gap: 10px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item-label {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.detail-item-value {
+    font-size: 14px;
+    color: #111827;
+    font-weight: 600;
+    text-align: right;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.empty-state i {
+    font-size: 40px;
+    color: var(--warning-color);
+    margin-bottom: 12px;
+}
+
+.empty-state h3 {
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.empty-state p {
+    color: #64748b;
+    margin: 0;
+}
+
+@media (max-width: 992px) {
+    .detail-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .detail-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .detail-card-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .detail-identity {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
