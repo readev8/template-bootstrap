@@ -263,6 +263,67 @@
   color: var(--color-white);
 }
 
+/* Button styling untuk header dengan background */
+.content-card.header-bg-primary .content-card-header .btn-outline-light,
+.content-card.header-bg-success .content-card-header .btn-outline-light,
+.content-card.header-bg-warning .content-card-header .btn-outline-light,
+.content-card.header-bg-info .content-card-header .btn-outline-light,
+.content-card.header-bg-danger .content-card-header .btn-outline-light,
+.content-card.header-bg-purple .content-card-header .btn-outline-light,
+.content-card.header-bg-indigo .content-card-header .btn-outline-light,
+.content-card.header-bg-teal .content-card-header .btn-outline-light,
+.content-card.header-bg-orange .content-card-header .btn-outline-light,
+.content-card.header-bg-pink .content-card-header .btn-outline-light,
+.content-card.header-bg-amber .content-card-header .btn-outline-light {
+  color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.5);
+  background: transparent;
+}
+
+.content-card.header-bg-primary .content-card-header .btn-outline-light:hover,
+.content-card.header-bg-success .content-card-header .btn-outline-light:hover,
+.content-card.header-bg-warning .content-card-header .btn-outline-light:hover,
+.content-card.header-bg-info .content-card-header .btn-outline-light:hover,
+.content-card.header-bg-danger .content-card-header .btn-outline-light:hover,
+.content-card.header-bg-purple .content-card-header .btn-outline-light:hover,
+.content-card.header-bg-indigo .content-card-header .btn-outline-light:hover,
+.content-card.header-bg-teal .content-card-header .btn-outline-light:hover,
+.content-card.header-bg-orange .content-card-header .btn-outline-light:hover,
+.content-card.header-bg-pink .content-card-header .btn-outline-light:hover,
+.content-card.header-bg-amber .content-card-header .btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--color-white);
+}
+
+/* Link text white untuk header dengan background gelap */
+.content-card.header-bg-primary .content-card-header .btn-link,
+.content-card.header-bg-success .content-card-header .btn-link,
+.content-card.header-bg-warning .content-card-header .btn-link,
+.content-card.header-bg-info .content-card-header .btn-link,
+.content-card.header-bg-danger .content-card-header .btn-link,
+.content-card.header-bg-purple .content-card-header .btn-link,
+.content-card.header-bg-indigo .content-card-header .btn-link,
+.content-card.header-bg-teal .content-card-header .btn-link,
+.content-card.header-bg-orange .content-card-header .btn-link,
+.content-card.header-bg-pink .content-card-header .btn-link,
+.content-card.header-bg-amber .content-card-header .btn-link {
+  color: var(--color-white);
+}
+
+.content-card.header-bg-primary .content-card-header .btn-link:hover,
+.content-card.header-bg-success .content-card-header .btn-link:hover,
+.content-card.header-bg-warning .content-card-header .btn-link:hover,
+.content-card.header-bg-info .content-card-header .btn-link:hover,
+.content-card.header-bg-danger .content-card-header .btn-link:hover,
+.content-card.header-bg-purple .content-card-header .btn-link:hover,
+.content-card.header-bg-indigo .content-card-header .btn-link:hover,
+.content-card.header-bg-teal .content-card-header .btn-link:hover,
+.content-card.header-bg-orange .content-card-header .btn-link:hover,
+.content-card.header-bg-pink .content-card-header .btn-link:hover,
+.content-card.header-bg-amber .content-card-header .btn-link:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
 /* ============================================
    STAT CARDS
    ============================================ */
@@ -486,6 +547,16 @@
 }
 
 .btn-outline-secondary:hover {
+  background: var(--color-gray-100);
+}
+
+.btn-outline-light {
+  background: transparent;
+  border: 1px solid var(--color-gray-300);
+  color: var(--color-gray-600);
+}
+
+.btn-outline-light:hover {
   background: var(--color-gray-100);
 }
 

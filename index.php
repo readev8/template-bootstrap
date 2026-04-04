@@ -98,11 +98,11 @@ include 'includes/navbar.php';
 
     <!-- Content Grid -->
     <div class="content-grid">
-        <!-- Left Column: Recent Employees Table -->
-        <div class="content-card header-primary">
+        <!-- Card 1: Recent Employees -->
+        <div class="content-card header-bg-primary">
             <div class="content-card-header">
                 <h5><i class="fas fa-users"></i> Recent Employees</h5>
-                <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                <a href="#" class="btn btn-sm btn-outline-light">View All</a>
             </div>
             <table class="table-custom">
                 <thead>
@@ -119,41 +119,149 @@ include 'includes/navbar.php';
             </table>
         </div>
 
-        <!-- Right Column: Tasks & Quick Actions -->
-        <div>
-            <!-- Tasks Card -->
-            <div class="content-card mb-4 header-warning">
-                <div class="content-card-header">
-                    <h5><i class="fas fa-tasks"></i> My Tasks</h5>
-                    <a href="#" class="btn btn-sm btn-link text-primary">Add Task</a>
-                </div>
-                <ul class="task-list" id="taskList">
-                    <!-- Tasks will be loaded via JavaScript -->
-                </ul>
+        <!-- Card 2: My Tasks -->
+        <div class="content-card header-bg-warning">
+            <div class="content-card-header">
+                <h5><i class="fas fa-tasks"></i> My Tasks</h5>
+                <a href="#" class="btn btn-sm btn-link text-white">Add Task</a>
             </div>
+            <ul class="task-list" id="taskList">
+                <!-- Tasks will be loaded via JavaScript -->
+            </ul>
+        </div>
 
-            <!-- Quick Actions Card -->
-            <div class="content-card header-info">
-                <div class="content-card-header">
-                    <h5><i class="fas fa-bolt"></i> Quick Actions</h5>
+        <!-- Card 3: Quick Actions -->
+        <div class="content-card header-bg-info">
+            <div class="content-card-header">
+                <h5><i class="fas fa-bolt"></i> Quick Actions</h5>
+            </div>
+            <div class="quick-actions">
+                <button class="quick-action-btn">
+                    <i class="fas fa-calendar-plus"></i>
+                    <span>Check In</span>
+                </button>
+                <button class="quick-action-btn">
+                    <i class="fas fa-file-import"></i>
+                    <span>Submit Report</span>
+                </button>
+                <button class="quick-action-btn">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>View Schedule</span>
+                </button>
+                <button class="quick-action-btn">
+                    <i class="fas fa-headset"></i>
+                    <span>Get Support</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Card 4: Department Overview -->
+        <div class="content-card header-bg-purple">
+            <div class="content-card-header">
+                <h5><i class="fas fa-chart-pie"></i> Department Overview</h5>
+            </div>
+            <div class="dept-stats">
+                <div class="dept-item">
+                    <span class="dept-name">IT Department</span>
+                    <span class="dept-count">48</span>
                 </div>
-                <div class="quick-actions">
-                    <button class="quick-action-btn">
-                        <i class="fas fa-calendar-plus"></i>
-                        <span>Check In</span>
-                    </button>
-                    <button class="quick-action-btn">
-                        <i class="fas fa-file-import"></i>
-                        <span>Submit Report</span>
-                    </button>
-                    <button class="quick-action-btn">
-                        <i class="fas fa-clipboard-list"></i>
-                        <span>View Schedule</span>
-                    </button>
-                    <button class="quick-action-btn">
-                        <i class="fas fa-headset"></i>
-                        <span>Get Support</span>
-                    </button>
+                <div class="dept-item">
+                    <span class="dept-name">HR Department</span>
+                    <span class="dept-count">32</span>
+                </div>
+                <div class="dept-item">
+                    <span class="dept-name">Finance</span>
+                    <span class="dept-count">28</span>
+                </div>
+                <div class="dept-item">
+                    <span class="dept-name">Marketing</span>
+                    <span class="dept-count">42</span>
+                </div>
+                <div class="dept-item">
+                    <span class="dept-name">Operations</span>
+                    <span class="dept-count">98</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 5: Recent Activity -->
+        <div class="content-card header-bg-indigo">
+            <div class="content-card-header">
+                <h5><i class="fas fa-history"></i> Recent Activity</h5>
+            </div>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <i class="fas fa-user-plus text-success"></i>
+                    <div class="activity-content">
+                        <p>New employee joined</p>
+                        <small>2 hours ago</small>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <i class="fas fa-check-circle text-info"></i>
+                    <div class="activity-content">
+                        <p>Task completed</p>
+                        <small>4 hours ago</small>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <i class="fas fa-calendar-alt text-warning"></i>
+                    <div class="activity-content">
+                        <p>Meeting scheduled</p>
+                        <small>Yesterday</small>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <i class="fas fa-file-alt text-primary"></i>
+                    <div class="activity-content">
+                        <p>Report submitted</p>
+                        <small>Yesterday</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 6: Performance Stats -->
+        <div class="content-card header-bg-teal">
+            <div class="content-card-header">
+                <h5><i class="fas fa-chart-line"></i> Performance</h5>
+            </div>
+            <div class="performance-metrics">
+                <div class="metric-item">
+                    <div class="metric-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h6>Efficiency</h6>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 87%"></div>
+                        </div>
+                        <span class="metric-value">87%</span>
+                    </div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h6>On Time</h6>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 94%"></div>
+                        </div>
+                        <span class="metric-value">94%</span>
+                    </div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h6>Quality</h6>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 92%"></div>
+                        </div>
+                        <span class="metric-value">92%</span>
+                    </div>
                 </div>
             </div>
         </div>

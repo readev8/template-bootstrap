@@ -51,10 +51,10 @@
   gap: 12px;
 }
 
-/* Content Grid */
+/* Content Grid - 3 Column Layout */
 .content-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
@@ -62,6 +62,12 @@
    RESPONSIVE LAYOUT
    ============================================ */
 @media (max-width: 1200px) {
+  .content-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
   .content-grid {
     grid-template-columns: 1fr;
   }
