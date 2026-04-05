@@ -334,11 +334,16 @@ if (!isset($pageJs)) {
         $group.addClass('open');
         $menuItem.attr('aria-expanded', 'true');
         
-        // Hitung dan set posisi
-        positionSubmenu($menuItem, $submenu);
-        
-        // Tampilkan dengan animasi
-        $submenu.addClass('show');
+        // Di mobile: tidak perlu positionSubmenu, cukup tambah class show
+        if (isTouchDevice) {
+            $submenu.addClass('show');
+        } else {
+            // Hitung dan set posisi
+            positionSubmenu($menuItem, $submenu);
+            
+            // Tampilkan dengan animasi
+            $submenu.addClass('show');
+        }
         activeSubmenu = $submenu;
         
         // Clear timeout jika ada
@@ -447,18 +452,27 @@ if (!isset($pageJs)) {
         var $group = $menuItem.closest('.menu-item-group');
         var $submenu = $group.find('.submenu');
         
-        // Toggle locked state
-        if ($submenu.hasClass('locked')) {
-            // Unlock dan tutup
-            $submenu.removeClass('locked');
-            hideSubmenu($submenu);
+        if (isTouchDevice) {
+            // Mobile: simple toggle accordion
+            if ($submenu.hasClass('show')) {
+                hideSubmenu($submenu);
+            } else {
+                showSubmenu($menuItem);
+            }
         } else {
-            // Unlock semua submenu lain
-            $('.submenu.locked').removeClass('locked');
-            
-            // Lock dan buka submenu ini
-            $submenu.addClass('locked');
-            showSubmenu($menuItem);
+            // Desktop: locked state behavior
+            if ($submenu.hasClass('locked')) {
+                // Unlock dan tutup
+                $submenu.removeClass('locked');
+                hideSubmenu($submenu);
+            } else {
+                // Unlock semua submenu lain
+                $('.submenu.locked').removeClass('locked');
+                
+                // Lock dan buka submenu ini
+                $submenu.addClass('locked');
+                showSubmenu($menuItem);
+            }
         }
     });
     
@@ -475,9 +489,11 @@ if (!isset($pageJs)) {
     // Update posisi submenu saat scroll/resize
     $(window).on('scroll resize', function() {
         if (activeSubmenu && activeSubmenu.hasClass('show')) {
-            var $group = activeSubmenu.closest('.menu-item-group');
-            var $menuItem = $group.find('.menu-item.has-submenu');
-            positionSubmenu($menuItem, activeSubmenu);
+            if (!isTouchDevice) {
+                var $group = activeSubmenu.closest('.menu-item-group');
+                var $menuItem = $group.find('.menu-item.has-submenu');
+                positionSubmenu($menuItem, activeSubmenu);
+            }
         }
     });
 

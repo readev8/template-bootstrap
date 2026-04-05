@@ -840,3 +840,119 @@ body.role-admin .menu-item.admin-only {
   background-color: rgba(255, 255, 255, 0.3) !important;
   background: rgba(255, 255, 255, 0.3) !important;
 }
+
+/* ============================================
+   SUBMENU ACCORDION - MOBILE MODE
+   ============================================ */
+@media (max-width: 768px) {
+  
+  .submenu {
+    position: static;
+    min-width: auto;
+    max-width: none;
+    background: rgba(255,255,255,0.03);
+    border: none;
+    border-left: 2px solid rgba(255,255,255,0.1);
+    border-radius: 0;
+    box-shadow: none;
+    padding: 4px 0 4px 12px;
+    margin: 0;
+    opacity: 1;
+    transform: none;
+    transition: max-height 250ms ease, opacity 200ms ease;
+    max-height: 0;
+    overflow: hidden;
+  }
+  
+  .submenu::before {
+    display: none;
+  }
+  
+  .submenu.show {
+    max-height: 500px;
+    opacity: 1;
+  }
+  
+  .submenu-item {
+    padding: 8px 12px 8px 16px;
+    font-size: 12px;
+  }
+  
+  .submenu-item i {
+    font-size: 13px;
+    width: 18px;
+  }
+  
+  .menu-item-group.open > .menu-item.has-submenu {
+    background: rgba(255,255,255,0.04);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+}
+
+/* ============================================
+   NAVBAR - MOBILE MODE (ICON ONLY)
+   ============================================ */
+@media (max-width: 768px) {
+  
+  .glass-navbar {
+    padding: 0 12px;
+    justify-content: space-between;
+  }
+  
+  .navbar-search {
+    display: none;
+  }
+  
+  .navbar-left {
+    margin-right: 0;
+  }
+  
+  .floating-toggle {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+  
+  .navbar-notification {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+  
+  .notification-badge {
+    width: 16px;
+    height: 16px;
+    font-size: 9px;
+    top: -2px;
+    right: -2px;
+  }
+  
+  .user-dropdown-toggle {
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-md);
+  }
+  
+  .user-dropdown-toggle .user-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+  
+  .user-dropdown-toggle span {
+    display: none;
+  }
+  
+  .user-dropdown-toggle .fa-chevron-down {
+    display: none;
+  }
+  
+  .navbar-actions {
+    gap: 8px;
+  }
+  
+  .user-dropdown-menu {
+    right: 0;
+    min-width: 220px;
+  }
+}
