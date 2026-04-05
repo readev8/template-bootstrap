@@ -514,6 +514,141 @@ if (!isset($pageJs)) {
     });
 
     // =====================================================
+    // SIDEBAR MENU SEARCH
+    // =====================================================
+
+    /**
+     * Filters sidebar menu items based on search query
+     * @param {string} query - The search query
+     */
+    function filterMenuSearch(query) {
+        var q = query.toLowerCase().trim();
+        
+        // Show/hide clear button
+        if (q.length > 0) {
+            $('#menuSearchClear').addClass('visible');
+        } else {
+            $('#menuSearchClear').removeClass('visible');
+        }
+        
+        // Reset all items
+        if (q === '') {
+            $('.menu-section, .menu-item, .menu-item-group, .submenu-item, .submenu')
+                .removeClass('hidden-by-search');
+            // Remove highlights
+            $('mark.search-highlight').each(function() {
+                $(this).replaceWith($(this).text());
+            });
+            return;
+        }
+        
+        // Hide all first
+        $('.menu-section, .menu-item, .menu-item-group, .submenu-item')
+            .addClass('hidden-by-search');
+        
+        // Remove old highlights
+        $('mark.search-highlight').each(function() {
+            $(this).replaceWith($(this).text());
+        });
+        
+        // Search through menu items
+        $('.menu-item').each(function() {
+            var $item = $(this);
+            var $span = $item.find('> span');
+            if ($span.length === 0) return;
+            
+            var text = $span.text().toLowerCase();
+            if (text.indexOf(q) !== -1) {
+                $item.removeClass('hidden-by-search');
+                highlightText($span, q);
+                
+                // Show parent section
+                $item.closest('.menu-section').removeClass('hidden-by-search');
+                
+                // If inside menu-item-group, show it
+                var $group = $item.closest('.menu-item-group');
+                if ($group.length > 0) {
+                    $group.removeClass('hidden-by-search');
+                    $group.find('.submenu').removeClass('hidden-by-search');
+                }
+            }
+        });
+        
+        // Search through submenu items
+        $('.submenu-item').each(function() {
+            var $item = $(this);
+            var $span = $item.find('> span');
+            if ($span.length === 0) return;
+            
+            var text = $span.text().toLowerCase();
+            if (text.indexOf(q) !== -1) {
+                $item.removeClass('hidden-by-search');
+                highlightText($span, q);
+                
+                // Show parent elements
+                $item.closest('.submenu').removeClass('hidden-by-search');
+                $item.closest('.menu-item-group').removeClass('hidden-by-search');
+                $item.closest('.menu-section').removeClass('hidden-by-search');
+                
+                // Show parent menu-item
+                $item.closest('.menu-item-group').find('.menu-item.has-submenu')
+                    .removeClass('hidden-by-search');
+            }
+        });
+        
+        // Also search section titles
+        $('.menu-section-title').each(function() {
+            var $title = $(this);
+            var text = $title.text().toLowerCase();
+            if (text.indexOf(q) !== -1) {
+                $title.closest('.menu-section').removeClass('hidden-by-search');
+                // Show all items in this section
+                $title.closest('.menu-section').find('.menu-item, .menu-item-group, .submenu-item')
+                    .removeClass('hidden-by-search');
+            }
+        });
+    }
+
+    /**
+     * Highlights matching text within an element
+     * @param {jQuery} $element - Element containing text to highlight
+     * @param {string} query - Search query to highlight
+     */
+    function highlightText($element, query) {
+        var html = $element.html();
+        var text = $element.text();
+        var lowerText = text.toLowerCase();
+        var idx = lowerText.indexOf(query);
+        
+        if (idx === -1) return;
+        
+        var before = html.substring(0, idx);
+        var match = html.substring(idx, idx + query.length);
+        var after = html.substring(idx + query.length);
+        
+        $element.html(before + '<mark class="search-highlight">' + match + '</mark>' + after);
+    }
+
+    // Search input event handler
+    $('#menuSearchInput').on('input', function() {
+        filterMenuSearch($(this).val());
+    });
+
+    // Clear button handler
+    $('#menuSearchClear').on('click', function() {
+        $('#menuSearchInput').val('').focus();
+        filterMenuSearch('');
+    });
+
+    // Keyboard shortcut: Ctrl+K or Cmd+K to focus search
+    $(document).on('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            $('#menuSearchInput').focus();
+        }
+    });
+
+    // =====================================================
     // INITIALIZATION
     // =====================================================
     

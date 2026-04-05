@@ -586,6 +586,96 @@ body .glass-navbar.scrolled {
   padding: var(--space-4) 12px;
 }
 
+/* ============================================
+   SIDEBAR MENU SEARCH
+   ============================================ */
+.sidebar-search {
+  position: relative;
+  padding: 0 10px;
+  margin-bottom: 12px;
+}
+
+.sidebar-search input {
+  width: 100%;
+  padding: 8px 32px 8px 32px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.05);
+  color: #b0b0b0;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+}
+
+.sidebar-search input::placeholder {
+  color: #666666;
+}
+
+.sidebar-search input:focus {
+  outline: none;
+  border-color: rgba(15,157,88,0.4);
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 0 0 2px rgba(15,157,88,0.15);
+}
+
+.sidebar-search .fa-search {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666666;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.sidebar-search-clear {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666666;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px;
+  display: none;
+  transition: color var(--transition-fast);
+}
+
+.sidebar-search-clear:hover {
+  color: #b0b0b0;
+}
+
+.sidebar-search-clear.visible {
+  display: block;
+}
+
+/* Filter states */
+.menu-section.hidden-by-search {
+  display: none;
+}
+
+.menu-item.hidden-by-search {
+  display: none;
+}
+
+.menu-item-group.hidden-by-search {
+  display: none;
+}
+
+.submenu-item.hidden-by-search {
+  display: none;
+}
+
+/* Highlight matching text */
+.menu-item:not(.hidden-by-search) mark.search-highlight,
+.submenu-item:not(.hidden-by-search) mark.search-highlight {
+  background: rgba(15,157,88,0.3);
+  color: #ffffff;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
 .menu-section {
   margin-bottom: var(--space-2);
 }

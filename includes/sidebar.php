@@ -66,6 +66,15 @@ $initials = strlen($userInitials) > 0 ? $userInitials : strtoupper(substr($userN
 
     <!-- Sidebar Navigation -->
     <nav class="sidebar-nav">
+        <!-- Menu Search -->
+        <div class="sidebar-search">
+            <i class="fas fa-search"></i>
+            <input type="text" id="menuSearchInput" placeholder="Search menu...">
+            <button class="sidebar-search-clear" id="menuSearchClear" type="button" aria-label="Clear search">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
         <!-- Employee Section -->
         <div class="menu-section">
             <p class="menu-section-title">Employee</p>
