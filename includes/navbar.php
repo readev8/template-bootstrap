@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Navbar Partial
  * Contains glassmorphism navbar with toggle, search, notifications, and user dropdown
@@ -38,10 +39,10 @@ if (!isset($notificationCount)) {
     </div>
 
     <!-- Center: Search Bar -->
-    <div class="navbar-search">
+    <!-- <div class="navbar-search">
         <i class="fas fa-search"></i>
         <input type="text" placeholder="<?php echo htmlspecialchars($searchPlaceholder); ?>" id="searchInput">
-    </div>
+    </div> -->
 
     <!-- Right: Action Buttons -->
     <div class="navbar-actions">
@@ -58,7 +59,7 @@ if (!isset($notificationCount)) {
                 <span id="userName"><?php echo htmlspecialchars($userName); ?></span>
                 <i class="fas fa-chevron-down"></i>
             </button>
-            
+
             <!-- Dropdown Menu -->
             <div class="user-dropdown-menu" id="userDropdownMenu">
                 <div class="dropdown-header">

@@ -38,85 +38,294 @@ include 'includes/navbar.php';
             <h1>Detail Pegawai</h1>
             <p>Lihat informasi lengkap pegawai</p>
         </div>
-        <div class="page-header-right">
-            <a class="btn btn-outline-secondary" href="pegawai.php">
-                <i class="fas fa-arrow-left me-2"></i>Kembali
-            </a>
-            <button class="btn btn-primary" type="button">
-                <i class="fas fa-edit me-2"></i>Edit
-            </button>
-        </div>
     </div>
 
     <div id="detailContent">
-        <div class="content-card detail-card">
-            <div class="detail-card-body">
-                <div class="detail-section">
-                    <h6>Profil</h6>
-                    <div class="detail-list">
-                        <div class="detail-item" data-field="nama">
-                            <span class="detail-item-label">Nama Lengkap</span>
-                            <span class="detail-item-value" id="detailNama">-</span>
-                        </div>
-                        <div class="detail-item" data-field="nip">
-                            <span class="detail-item-label">NIP</span>
-                            <span class="detail-item-value" id="detailNip">-</span>
-                        </div>
-                        <div class="detail-item" data-field="birthDate">
-                            <span class="detail-item-label">Tanggal Lahir</span>
-                            <span class="detail-item-value" id="detailBirthDate">-</span>
-                        </div>
-                        <div class="detail-item" data-field="gender">
-                            <span class="detail-item-label">Jenis Kelamin</span>
-                            <span class="detail-item-value" id="detailGender">-</span>
+        <!-- Profile Header Card -->
+        <div class="content-card detail-card profile-header-card">
+            <div class="detail-card-header">
+                <div class="detail-identity">
+                    <div class="detail-avatar" id="detailAvatar">AR</div>
+                    <div class="detail-info">
+                        <h1 id="detailNamaHeader">-</h1>
+                        <p id="detailJabatanHeader">-</p>
+                        <div class="detail-meta">
+                            <span class="meta-item"><i class="fas fa-building"></i> <span id="detailDepartemen">-</span></span>
+                            <span class="meta-item"><i class="fas fa-map-marker-alt"></i> <span id="detailLocation">-</span></span>
+                            <span class="meta-item" id="detailStatusBadge"></span>
                         </div>
                     </div>
                 </div>
+                <div class="detail-actions">
+                    <a class="btn btn-outline-secondary btn-sm" href="pegawai.php">
+                        <i class="fas fa-arrow-left me-1"></i>Kembali
+                    </a>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fas fa-edit me-1"></i>Edit
+                    </button>
+                </div>
+            </div>
+        </div>
 
-                <div class="detail-section">
-                    <h6>Kontak</h6>
-                    <div class="detail-list">
-                        <div class="detail-item" data-field="email">
-                            <span class="detail-item-label">Email</span>
-                            <span class="detail-item-value" id="detailEmail">-</span>
+        <!-- Tabbed Content Cards -->
+        <div class="detail-tabs-container">
+            <!-- Tab Navigation -->
+            <ul class="detail-tab-nav" role="tablist">
+                <li class="detail-tab-item active" role="tab" data-tab="info">
+                    <i class="fas fa-id-card"></i>
+                    <span>Informasi</span>
+                </li>
+                <li class="detail-tab-item" role="tab" data-tab="mutasi">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Mutasi</span>
+                </li>
+                <li class="detail-tab-item" role="tab" data-tab="pelatihan">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Pelatihan</span>
+                </li>
+                <li class="detail-tab-item" role="tab" data-tab="keluarga">
+                    <i class="fas fa-users"></i>
+                    <span>Keluarga</span>
+                </li>
+                <li class="detail-tab-item" role="tab" data-tab="pendidikan">
+                    <i class="fas fa-book"></i>
+                    <span>Pendidikan</span>
+                </li>
+            </ul>
+
+            <!-- Tab: Informasi -->
+            <div class="detail-tab-pane active" id="tab-info">
+                <div class="content-card detail-card">
+                    <div class="detail-card-body">
+                        <div class="detail-section">
+                            <h6><i class="fas fa-user me-2"></i>Profil</h6>
+                            <div class="detail-list">
+                                <div class="detail-item" data-field="nama">
+                                    <span class="detail-item-label">Nama Lengkap</span>
+                                    <span class="detail-item-value" id="detailNama">-</span>
+                                </div>
+                                <div class="detail-item" data-field="nip">
+                                    <span class="detail-item-label">NIP</span>
+                                    <span class="detail-item-value" id="detailNip">-</span>
+                                </div>
+                                <div class="detail-item" data-field="birthDate">
+                                    <span class="detail-item-label">Tanggal Lahir</span>
+                                    <span class="detail-item-value" id="detailBirthDate">-</span>
+                                </div>
+                                <div class="detail-item" data-field="gender">
+                                    <span class="detail-item-label">Jenis Kelamin</span>
+                                    <span class="detail-item-value" id="detailGender">-</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="detail-item" data-field="phone">
-                            <span class="detail-item-label">Telepon</span>
-                            <span class="detail-item-value" id="detailPhone">-</span>
+                        <div class="detail-section">
+                            <h6><i class="fas fa-envelope me-2"></i>Kontak</h6>
+                            <div class="detail-list">
+                                <div class="detail-item" data-field="email">
+                                    <span class="detail-item-label">Email</span>
+                                    <span class="detail-item-value" id="detailEmail">-</span>
+                                </div>
+                                <div class="detail-item" data-field="phone">
+                                    <span class="detail-item-label">Telepon</span>
+                                    <span class="detail-item-value" id="detailPhone">-</span>
+                                </div>
+                                <div class="detail-item" data-field="address">
+                                    <span class="detail-item-label">Alamat</span>
+                                    <span class="detail-item-value" id="detailAddress">-</span>
+                                </div>
+                                <div class="detail-item" data-field="emergencyContact">
+                                    <span class="detail-item-label">Kontak Darurat</span>
+                                    <span class="detail-item-value" id="detailEmergency">-</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="detail-item" data-field="address">
-                            <span class="detail-item-label">Alamat</span>
-                            <span class="detail-item-value" id="detailAddress">-</span>
-                        </div>
-                        <div class="detail-item" data-field="emergencyContact">
-                            <span class="detail-item-label">Kontak Darurat</span>
-                            <span class="detail-item-value" id="detailEmergency">-</span>
+                        <div class="detail-section">
+                            <h6><i class="fas fa-briefcase me-2"></i>Kepegawaian</h6>
+                            <div class="detail-list">
+                                <div class="detail-item" data-field="jabatan">
+                                    <span class="detail-item-label">Jabatan</span>
+                                    <span class="detail-item-value" id="detailJabatan">-</span>
+                                </div>
+                                <div class="detail-item" data-field="departemen">
+                                    <span class="detail-item-label">Departemen</span>
+                                    <span class="detail-item-value" id="detailDepartemen">-</span>
+                                </div>
+                                <div class="detail-item" data-field="hireDate">
+                                    <span class="detail-item-label">Tanggal Masuk</span>
+                                    <span class="detail-item-value" id="detailHireDate">-</span>
+                                </div>
+                                <div class="detail-item" data-field="location">
+                                    <span class="detail-item-label">Lokasi Kerja</span>
+                                    <span class="detail-item-value" id="detailLocation">-</span>
+                                </div>
+                                <div class="detail-item" data-field="manager">
+                                    <span class="detail-item-label">Manager</span>
+                                    <span class="detail-item-value" id="detailManager">-</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="detail-section">
-                    <h6>Kepegawaian</h6>
-                    <div class="detail-list">
-                        <div class="detail-item" data-field="jabatan">
-                            <span class="detail-item-label">Jabatan</span>
-                            <span class="detail-item-value" id="detailJabatan">-</span>
+            <!-- Tab: Mutasi -->
+            <div class="detail-tab-pane" id="tab-mutasi">
+                <div class="content-card detail-card">
+                    <div class="detail-card-body">
+                        <div class="detail-section">
+                            <h6><i class="fas fa-exchange-alt me-2"></i>Riwayat Mutasi</h6>
+                            <div class="table-responsive">
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Dari</th>
+                                            <th>Ke</th>
+                                            <th>Jenis</th>
+                                            <th>SK</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>15 Jan 2024</td>
+                                            <td>Staff IT</td>
+                                            <td>Manager IT</td>
+                                            <td><span class="status-badge active">Promosi</span></td>
+                                            <td>SK/001/2024</td>
+                                        </tr>
+                                        <tr>
+                                            <td>01 Mar 2022</td>
+                                            <td>Hub Bandung</td>
+                                            <td>HQ Jakarta</td>
+                                            <td><span class="status-badge remote">Mutasi</span></td>
+                                            <td>SK/045/2022</td>
+                                        </tr>
+                                        <tr>
+                                            <td>10 Jun 2020</td>
+                                            <td>Junior Staff</td>
+                                            <td>Staff IT</td>
+                                            <td><span class="status-badge active">Promosi</span></td>
+                                            <td>SK/012/2020</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="detail-item" data-field="departemen">
-                            <span class="detail-item-label">Departemen</span>
-                            <span class="detail-item-value" id="detailDepartemen">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Pelatihan -->
+            <div class="detail-tab-pane" id="tab-pelatihan">
+                <div class="content-card detail-card">
+                    <div class="detail-card-body">
+                        <div class="detail-section">
+                            <h6><i class="fas fa-graduation-cap me-2"></i>Pelatihan & Sertifikasi</h6>
+                            <div class="training-list">
+                                <div class="training-item">
+                                    <div class="training-icon"><i class="fas fa-certificate"></i></div>
+                                    <div class="training-content">
+                                        <span class="training-name">AWS Certified Solutions Architect</span>
+                                        <span class="training-meta">AWS • 2024 • Berlaku s/d 2027</span>
+                                    </div>
+                                    <span class="status-badge active">Aktif</span>
+                                </div>
+                                <div class="training-item">
+                                    <div class="training-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                                    <div class="training-content">
+                                        <span class="training-name">Leadership & Management Training</span>
+                                        <span class="training-meta">Internal • 2023 • 40 Jam</span>
+                                    </div>
+                                    <span class="status-badge on-leave">Selesai</span>
+                                </div>
+                                <div class="training-item">
+                                    <div class="training-icon"><i class="fas fa-laptop-code"></i></div>
+                                    <div class="training-content">
+                                        <span class="training-name">Advanced Python Programming</span>
+                                        <span class="training-meta">Dicoding • 2023 • 30 Jam</span>
+                                    </div>
+                                    <span class="status-badge on-leave">Selesai</span>
+                                </div>
+                                <div class="training-item">
+                                    <div class="training-icon"><i class="fas fa-shield-alt"></i></div>
+                                    <div class="training-content">
+                                        <span class="training-name">Cybersecurity Awareness</span>
+                                        <span class="training-meta">Internal • 2022 • 16 Jam</span>
+                                    </div>
+                                    <span class="status-badge on-leave">Selesai</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="detail-item" data-field="hireDate">
-                            <span class="detail-item-label">Tanggal Masuk</span>
-                            <span class="detail-item-value" id="detailHireDate">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Keluarga -->
+            <div class="detail-tab-pane" id="tab-keluarga">
+                <div class="content-card detail-card">
+                    <div class="detail-card-body">
+                        <div class="detail-section">
+                            <h6><i class="fas fa-users me-2"></i>Data Keluarga</h6>
+                            <div class="family-list">
+                                <div class="family-item">
+                                    <div class="family-avatar">SR</div>
+                                    <div class="family-content">
+                                        <span class="family-name">Siti Rizki</span>
+                                        <span class="family-meta">Istri • 1992 • Karyawan Swasta</span>
+                                    </div>
+                                </div>
+                                <div class="family-item">
+                                    <div class="family-avatar">FA</div>
+                                    <div class="family-content">
+                                        <span class="family-name">Farhan Arya</span>
+                                        <span class="family-meta">Anak • 2015 • Pelajar</span>
+                                    </div>
+                                </div>
+                                <div class="family-item">
+                                    <div class="family-avatar">NA</div>
+                                    <div class="family-content">
+                                        <span class="family-name">Nabila Aisyah</span>
+                                        <span class="family-meta">Anak • 2018 • Pelajar</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="detail-item" data-field="location">
-                            <span class="detail-item-label">Lokasi Kerja</span>
-                            <span class="detail-item-value" id="detailLocation">-</span>
-                        </div>
-                        <div class="detail-item" data-field="manager">
-                            <span class="detail-item-label">Manager</span>
-                            <span class="detail-item-value" id="detailManager">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Pendidikan -->
+            <div class="detail-tab-pane" id="tab-pendidikan">
+                <div class="content-card detail-card">
+                    <div class="detail-card-body">
+                        <div class="detail-section">
+                            <h6><i class="fas fa-book me-2"></i>Riwayat Pendidikan</h6>
+                            <div class="education-timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-dot success"></div>
+                                    <div class="timeline-content">
+                                        <p class="timeline-title">S2 — Teknik Informatika</p>
+                                        <p class="timeline-desc">Institut Teknologi Bandung • 2014 - 2016</p>
+                                        <span class="timeline-time">IPK: 3.85</span>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-dot primary"></div>
+                                    <div class="timeline-content">
+                                        <p class="timeline-title">S1 — Sistem Informasi</p>
+                                        <p class="timeline-desc">Universitas Indonesia • 2008 - 2012</p>
+                                        <span class="timeline-time">IPK: 3.72</span>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-dot info"></div>
+                                    <div class="timeline-content">
+                                        <p class="timeline-title">SMA — IPA</p>
+                                        <p class="timeline-desc">SMAN 3 Jakarta • 2005 - 2008</p>
+                                        <span class="timeline-time">Lulus: 2008</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -164,10 +373,10 @@ $pageJs = <<<'JS'
 
     function getStatusBadge(status) {
         var statusConfig = {
-            'aktif': { class: 'aktif', icon: 'fa-check-circle', label: 'Aktif' },
-            'cuti': { class: 'cuti', icon: 'fa-calendar-alt', label: 'Cuti' },
+            'aktif': { class: 'active', icon: 'fa-check-circle', label: 'Aktif' },
+            'cuti': { class: 'on-leave', icon: 'fa-calendar-alt', label: 'Cuti' },
             'remote': { class: 'remote', icon: 'fa-home', label: 'Remote' },
-            'nonaktif': { class: 'nonaktif', icon: 'fa-times-circle', label: 'Nonaktif' }
+            'nonaktif': { class: 'inactive', icon: 'fa-times-circle', label: 'Nonaktif' }
         };
         var config = statusConfig[status] || statusConfig['aktif'];
         return '<span class="status-badge ' + config.class + '"><i class="fas ' + config.icon + '"></i> ' + config.label + '</span>';
@@ -192,6 +401,13 @@ $pageJs = <<<'JS'
     }
 
     function renderDetail(pegawai) {
+        $('#detailAvatar').text(getInitials(pegawai.nama));
+        $('#detailNamaHeader').text(pegawai.nama);
+        $('#detailJabatanHeader').text(pegawai.jabatan + ' — ' + pegawai.departemen);
+        $('#detailDepartemen').text(pegawai.departemen);
+        $('#detailLocation').text(pegawai.location || '-');
+        $('#detailStatusBadge').html(getStatusBadge(pegawai.status));
+
         setValue('#detailNama', pegawai.nama);
         setValue('#detailNip', pegawai.nip);
         setValue('#detailBirthDate', pegawai.birthDate);
@@ -238,6 +454,15 @@ $pageJs = <<<'JS'
 
         renderDetail(pegawai);
     }
+
+    // Tab switching
+    $('.detail-tab-item').on('click', function() {
+        var tabId = $(this).data('tab');
+        $('.detail-tab-item').removeClass('active');
+        $(this).addClass('active');
+        $('.detail-tab-pane').removeClass('active');
+        $('#tab-' + tabId).addClass('active');
+    });
 
     $(document).ready(function() {
         initDetailPage();
