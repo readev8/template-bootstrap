@@ -39,10 +39,10 @@ include 'includes/navbar.php';
             <p>Kelola data pegawai perusahaan</p>
         </div>
         <div class="page-header-right">
-            <button class="btn-add-record" id="btnAddRecord">
+            <a class="btn-add-record" href="pegawai-form.php">
                 <i class="fas fa-plus"></i>
                 <span>Tambah Pegawai</span>
-            </button>
+            </a>
         </div>
     </div>
 
@@ -95,74 +95,6 @@ include 'includes/navbar.php';
     </div>
 </main>
 
-<!-- Modal Tambah/Edit Record -->
-<div class="modal fade" id="recordModal" tabindex="-1" aria-labelledby="recordModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="recordModalLabel">Tambah Data</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="recordForm">
-                    <input type="hidden" id="recordId">
-                    <div class="mb-3">
-                        <label for="recordNama" class="form-label">Nama Lengkap</label>
-                        <input type="text" class="form-control" id="recordNama" placeholder="Masukkan nama lengkap" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="recordNIP" class="form-label">NIP</label>
-                        <input type="text" class="form-control" id="recordNIP" placeholder="Masukkan NIP" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="recordEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="recordEmail" placeholder="Masukkan email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="recordJabatan" class="form-label">Jabatan</label>
-                        <select class="form-select" id="recordJabatan" required>
-                            <option value="">Pilih Jabatan</option>
-                            <option value="Staff">Staff</option>
-                            <option value="Senior Staff">Senior Staff</option>
-                            <option value="Supervisor">Supervisor</option>
-                            <option value="Manager">Manager</option>
-                            <option value="Senior Manager">Senior Manager</option>
-                            <option value="Director">Director</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="recordDepartemen" class="form-label">Departemen</label>
-                        <select class="form-select" id="recordDepartemen" required>
-                            <option value="">Pilih Departemen</option>
-                            <option value="IT">IT</option>
-                            <option value="HR">HR</option>
-                            <option value="Finance">Finance</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Operations">Operations</option>
-                            <option value="Sales">Sales</option>
-                            <option value="Legal">Legal</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="recordStatus" class="form-label">Status</label>
-                        <select class="form-select" id="recordStatus" required>
-                            <option value="">Pilih Status</option>
-                            <option value="aktif">Aktif</option>
-                            <option value="cuti">Cuti</option>
-                            <option value="remote">Remote</option>
-                            <option value="nonaktif">Nonaktif</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Batal</button>
-                <button type="button" class="btn-modal-save" id="btnSaveRecord">Simpan</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Modal Delete Konfirmasi -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
@@ -206,7 +138,6 @@ $pageJs = <<<'JS'
     
     var dataTable = null;
     var showOnlyActive = false;
-    var editingId = null;
 
     // Dummy Data Pegawai
     var recordData = [
@@ -481,38 +412,6 @@ $pageJs = <<<'JS'
     // =====================================================
 
     /**
-     * Opens add employee modal
-     */
-    $('#btnAddRecord').on('click', function() {
-        editingId = null;
-        $('#recordModalLabel').text('Tambah Data');
-        $('#recordForm')[0].reset();
-        $('#recordId').val('');
-        new bootstrap.Modal(document.getElementById('recordModal')).show();
-    });
-
-    /**
-     * Opens edit employee modal
-     * @param {number} id - Employee ID
-     */
-    window.editRecord = function(id) {
-        var record = recordData.find(function(p) { return p.id === id; });
-        if (!record) return;
-
-        editingId = id;
-        $('#recordModalLabel').text('Edit Data');
-        $('#recordId').val(id);
-        $('#recordNama').val(record.nama);
-        $('#recordNIP').val(record.nip);
-        $('#recordEmail').val(record.email);
-        $('#recordJabatan').val(record.jabatan);
-        $('#recordDepartemen').val(record.departemen);
-        $('#recordStatus').val(record.status);
-
-        new bootstrap.Modal(document.getElementById('recordModal')).show();
-    };
-
-    /**
      * Opens delete confirmation modal
      * @param {number} id - Employee ID
      */
@@ -523,52 +422,6 @@ $pageJs = <<<'JS'
         $('#deleteRecordId').val(id);
         new bootstrap.Modal(document.getElementById('deleteModal')).show();
     };
-
-    /**
-     * Saves employee data (add or update)
-     */
-    $('#btnSaveRecord').on('click', function() {
-        var nama = $('#recordNama').val().trim();
-        var nip = $('#recordNIP').val().trim();
-        var email = $('#recordEmail').val().trim();
-        var jabatan = $('#recordJabatan').val();
-        var departemen = $('#recordDepartemen').val();
-        var status = $('#recordStatus').val();
-
-        if (!nama || !nip || !email || !jabatan || !departemen || !status) {
-            alert('Mohon lengkapi semua field!');
-            return;
-        }
-
-        if (editingId) {
-            var index = recordData.findIndex(function(p) { return p.id === editingId; });
-            if (index !== -1) {
-                recordData[index] = {
-                    id: editingId,
-                    nama: nama,
-                    nip: nip,
-                    email: email,
-                    jabatan: jabatan,
-                    departemen: departemen,
-                    status: status
-                };
-            }
-        } else {
-            recordData.push({
-                id: nextId,
-                nama: nama,
-                nip: nip,
-                email: email,
-                jabatan: jabatan,
-                departemen: departemen,
-                status: status
-            });
-            nextId++;
-        }
-
-        bootstrap.Modal.getInstance(document.getElementById('recordModal')).hide();
-        refreshDataTable();
-    });
 
     /**
      * Confirms employee deletion

@@ -22,3 +22,37 @@
     gap: 8px;
   }
 }
+
+/* ============================================
+   CHART CONTAINERS
+   ============================================ */
+#departmentPieChart,
+#attendanceLineChart,
+#taskBarChart,
+#performanceRadialChart,
+#employeeAreaChart {
+  min-height: 280px;
+  padding: 8px 0;
+}
+
+/* ApexCharts tooltip override */
+.apexcharts-tooltip {
+  background: #fff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+.apexcharts-tooltip-title {
+  background: #f9fafb !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+.apexcharts-legend-text {
+  font-family: 'Inter', sans-serif !important;
+}
+
+.apexcharts-text {
+  font-family: 'Inter', sans-serif !important;
+}

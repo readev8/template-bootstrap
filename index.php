@@ -12,7 +12,7 @@ $activeMenu = 'dashboard';
 $searchPlaceholder = 'Search anything...';
 $pageCss = 'dashboard';  // Load dashboard-specific CSS
 $additionalCss = [];     // No additional external CSS needed
-$additionalJs = [];      // No additional JS needed for dashboard
+$additionalJs = ['apexcharts'];      // Load ApexCharts for dashboard charts
 
 // User Configuration
 $userName = 'Ahmad Rizki';
@@ -155,37 +155,48 @@ include 'includes/navbar.php';
             </div>
         </div>
 
-        <!-- Card 4: Department Overview -->
-        <div class="content-card header-bg-purple">
+        <!-- Card 4: Department Distribution (Pie Chart) -->
+        <div class="content-card header-bg-primary">
             <div class="content-card-header">
-                <h5><i class="fas fa-chart-pie"></i> Department Overview</h5>
+                <h5><i class="fas fa-chart-pie"></i> Department Distribution</h5>
             </div>
-            <div class="stats-list">
-                <div class="stats-item">
-                    <span class="stats-label">IT Department</span>
-                    <span class="stats-value">48</span>
-                </div>
-                <div class="stats-item">
-                    <span class="stats-label">HR Department</span>
-                    <span class="stats-value">32</span>
-                </div>
-                <div class="stats-item">
-                    <span class="stats-label">Finance</span>
-                    <span class="stats-value">28</span>
-                </div>
-                <div class="stats-item">
-                    <span class="stats-label">Marketing</span>
-                    <span class="stats-value">42</span>
-                </div>
-                <div class="stats-item">
-                    <span class="stats-label">Operations</span>
-                    <span class="stats-value">98</span>
-                </div>
-            </div>
+            <div id="departmentPieChart"></div>
         </div>
 
-        <!-- Card 5: Recent Activity -->
+        <!-- Card 5: Attendance Trend (Line Chart) -->
+        <div class="content-card header-bg-success">
+            <div class="content-card-header">
+                <h5><i class="fas fa-chart-line"></i> Attendance Trend</h5>
+            </div>
+            <div id="attendanceLineChart"></div>
+        </div>
+
+        <!-- Card 6: Task Completion (Bar Chart) -->
+        <div class="content-card header-bg-warning">
+            <div class="content-card-header">
+                <h5><i class="fas fa-chart-bar"></i> Task Completion</h5>
+            </div>
+            <div id="taskBarChart"></div>
+        </div>
+
+        <!-- Card 7: Performance (RadialBar Chart) -->
+        <div class="content-card header-bg-teal">
+            <div class="content-card-header">
+                <h5><i class="fas fa-tachometer-alt"></i> Performance</h5>
+            </div>
+            <div id="performanceRadialChart"></div>
+        </div>
+
+        <!-- Card 8: Employee Growth (Area Chart) -->
         <div class="content-card header-bg-indigo">
+            <div class="content-card-header">
+                <h5><i class="fas fa-users"></i> Employee Growth</h5>
+            </div>
+            <div id="employeeAreaChart"></div>
+        </div>
+
+        <!-- Card 9: Recent Activity -->
+        <div class="content-card header-bg-purple">
             <div class="content-card-header">
                 <h5><i class="fas fa-history"></i> Recent Activity</h5>
             </div>
@@ -216,51 +227,6 @@ include 'includes/navbar.php';
                     <div class="activity-content">
                         <p>Report submitted</p>
                         <small>Yesterday</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 6: Performance Stats -->
-        <div class="content-card header-bg-teal">
-            <div class="content-card-header">
-                <h5><i class="fas fa-chart-line"></i> Performance</h5>
-            </div>
-            <div class="performance-metrics">
-                <div class="metric-item">
-                    <div class="metric-icon">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
-                    <div class="metric-content">
-                        <h6>Efficiency</h6>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 87%"></div>
-                        </div>
-                        <span class="metric-value">87%</span>
-                    </div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="metric-content">
-                        <h6>On Time</h6>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 94%"></div>
-                        </div>
-                        <span class="metric-value">94%</span>
-                    </div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="metric-content">
-                        <h6>Quality</h6>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 92%"></div>
-                        </div>
-                        <span class="metric-value">92%</span>
                     </div>
                 </div>
             </div>
@@ -479,6 +445,111 @@ $pageJs = <<<'JS'
     }
 
     // =====================================================
+    // APEXCHARTS INITIALIZATION
+    // =====================================================
+
+    function initCharts() {
+        var fontFamily = "'Inter', sans-serif";
+        var gridColor = 'rgba(0,0,0,0.05)';
+        var textColor = '#6b7280';
+
+        // 1. Pie Chart — Department Distribution
+        var pieOptions = {
+            series: [48, 32, 28, 42, 98],
+            chart: { type: 'donut', fontFamily: fontFamily, height: 300 },
+            labels: ['IT', 'HR', 'Finance', 'Marketing', 'Operations'],
+            colors: ['#0F9D58', '#8b5cf6', '#f59e0b', '#06b6d4', '#6366f1'],
+            legend: { position: 'bottom', fontFamily: fontFamily, fontSize: '12px' },
+            dataLabels: { enabled: false },
+            stroke: { show: false },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '65%',
+                        labels: {
+                            show: true,
+                            name: { fontSize: '14px', color: '#374151' },
+                            value: { fontSize: '24px', fontWeight: 700, color: '#111827' },
+                            total: { show: true, label: 'Total', fontSize: '14px', color: '#6b7280',
+                                formatter: function() { return '248'; }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        new ApexCharts(document.querySelector('#departmentPieChart'), pieOptions).render();
+
+        // 2. Line Chart — Attendance Trend
+        var lineOptions = {
+            series: [{ name: 'Present', data: [220, 235, 228, 240, 232, 235] }],
+            chart: { type: 'line', fontFamily: fontFamily, height: 300, toolbar: { show: false }, zoom: { enabled: false } },
+            stroke: { curve: 'smooth', width: 3 },
+            colors: ['#0F9D58'],
+            xaxis: { categories: ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'], labels: { style: { fontSize: '11px', colors: textColor } } },
+            yaxis: { labels: { style: { fontSize: '11px', colors: textColor } } },
+            grid: { borderColor: gridColor },
+            markers: { size: 4, colors: ['#0F9D58'], strokeColors: '#fff', strokeWidth: 2 },
+            tooltip: { theme: 'light' }
+        };
+        new ApexCharts(document.querySelector('#attendanceLineChart'), lineOptions).render();
+
+        // 3. Bar Chart — Task Completion
+        var barOptions = {
+            series: [{ name: 'Completed', data: [35, 42, 38, 50, 45, 52] }, { name: 'Pending', data: [15, 12, 18, 10, 14, 8] }],
+            chart: { type: 'bar', fontFamily: fontFamily, height: 300, toolbar: { show: false }, stacked: false },
+            plotOptions: { bar: { horizontal: false, columnWidth: '55%', borderRadius: 4 } },
+            colors: ['#0F9D58', '#f59e0b'],
+            xaxis: { categories: ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'], labels: { style: { fontSize: '11px', colors: textColor } } },
+            yaxis: { labels: { style: { fontSize: '11px', colors: textColor } } },
+            grid: { borderColor: gridColor },
+            legend: { position: 'top', fontFamily: fontFamily, fontSize: '12px' },
+            tooltip: { theme: 'light' }
+        };
+        new ApexCharts(document.querySelector('#taskBarChart'), barOptions).render();
+
+        // 4. RadialBar Chart — Performance
+        var radialOptions = {
+            series: [87, 94, 92, 78],
+            chart: { type: 'radialBar', fontFamily: fontFamily, height: 320 },
+            colors: ['#0F9D58', '#06b6d4', '#8b5cf6', '#f59e0b'],
+            plotOptions: {
+                radialBar: {
+                    offsetY: 0,
+                    startAngle: -140,
+                    endAngle: 140,
+                    hollow: { size: '55%' },
+                    dataLabels: {
+                        name: { fontSize: '14px', color: '#374151' },
+                        value: { fontSize: '18px', fontWeight: 700, color: '#111827' },
+                        total: { show: true, label: 'Average', fontSize: '12px', color: '#6b7280',
+                            formatter: function() { return '88%'; }
+                        }
+                    },
+                    track: { background: '#f3f4f6' }
+                }
+            },
+            labels: ['Efficiency', 'On Time', 'Quality', 'Satisfaction'],
+            legend: { position: 'bottom', fontFamily: fontFamily, fontSize: '12px' }
+        };
+        new ApexCharts(document.querySelector('#performanceRadialChart'), radialOptions).render();
+
+        // 5. Area Chart — Employee Growth
+        var areaOptions = {
+            series: [{ name: 'New Hires', data: [8, 12, 10, 15, 18, 14, 20, 16, 22, 19, 25, 28] }],
+            chart: { type: 'area', fontFamily: fontFamily, height: 300, toolbar: { show: false }, zoom: { enabled: false } },
+            stroke: { curve: 'smooth', width: 3 },
+            fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.1, stops: [0, 100] } },
+            colors: ['#0F9D58'],
+            xaxis: { categories: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'], labels: { style: { fontSize: '10px', colors: textColor } } },
+            yaxis: { labels: { style: { fontSize: '11px', colors: textColor } } },
+            grid: { borderColor: gridColor },
+            tooltip: { theme: 'light' }
+        };
+        new ApexCharts(document.querySelector('#employeeAreaChart'), areaOptions).render();
+    }
+
+    // =====================================================
     // INITIALIZATION
     // =====================================================
 
@@ -495,6 +566,9 @@ $pageJs = <<<'JS'
 
         // Play entry animation
         playEntryAnimation();
+
+        // Initialize charts
+        initCharts();
     });
 
 })(jQuery);
